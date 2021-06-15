@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBT Log</title>
     <link rel="stylesheet" href="./CSS/main.css">
-    <script src="./Javscript/main.js"></script>
+    
 </head>
 <body>
     <!-- This is the first page container for "What Happened?" -->
@@ -75,13 +75,13 @@
     
                 <div class="dropdown-box-container">
                     <select name="page2EmotionalFeeling" id="page2EmotionalFeeling">
-                        <option value="Angry">Anxious 😟</option>
-                        <option value="Anxious">Angry 😤</option>
-                        <option value="Confused">Confused 😕</option>
-                        <option value="Jealous">Jealous 😒</option>
-                        <option value="Overwhelmed">Overwhelmed 😵</option>
-                        <option value="Sad">Sad 😔</option>
-                        <option value="Other">Other 😶</option>
+                        <option value="Angry">😟 Anxious</option>
+                        <option value="Anxious">😤 Angry</option>
+                        <option value="Confused">😕 Confused</option>
+                        <option value="Jealous">😒 Jealous</option>
+                        <option value="Overwhelmed">😵 Overwhelmed</option>
+                        <option value="Sad">😔 Sad</option>
+                        <option value="Other">😶 Other</option>
                     </select>
                 </div>
     
@@ -97,7 +97,7 @@
                     <h3>How do you feel physically?</h3>
                 </div>
     
-                <div class="check-box-container-grid">
+                <div class="check-box-container-grid" id="page2CheckboxGrid">
                     <div class="checkbox-option">
                         <input type="checkbox" id="page2CheckboxOption1" name="page2CheckboxOption1" value="Tight Chest">
                         <label for="page2CheckboxOption1">Tight Chest</label>
@@ -123,7 +123,7 @@
             </section>
 
             <div class="bottom-navigation-container">
-                <div class="back-button-small" id="page2NextButton">
+                <div class="back-button-small" id="page2BackButton">
                     <img class="back-icon" src="./resources/icons/left-arrow.svg" alt="previous page">
                 </div>
                 <div class="next-button-small" id="page2NextButton">
@@ -136,4 +136,5 @@
     </div>
 
 </body>
+<script src="./Javscript/main.js"></script>
 </html>

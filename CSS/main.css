@@ -492,6 +492,8 @@ section {
 }
 
 .slider-container .slider-value {
+  -webkit-transition: content 0.5s ease;
+  transition: content 0.5s ease;
   text-align: center;
   color: var(--font-white);
   font-weight: 500;

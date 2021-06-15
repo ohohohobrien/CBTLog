@@ -379,6 +379,7 @@ section {
     justify-self: center;
   }
   .slider-value {
+    transition: content 0.5s ease;
     text-align: center;
     color: var(--font-white);
     font-weight: 500;
