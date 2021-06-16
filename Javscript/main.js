@@ -2,6 +2,14 @@ window.onload = init;
 
 let page2OtherCheckboxIncrement = 5;
 
+let pageContent = {
+    "page1": {},
+    "page2": {},
+    "page3": {},
+    "page4": {},
+    "page5": {},
+};
+
 function init() {
     
     applyPageListeners();
@@ -36,7 +44,7 @@ function applyPageListeners() {
     // Page 1
     page1NextButton.addEventListener("click", () => {
         if (page1Complete) {
-            changePage(page1Container, page2Container);
+            changePage(page1Container, page2Container, "forward");
         } else {
             alert("fill out the text box");
             // insert message that needs to be filled out for textbox
@@ -46,6 +54,7 @@ function applyPageListeners() {
     page1TextBox.addEventListener('input', function (event) {
         if (event.target.value.length > 0) {
             page1Complete = true;
+            pageContent["page1"].whatHappenedTextbox = event.target.value;
             // insert positive reinforcement icon 
         } else {
             page1Complete = false;   
@@ -64,22 +73,53 @@ function applyPageListeners() {
     })
 
     page2BackButton.addEventListener("click", () => {
-        changePage(page2Container, page1Container);
+        changePage(page2Container, page1Container, "back");
     })
 
 }
 
-function changePage(from, to) {
-    to.style.display = "block";
-    
-    from.classList.remove("slideIn");
-    from.classList.add("slideOut");
-    to.classList.remove("slideOut");
-    to.classList.add("slideIn");
+function changePage(from, to, direction) {
 
-    from.addEventListener("animationend", () => {
-        from.style.display = "none";
-    })
+    if (direction === "forward") {
+        to.style.display = "block";
+        to.removeEventListener("animationend", to.listener);
+        
+        from.classList.remove("slideOutLeft");
+        from.classList.remove("slideOutRight");
+        from.classList.remove("slideInRight");
+        from.classList.remove("slideInLeft");
+        from.classList.add("slideOutLeft");
+        to.classList.remove("slideOutLeft");
+        to.classList.remove("slideOutRight");
+        to.classList.remove("slideInRight");
+        to.classList.remove("slideInLeft");
+        to.classList.add("slideInRight");
+        
+        from.listener = () => from.style.display = "none";
+        from.addEventListener("animationend", from.listener);
+    } 
+    else if (direction === "back") {
+        to.style.display = "block";
+        to.removeEventListener("animationend", to.listener);
+        
+        from.classList.remove("slideOutLeft");
+        from.classList.remove("slideOutRight");
+        from.classList.remove("slideInRight");
+        from.classList.remove("slideInLeft");
+        from.classList.add("slideOutRight");
+        to.classList.remove("slideOutLeft");
+        to.classList.remove("slideOutRight");
+        to.classList.remove("slideInRight");
+        to.classList.remove("slideInLeft");
+        to.classList.add("slideInLeft");
+        
+        from.listener = () => from.style.display = "none";
+        from.addEventListener("animationend", from.listener);
+    } 
+    else {
+        console.log("You have input an incorrect direction at changePage().")
+    }
+
 }
 
 function page2CreateNewCheckbox(page2CheckboxGrid) {
@@ -89,7 +129,11 @@ function page2CreateNewCheckbox(page2CheckboxGrid) {
     newTextbox.type = "text";
     newTextbox.id = `page2TextboxOption${page2OtherCheckboxIncrement}`;
 
-    // Create a new other textbox
+    newTextbox.addEventListener('input', function (event) {
+        pageContent["page2"][event.target.id] = event.target.value;
+    })
+
+    // Create a new other checkbox
     const newDiv = document.createElement("div");
     newDiv.classList.toggle("checkbox-option");
 
