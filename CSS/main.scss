@@ -62,6 +62,104 @@
   opacity: 100%;
 }
 
+@mixin textbox-style {
+  //styling options
+  border-radius: 2em;
+  background-color: var(--primary-colour-lightest);
+  transition: background-color 0.5s ease;
+  opacity: 80%;
+  border: 0.5px solid var(--font-white);
+  @include outline();
+  //font options
+  padding: 1em;
+  font-family: "Baloo Tammudu 2";
+  font-weight: 500;
+  color: var(--font-white);
+  font-size: 1.1rem;
+  &:focus {
+    transition: background-color 0.5s ease;
+    background-color: var(--secondary-colour-dark);
+    @include outline-large();
+    outline: none;
+  }
+}
+
+// css checkbox mixin - not working
+@mixin css-checkbox(
+  $size: "16px",
+  $selectedColor: #444,
+  $checkColor: #fff,
+  $valign: "middle",
+  $rounded: rounded
+) {
+  display: none;
+
+  &:checked + i {
+    background: #{$selectedColor};
+    border-color: #{$selectedColor};
+
+    &:hover:after {
+      opacity: 1;
+    }
+
+    &:after {
+      opacity: 1;
+      border-color: #{$checkColor};
+    }
+  }
+
+  + i {
+    box-sizing: border-box;
+    &:before,
+    &:after {
+      box-sizing: border-box;
+    }
+  }
+  + i {
+    position: relative;
+    display: inline-block;
+    top: -1px;
+    width: #{$size};
+    height: #{$size};
+    margin: 0;
+    vertical-align: #{$valign};
+    border: 1px solid #999;
+    transition: background 200ms ease;
+
+    @if $rounded == "circle" {
+      border-radius: 10em;
+    } @else if $rounded == "rounded" {
+      border-radius: 0.2em;
+    } @else {
+      border-radius: 0;
+    }
+
+    background: #f9f9f9;
+    font-size: #{$size};
+    cursor: pointer;
+
+    &:hover:after {
+      opacity: 0.2;
+    }
+
+    &:after {
+      content: "";
+      opacity: 0;
+      transform: translateZ(1px) rotate(-45deg);
+      outline: 1px solid transparent; // hack to prevent antialias atrifacts in firefox
+      position: absolute;
+      top: 22%;
+      left: 15%;
+      width: 0.68em;
+      height: 0.4em;
+      border: 0.15em solid #222;
+      border-top: none;
+      border-right: none;
+      background: rgba(0, 0, 0, 0);
+    }
+  }
+}
+
 @keyframes slide-in-from-right {
   0% {
     transform: translateX(10em);
@@ -309,6 +407,7 @@ body {
   padding: 1em;
 
   .text-input {
+    resize: none;
     //sizing options
     font-size: 2vw;
     min-width: 90%;
@@ -316,26 +415,7 @@ body {
     width: 90%;
     min-height: 300px;
     height: 300px;
-    resize: none;
-    //styling options
-    border-radius: 2em;
-    background-color: var(--primary-colour-lightest);
-    transition: background-color 0.5s ease;
-    opacity: 80%;
-    border: 0.5px solid var(--font-white);
-    @include outline();
-    //font options
-    padding: 1em;
-    font-family: "Baloo Tammudu 2";
-    font-weight: 500;
-    color: var(--font-white);
-    font-size: 1.1rem;
-    &:focus {
-      transition: background-color 0.5s ease;
-      background-color: var(--secondary-colour-dark);
-      @include outline-large();
-      outline: none;
-    }
+    @include textbox-style();
   }
 }
 
@@ -447,12 +527,26 @@ section {
 }
 
 .check-box-container-grid {
-  margin: 3em;
+  margin: 1em;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  gap: 2px 5px;
+  gap: 5px 5px;
   .checkbox-option {
     color: var(--font-white);
+    .checkbox {
+      @include css-checkbox(18px, $selectedColor: #8e44ad);
+    }
   }
+}
+
+.checkbox-textbox {
+  @include textbox-style();
+  margin: auto;
+  padding: 0 1em;
+  font-size: 1em;
+  width: 80%;
+  max-width: 80%;
+  height: 40px;
+  max-height: 40px;
 }

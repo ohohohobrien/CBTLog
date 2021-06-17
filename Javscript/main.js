@@ -4,7 +4,10 @@ let page2OtherCheckboxIncrement = 5;
 
 let pageContent = {
     "page1": {},
-    "page2": {},
+    "page2": {
+        // track the index of checkboxes and see how many still remain
+        "multipleCheckboxes": [page2OtherCheckboxIncrement],
+    },
     "page3": {},
     "page4": {},
     "page5": {},
@@ -27,9 +30,9 @@ function applyPageListeners() {
     let page1TextBoxContents = "";
     // todo: implement a way to check if contents already exist in the textbox
     let page1Complete = false;
-    const page2Container = document.getElementById('page2Container');
     
     // Page 2 Content
+    const page2Container = document.getElementById('page2Container');
     const page2Slider = document.getElementById('Page2EmotionalSlider');
     const page2SliderValueDisplay = document.getElementById('page2SliderValueDisplay');
     const page2OtherCheckbox = document.getElementById('page2CheckboxOption5');
@@ -38,6 +41,9 @@ function applyPageListeners() {
     let page2Complete = false;
     const page2BackButton = document.getElementById('page2BackButton');
     const page2NextButton = document.getElementById('page2NextButton');
+    
+    // Page 3 Content
+    const page3Container = document.getElementById('page3Container');
 
     // Applying Listeners
 
@@ -68,16 +74,31 @@ function applyPageListeners() {
         page2SliderValueDisplay.innerHTML = Math.floor(page2Slider.value / 10);
     })
 
-    page2OtherCheckbox.addEventListener('change', function (event) {        
-        page2CreateNewCheckbox(page2CheckboxGrid);
+    page2OtherCheckbox.addEventListener('change', function (event) {    
+        if (this.checked === true){
+            page2CreateNewCheckbox(page2CheckboxGrid);
+        }    
+        else {
+            page2DeleteCheckbox(this);
+        }
     })
 
     page2BackButton.addEventListener("click", () => {
         changePage(page2Container, page1Container, "back");
     })
 
+    page2NextButton.addEventListener("click", () => {
+        page2Complete = verifyPage2();
+        if (page2Complete) {
+            changePage(page2Container, page3Container, "forward");
+        } else {
+            alert("please fill out everything first!")
+        }
+    })
+
 }
 
+// Completed
 function changePage(from, to, direction) {
 
     if (direction === "forward") {
@@ -122,23 +143,35 @@ function changePage(from, to, direction) {
 
 }
 
+// Completed
 function page2CreateNewCheckbox(page2CheckboxGrid) {
 
     // Create a textbox for the user to input information
     const newTextbox = document.createElement("input");
     newTextbox.type = "text";
     newTextbox.id = `page2TextboxOption${page2OtherCheckboxIncrement}`;
+    newTextbox.classList.add("checkbox-textbox");
 
     newTextbox.addEventListener('input', function (event) {
         pageContent["page2"][event.target.id] = event.target.value;
     })
 
+    // Create a new other text div
+    const newDivText = document.createElement("div");
+    newDivText.classList.toggle("checkbox-option");
+    newDivText.id = `${page2OtherCheckboxIncrement}-page2DivText`;
+
+    // Append the new element to the div
+    newDivText.append(newTextbox);
+
+    page2OtherCheckboxIncrement ++;
+
     // Create a new other checkbox
     const newDiv = document.createElement("div");
     newDiv.classList.toggle("checkbox-option");
+    newDiv.id = `${page2OtherCheckboxIncrement}-page2Div`;
 
     const newOtherCheckbox = document.createElement("input");
-    page2OtherCheckboxIncrement ++;
     newOtherCheckbox.type = "checkbox";
     newOtherCheckbox.id = `page2CheckboxOption${page2OtherCheckboxIncrement}`;
     newOtherCheckbox.name = `page2CheckboxOption${page2OtherCheckboxIncrement}`;
@@ -149,14 +182,71 @@ function page2CreateNewCheckbox(page2CheckboxGrid) {
     newLabel.for = newOtherCheckbox.id;
 
     newOtherCheckbox.addEventListener('change', function (event) {
-        page2CreateNewCheckbox(page2CheckboxGrid);
+        if (this.checked === true){
+            page2CreateNewCheckbox(page2CheckboxGrid);
+        }    
+        else {
+            page2DeleteCheckbox(this);
+        }
     })
 
     // Append the new elements to the div
     newDiv.append(newOtherCheckbox);
     newDiv.append(newLabel);
 
-    page2CheckboxGrid.append(newTextbox);
+    pageContent["page2"]["multipleCheckboxes"].push(page2OtherCheckboxIncrement);
+    page2CheckboxGrid.append(newDivText);
     page2CheckboxGrid.append(newDiv);
 
+}
+
+// Completed
+function page2DeleteCheckbox(checkbox) {
+
+    // regex to get index
+    const index = checkbox.id.match(/\d+/g)[1];
+ 
+    // get the elements to delete
+    const divToDeleteText = document.getElementById(`${index}-page2DivText`);
+    const divToDelete = document.getElementById(`${index}-page2Div`);
+    const textboxElement = document.getElementById(`page2TextboxOption${index}`);
+    
+    // delete information from page content object
+    delete pageContent["page2"][textboxElement.id];
+    
+    // If original "Other" checkbox - don't delete only remove the textbox
+    if (pageContent["page2"]["multipleCheckboxes"].length === 1) {
+        divToDeleteText.remove();
+        return;
+    }
+
+    pageContent["page2"]["multipleCheckboxes"] = arrayRemove(pageContent["page2"]["multipleCheckboxes"], index);
+    divToDeleteText.remove();
+    divToDelete.remove();
+}
+
+// Completed - helper function
+function arrayRemove(arr, value) { 
+    
+    return arr.filter(function(ele){ 
+        return ele != value; 
+    });
+}
+
+// Making now
+function verifyPage2() {
+    
+    let verified = true;
+    for (entries of pageContent["page2"]["multipleCheckboxes"]) {
+        try {
+            const value = document.getElementById(`page2TextboxOption${entries}`).value;
+            if (value.length === 0) {
+                verified = false;
+            }
+        } catch(error) {
+            //console.log(`Element with id of page2TextboxOption${entries} not found for page 2 verification.`)
+        }
+    }
+    if (verified) return true
+    else return false;
 }
