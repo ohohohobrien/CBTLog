@@ -5,6 +5,7 @@
   --primary-colour: #be80db;
   --primary-colour-light: #c793df;
   --primary-colour-lightest: #dcb2f0;
+  --primary-colour-lightest-clear: #dcb2f081;
   --secondary-colour: #3efce8;
   --secondary-colour-dark: #5eddd0d6;
   --font-white: #fff1f1;
@@ -12,6 +13,10 @@
 
 @mixin outline {
   box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+}
+
+@mixin outline-light {
+  box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.082);
 }
 //@include outline();
 
@@ -60,6 +65,23 @@
     brightness(108%) contrast(109%)
     drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
   opacity: 100%;
+}
+
+@mixin small-round-button {
+  width: 25px;
+  height: 25px;
+  margin: auto;
+  padding: 0;
+  border-radius: 1000px;
+  background: var(--font-white);
+  opacity: 80%;
+  transition: background 0.5s ease;
+  &:hover {
+    cursor: pointer;
+    opacity: 80%;
+    background: var(--secondary-colour);
+    transition: background 0.5s ease;
+  }
 }
 
 @mixin textbox-style {
@@ -413,8 +435,8 @@ body {
     min-width: 90%;
     max-width: 90%;
     width: 90%;
-    min-height: 300px;
-    height: 300px;
+    min-height: 200px;
+    height: 200px;
     @include textbox-style();
   }
 }
@@ -549,4 +571,107 @@ section {
   max-width: 80%;
   height: 40px;
   max-height: 40px;
+}
+
+// page 3
+
+section {
+  background-color: var(--primary-colour-lightest-clear);
+  @include outline-light();
+  border-radius: 30px;
+  padding: 2em 1em;
+  margin: 2em 1em;
+}
+
+.page3-choice-container {
+  .top-row {
+    display: grid;
+    grid-template-columns: 0.8fr 0.2fr;
+    grid-template-areas: "title icon";
+    margin-bottom: 1em;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    h3 {
+      color: var(--font-white);
+      font-weight: 700;
+      grid-area: title;
+      margin: 0.5em 0 0 0;
+      padding: 0;
+      text-align: center;
+    }
+    .help-button {
+      grid-area: icon;
+      @include small-round-button();
+
+      span {
+        padding-right: 0.1em;
+        margin: 0;
+        font-size: 1em;
+        font-style: italic;
+        font-weight: 800;
+        color: var(--primary-colour);
+        text-align: center;
+        justify-self: center;
+        align-self: center;
+      }
+    }
+  }
+
+  .page3-container-insert {
+    margin: 0;
+    padding: 0;
+  }
+  .page3-unhelpful-thoughts-container {
+    display: grid;
+    grid-template-columns: 1.6fr 0.4fr;
+    grid-template-rows: auto 1fr;
+    gap: 0px 10px;
+    grid-template-areas:
+      "page3-thought-dropdown close-button"
+      "page3-text-input page3-text-input";
+
+    .page3-thought-dropdown {
+      grid-area: page3-thought-dropdown;
+      padding: 0.5em;
+      margin: auto;
+    }
+    .page3-text-input {
+      grid-area: page3-text-input;
+      @include textbox-style();
+      resize: none;
+      //sizing options
+      font-size: 1rem;
+      min-width: 90%;
+      max-width: 90%;
+      width: 90%;
+      min-height: 100px;
+      height: 100px;
+      margin: auto;
+      margin-bottom: 1em;
+      margin-top: 1em;
+    }
+    .close-button {
+      grid-area: close-button;
+      @include small-round-button();
+      span {
+        margin: 0;
+        font-size: 1em;
+        font-weight: 800;
+        color: var(--primary-colour);
+        text-align: center;
+        justify-self: center;
+        align-self: center;
+        padding-left: 0.45em;
+      }
+    }
+  }
+  .page3-button-add {
+    @include button-style();
+    width: 100px;
+    .next-icon {
+      @include button-icon-style();
+      left: 35%;
+    }
+  }
 }

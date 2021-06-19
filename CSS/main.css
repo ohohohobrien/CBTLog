@@ -3,6 +3,7 @@
   --primary-colour: #be80db;
   --primary-colour-light: #c793df;
   --primary-colour-lightest: #dcb2f0;
+  --primary-colour-lightest-clear: #dcb2f081;
   --secondary-colour: #3efce8;
   --secondary-colour-dark: #5eddd0d6;
   --font-white: #fff1f1;
@@ -386,8 +387,8 @@ body {
   min-width: 90%;
   max-width: 90%;
   width: 90%;
-  min-height: 300px;
-  height: 300px;
+  min-height: 200px;
+  height: 200px;
   border-radius: 2em;
   background-color: var(--primary-colour-lightest);
   -webkit-transition: background-color 0.5s ease;
@@ -722,5 +723,215 @@ section {
   -webkit-box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
           box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
   outline: none;
+}
+
+section {
+  background-color: var(--primary-colour-lightest-clear);
+  -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.082);
+          box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.082);
+  border-radius: 30px;
+  padding: 2em 1em;
+  margin: 2em 1em;
+}
+
+.page3-choice-container .top-row {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 0.8fr 0.2fr;
+      grid-template-columns: 0.8fr 0.2fr;
+      grid-template-areas: "title icon";
+  margin-bottom: 1em;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  text-align: center;
+}
+
+.page3-choice-container .top-row h3 {
+  color: var(--font-white);
+  font-weight: 700;
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: title;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+  text-align: center;
+}
+
+.page3-choice-container .top-row .help-button {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: icon;
+  width: 25px;
+  height: 25px;
+  margin: auto;
+  padding: 0;
+  border-radius: 1000px;
+  background: var(--font-white);
+  opacity: 80%;
+  -webkit-transition: background 0.5s ease;
+  transition: background 0.5s ease;
+}
+
+.page3-choice-container .top-row .help-button:hover {
+  cursor: pointer;
+  opacity: 80%;
+  background: var(--secondary-colour);
+  -webkit-transition: background 0.5s ease;
+  transition: background 0.5s ease;
+}
+
+.page3-choice-container .top-row .help-button span {
+  padding-right: 0.1em;
+  margin: 0;
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 800;
+  color: var(--primary-colour);
+  text-align: center;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.page3-choice-container .page3-container-insert {
+  margin: 0;
+  padding: 0;
+}
+
+.page3-choice-container .page3-unhelpful-thoughts-container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1.6fr 0.4fr;
+      grid-template-columns: 1.6fr 0.4fr;
+  -ms-grid-rows: auto 1fr;
+      grid-template-rows: auto 1fr;
+  gap: 0px 10px;
+      grid-template-areas: "page3-thought-dropdown close-button" "page3-text-input page3-text-input";
+}
+
+.page3-choice-container .page3-unhelpful-thoughts-container .page3-thought-dropdown {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: page3-thought-dropdown;
+  padding: 0.5em;
+  margin: auto;
+}
+
+.page3-choice-container .page3-unhelpful-thoughts-container .page3-text-input {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-area: page3-text-input;
+  border-radius: 2em;
+  background-color: var(--primary-colour-lightest);
+  -webkit-transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease;
+  opacity: 80%;
+  border: 0.5px solid var(--font-white);
+  -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+          box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+  padding: 1em;
+  font-family: "Baloo Tammudu 2";
+  font-weight: 500;
+  color: var(--font-white);
+  font-size: 1.1rem;
+  resize: none;
+  font-size: 1rem;
+  min-width: 90%;
+  max-width: 90%;
+  width: 90%;
+  min-height: 100px;
+  height: 100px;
+  margin: auto;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+.page3-choice-container .page3-unhelpful-thoughts-container .page3-text-input:focus {
+  -webkit-transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease;
+  background-color: var(--secondary-colour-dark);
+  -webkit-box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
+          box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
+  outline: none;
+}
+
+.page3-choice-container .page3-unhelpful-thoughts-container .close-button {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: close-button;
+  width: 25px;
+  height: 25px;
+  margin: auto;
+  padding: 0;
+  border-radius: 1000px;
+  background: var(--font-white);
+  opacity: 80%;
+  -webkit-transition: background 0.5s ease;
+  transition: background 0.5s ease;
+}
+
+.page3-choice-container .page3-unhelpful-thoughts-container .close-button:hover {
+  cursor: pointer;
+  opacity: 80%;
+  background: var(--secondary-colour);
+  -webkit-transition: background 0.5s ease;
+  transition: background 0.5s ease;
+}
+
+.page3-choice-container .page3-unhelpful-thoughts-container .close-button span {
+  margin: 0;
+  font-size: 1em;
+  font-weight: 800;
+  color: var(--primary-colour);
+  text-align: center;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  padding-left: 0.45em;
+}
+
+.page3-choice-container .page3-button-add {
+  margin: auto;
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  border: 0.5px solid #fff1f14f;
+  background: var(--secondary-colour);
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  opacity: 60%;
+  -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+          box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+  width: 100px;
+}
+
+.page3-choice-container .page3-button-add:hover {
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+  opacity: 80%;
+}
+
+.page3-choice-container .page3-button-add .next-icon {
+  position: relative;
+  bottom: 10%;
+  left: 45%;
+  height: 30px;
+  width: 30px;
+  margin: auto;
+  padding-top: 1em;
+  padding-left: 0;
+  -webkit-filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+          filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+  opacity: 100%;
+  left: 35%;
 }
 /*# sourceMappingURL=main.css.map */

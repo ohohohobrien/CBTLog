@@ -1,6 +1,7 @@
 window.onload = init;
 
 let page2OtherCheckboxIncrement = 5;
+let page3UnhelpfulThoughtIncrement = 1;
 
 let pageContent = {
     "page1": {},
@@ -8,7 +9,10 @@ let pageContent = {
         // track the index of checkboxes and see how many still remain
         "multipleCheckboxes": [page2OtherCheckboxIncrement],
     },
-    "page3": {},
+    "page3": {
+        "unhelpfulThoughtDropdown": {},
+        "unhelpfulThoughtContent": {},
+    },
     "page4": {},
     "page5": {},
 };
@@ -44,6 +48,7 @@ function applyPageListeners() {
     
     // Page 3 Content
     const page3Container = document.getElementById('page3Container');
+    const page3UnhelpfulThoughtAddButton = document.getElementById('page3-unhelpful-thought-button');
 
     // Applying Listeners
 
@@ -94,6 +99,11 @@ function applyPageListeners() {
         } else {
             alert("please fill out everything first!")
         }
+    })
+
+    // Page 3
+    page3UnhelpfulThoughtAddButton.addEventListener("click", () => {
+        page3CreateUnhelpfulThought();
     })
 
 }
@@ -249,4 +259,91 @@ function verifyPage2() {
     }
     if (verified) return true
     else return false;
+}
+
+// Making now
+function page3CreateUnhelpfulThought() {
+    const parentElement = document.getElementById('page3-insert-thoughts');
+
+    const container = document.createElement('div');
+    container.id = `page3-unhelpful-thoughts-container-${page3UnhelpfulThoughtIncrement}`;
+    container.classList.add("page3-unhelpful-thoughts-container");
+
+    // dropdown box
+    const dropdown = document.createElement('select');
+    dropdown.id = `page3-thought-dropdown-${page3UnhelpfulThoughtIncrement}`;
+    dropdown.classList.add("page3-thought-dropdown");
+
+    dropdown.addEventListener('change', (e) => {
+        pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = e.target.value;
+    })
+    container.append(dropdown);
+
+    // insert the options
+    const optionValues = [
+        "Catastrophising",
+        "Compare and despair",
+        "Critical self",
+        "Emotional Reasoning",
+        "Judgements",
+        "Memories",
+        "Mental Filter",
+        "Mind-Reading",
+        "Mountains and Molehills",
+        "Prediction",
+        "Shoulds and musts",
+        "Other"
+    ];
+
+    const optionInnerHTML = [
+        "🤯 Catastrophising",
+        "👺 Compare and despair",
+        "😔 Critical self",
+        "😖 Emotional Reasoning",
+        "⚖️ Judgements",
+        "📔 Memories",
+        "🧠 Mental Filter",
+        "🧙‍♂️ Mind-Reading",
+        "⛰️ Mountains and Molehills",
+        "🔮 Prediction",
+        "📜 Shoulds and musts",
+        "➕ Other"
+    ];
+
+    for (let i = 0; i < optionValues.length; i++) {
+        const optionElement = document.createElement('option');
+        optionElement.value = optionValues[i];
+        optionElement.innerHTML = optionInnerHTML[i];
+        dropdown.append(optionElement);
+    }
+
+    // close button
+    const closeButton = document.createElement('div');
+    closeButton.classList.add("close-button");
+    const buttonIcon = document.createElement('span');
+    buttonIcon.innerHTML = "X";
+    closeButton.append(buttonIcon);
+
+    // add listener to delete
+    // add listener to delete
+    // add listener to delete
+    // add listener to delete
+    // add listener to delete
+
+    container.append(closeButton);
+
+    // textbox
+    const textbox = document.createElement('textarea');
+    textbox.classList.add("page3-text-input");
+    textbox.id = `page3-thought-text-${page3UnhelpfulThoughtIncrement}`;
+    textbox.placeholder = "Explain your thinking..."
+    
+    textbox.addEventListener('change', (e) => {
+        pageContent["page3"]["unhelpfulThoughtContent"][page3UnhelpfulThoughtIncrement] = e.target.value;
+    })
+
+    container.append(textbox);
+    parentElement.append(container);
+    page3UnhelpfulThoughtIncrement ++;
+
 }
