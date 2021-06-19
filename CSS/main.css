@@ -811,7 +811,7 @@ section {
   -ms-grid-rows: auto 1fr;
       grid-template-rows: auto 1fr;
   gap: 0px 10px;
-      grid-template-areas: "page3-thought-dropdown close-button" "page3-text-input page3-text-input";
+      grid-template-areas: "page3-thought-dropdown close-button" "hidden-textbox hidden-label" "page3-text-input page3-text-input";
 }
 
 .page3-choice-container .page3-unhelpful-thoughts-container .page3-thought-dropdown {
@@ -822,8 +822,28 @@ section {
   margin: auto;
 }
 
-.page3-choice-container .page3-unhelpful-thoughts-container .page3-text-input {
+.page3-choice-container .page3-unhelpful-thoughts-container .page3-hidden-textbox {
   -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: hidden-textbox;
+  display: none;
+}
+
+.page3-choice-container .page3-unhelpful-thoughts-container .page3-hidden-label {
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: hidden-label;
+  font-size: 1em;
+  color: var(--font-white);
+  line-height: 20px;
+  margin-top: 1em;
+  font-weight: 500;
+  text-align: center;
+  display: none;
+}
+
+.page3-choice-container .page3-unhelpful-thoughts-container .page3-text-input {
+  -ms-grid-row: 3;
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-area: page3-text-input;

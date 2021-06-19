@@ -287,7 +287,7 @@ function verifyPage2() {
     else return false;
 }
 
-// in progress - the data is not working correctly
+// in progress - want to implement other
 function page3CreateUnhelpfulThought() {
     const parentElement = document.getElementById('page3-insert-thoughts');
 
@@ -299,11 +299,6 @@ function page3CreateUnhelpfulThought() {
     const dropdown = document.createElement('select');
     dropdown.id = `page3-thought-dropdown-${page3UnhelpfulThoughtIncrement}`;
     dropdown.classList.add("page3-thought-dropdown");
-
-    dropdown.addEventListener('change', (e) => {
-        pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = e.target.value;
-        delete pageContent["page3"]["unhelpfulThoughtDropdown"]["1"];
-    })
     container.append(dropdown);
 
     // insert the options
@@ -355,11 +350,46 @@ function page3CreateUnhelpfulThought() {
 
     container.append(closeButton);
 
+    // hidden text box for Other dropdown option chosen
+    const hiddenTextbox = document.createElement('input');
+    hiddenTextbox.id = `page3-thought-hidden-text-${page3UnhelpfulThoughtIncrement}`
+    hiddenTextbox.classList.add("checkbox-textbox");
+    hiddenTextbox.classList.add("page3-hidden-textbox");
+    const hiddenLabel = document.createElement('label');
+    hiddenLabel.innerHTML = "thought style name";
+    hiddenLabel.id = `page3-thought-hidden-label-${page3UnhelpfulThoughtIncrement}`
+    hiddenLabel.classList.add("page3-hidden-label");
+
+    container.append(hiddenTextbox);
+    container.append(hiddenLabel);
+
+    hiddenTextbox.addEventListener('change', (e) => {
+        pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = hiddenTextbox.value;
+    })
+
+    // allow other to show a textbox, if change to different value, then delete the textbox
+    dropdown.addEventListener('change', (e) => {
+        pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = e.target.value;
+        delete pageContent["page3"]["unhelpfulThoughtDropdown"]["1"];
+
+        if (e.target.value === "Other") {
+            hiddenTextbox.style.display = "block";
+            hiddenLabel.style.display = "block";
+            pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = hiddenTextbox.value;
+        }
+
+        if (e.target.value !== "Other") {
+            hiddenTextbox.style.display = "none";
+            hiddenLabel.style.display = "none";
+            pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = e.target.value;
+        }
+    })
+
     // textbox
     const textbox = document.createElement('textarea');
     textbox.classList.add("page3-text-input");
     textbox.id = `page3-thought-text-${page3UnhelpfulThoughtIncrement}`;
-    textbox.placeholder = "Explain your thinking..."
+    textbox.placeholder = "Write down your thinking..."
     
     textbox.addEventListener('change', (e) => {
         pageContent["page3"]["unhelpfulThoughtContent"][page3UnhelpfulThoughtIncrement] = e.target.value;
@@ -387,7 +417,7 @@ function page3CreateUnhelpfulThought() {
     page3UnhelpfulThoughtIncrement ++;
 }
 
-// in progress - the data is not working correctly
+// in progress - want to implement other
 function page3CreateUnhelpfulBehaviour() {
     const parentElement = document.getElementById('page3-insert-behaviour');
 
@@ -399,11 +429,6 @@ function page3CreateUnhelpfulBehaviour() {
     const dropdown = document.createElement('select');
     dropdown.id = `page3-behaviour-dropdown-${page3UnhelpfulBehaviourIncrement}`;
     dropdown.classList.add("page3-thought-dropdown");
-
-    dropdown.addEventListener('change', (e) => {
-        pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = e.target.value;
-        delete pageContent["page3"]["unhelpfulBehaviourDropdown"]["1"];
-    })
     container.append(dropdown);
 
     // insert the options
@@ -437,11 +462,46 @@ function page3CreateUnhelpfulBehaviour() {
 
     container.append(closeButton);
 
+    // hidden text box for Other dropdown option chosen
+    const hiddenTextbox = document.createElement('input');
+    hiddenTextbox.id = `page3-behaviour-hidden-text-${page3UnhelpfulBehaviourIncrement}`
+    hiddenTextbox.classList.add("checkbox-textbox");
+    hiddenTextbox.classList.add("page3-hidden-textbox");
+    const hiddenLabel = document.createElement('label');
+    hiddenLabel.innerHTML = "behaviour name";
+    hiddenLabel.id = `page3-behaviour-hidden-label-${page3UnhelpfulBehaviourIncrement}`
+    hiddenLabel.classList.add("page3-hidden-label");
+
+    container.append(hiddenTextbox);
+    container.append(hiddenLabel);
+
+    hiddenTextbox.addEventListener('change', (e) => {
+        pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = hiddenTextbox.value;
+    })
+
+    // allow other to show a textbox, if change to different value, then delete the textbox
+    dropdown.addEventListener('change', (e) => {
+        pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = e.target.value;
+        delete pageContent["page3"]["unhelpfulBehaviourDropdown"]["1"];
+
+        if (e.target.value === "Other") {
+            hiddenTextbox.style.display = "block";
+            hiddenLabel.style.display = "block";
+            pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = hiddenTextbox.value;
+        }
+
+        if (e.target.value !== "Other") {
+            hiddenTextbox.style.display = "none";
+            hiddenLabel.style.display = "none";
+            pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = e.target.value;
+        }
+    })
+
     // textbox
     const textbox = document.createElement('textarea');
     textbox.classList.add("page3-text-input");
     textbox.id = `page3-behaviour-text-${page3UnhelpfulBehaviourIncrement}`;
-    textbox.placeholder = "Explain your thinking..."
+    textbox.placeholder = "Write down your behaviour..."
     
     textbox.addEventListener('change', (e) => {
         pageContent["page3"]["unhelpfulBehaviourContent"][page3UnhelpfulBehaviourIncrement] = e.target.value;

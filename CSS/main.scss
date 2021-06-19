@@ -629,12 +629,27 @@ section {
     gap: 0px 10px;
     grid-template-areas:
       "page3-thought-dropdown close-button"
+      "hidden-textbox hidden-label"
       "page3-text-input page3-text-input";
 
     .page3-thought-dropdown {
       grid-area: page3-thought-dropdown;
       padding: 0.5em;
       margin: auto;
+    }
+    .page3-hidden-textbox {
+      grid-area: hidden-textbox;
+      display: none;
+    }
+    .page3-hidden-label {
+      grid-area: hidden-label;
+      font-size: 1em;
+      color: var(--font-white);
+      line-height: 20px;
+      margin-top: 1em;
+      font-weight: 500;
+      text-align: center;
+      display: none;
     }
     .page3-text-input {
       grid-area: page3-text-input;
