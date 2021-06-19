@@ -934,4 +934,10 @@ section {
   opacity: 100%;
   left: 35%;
 }
+
+.page-divider {
+  border: 1px solid var(--font-white);
+  border-radius: 5px;
+  margin-bottom: 1em;
+}
 /*# sourceMappingURL=main.css.map */

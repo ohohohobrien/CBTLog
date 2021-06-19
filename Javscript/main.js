@@ -2,6 +2,7 @@ window.onload = init;
 
 let page2OtherCheckboxIncrement = 5;
 let page3UnhelpfulThoughtIncrement = 1;
+let page3UnhelpfulBehaviourIncrement = 1;
 
 let pageContent = {
     "page1": {},
@@ -12,6 +13,8 @@ let pageContent = {
     "page3": {
         "unhelpfulThoughtDropdown": {},
         "unhelpfulThoughtContent": {},
+        "unhelpfulBehaviourDropdown": {},
+        "unhelpfulBehaviourContent": {},
     },
     "page4": {},
     "page5": {},
@@ -49,6 +52,10 @@ function applyPageListeners() {
     // Page 3 Content
     const page3Container = document.getElementById('page3Container');
     const page3UnhelpfulThoughtAddButton = document.getElementById('page3-unhelpful-thought-button');
+    const page3UnhelpfulBehaviourAddButton = document.getElementById('page3-unhelpful-behaviour-button');
+    let page3Complete = false;
+    const page3BackButton = document.getElementById('page3BackButton');
+    const page3NextButton = document.getElementById('page3NextButton');
 
     // Applying Listeners
 
@@ -105,6 +112,25 @@ function applyPageListeners() {
     page3UnhelpfulThoughtAddButton.addEventListener("click", () => {
         page3CreateUnhelpfulThought();
     })
+
+    page3UnhelpfulBehaviourAddButton.addEventListener("click", () => {
+        page3CreateUnhelpfulBehaviour();
+    })
+
+    page3BackButton.addEventListener("click", () => {
+        changePage(page3Container, page2Container, "back");
+    })
+
+    page3NextButton.addEventListener("click", () => {
+
+        //page3Complete = verifyPage3();
+        if (page3Complete) {
+            changePage(page3Container, page4Container, "forward");
+        } else {
+            alert("I haven't created a page 4 yet!")
+        }
+    })
+
 
 }
 
@@ -261,7 +287,7 @@ function verifyPage2() {
     else return false;
 }
 
-// Making now
+// in progress - the data is not working correctly
 function page3CreateUnhelpfulThought() {
     const parentElement = document.getElementById('page3-insert-thoughts');
 
@@ -276,6 +302,7 @@ function page3CreateUnhelpfulThought() {
 
     dropdown.addEventListener('change', (e) => {
         pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = e.target.value;
+        delete pageContent["page3"]["unhelpfulThoughtDropdown"]["1"];
     })
     container.append(dropdown);
 
@@ -317,18 +344,14 @@ function page3CreateUnhelpfulThought() {
         dropdown.append(optionElement);
     }
 
+    pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = dropdown.value;
+
     // close button
     const closeButton = document.createElement('div');
     closeButton.classList.add("close-button");
     const buttonIcon = document.createElement('span');
     buttonIcon.innerHTML = "X";
     closeButton.append(buttonIcon);
-
-    // add listener to delete
-    // add listener to delete
-    // add listener to delete
-    // add listener to delete
-    // add listener to delete
 
     container.append(closeButton);
 
@@ -341,9 +364,107 @@ function page3CreateUnhelpfulThought() {
     textbox.addEventListener('change', (e) => {
         pageContent["page3"]["unhelpfulThoughtContent"][page3UnhelpfulThoughtIncrement] = e.target.value;
     })
-
     container.append(textbox);
-    parentElement.append(container);
-    page3UnhelpfulThoughtIncrement ++;
 
+    // append new div for unhelpful thought to parent
+    parentElement.append(container);
+
+    // add horizontal divider
+    const divider = document.createElement('hr');
+    divider.classList.add("page-divider");
+    divider.id = `page3-divider-thoughts-${page3UnhelpfulThoughtIncrement}`;
+    parentElement.append(divider);
+
+    // add listener to delete
+    closeButton.addEventListener('click', (e) => {
+        delete pageContent["page3"]["unhelpfulThoughtContent"][page3UnhelpfulThoughtIncrement];
+        delete pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement];
+        container.remove();
+        divider.remove();
+    })
+
+    // increment increase for unique id's
+    page3UnhelpfulThoughtIncrement ++;
+}
+
+// in progress - the data is not working correctly
+function page3CreateUnhelpfulBehaviour() {
+    const parentElement = document.getElementById('page3-insert-behaviour');
+
+    const container = document.createElement('div');
+    container.id = `page3-unhelpful-behaviour-container-${page3UnhelpfulBehaviourIncrement}`;
+    container.classList.add("page3-unhelpful-thoughts-container");
+
+    // dropdown box
+    const dropdown = document.createElement('select');
+    dropdown.id = `page3-behaviour-dropdown-${page3UnhelpfulBehaviourIncrement}`;
+    dropdown.classList.add("page3-thought-dropdown");
+
+    dropdown.addEventListener('change', (e) => {
+        pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = e.target.value;
+        delete pageContent["page3"]["unhelpfulBehaviourDropdown"]["1"];
+    })
+    container.append(dropdown);
+
+    // insert the options
+    const optionValues = [
+        "Compulsive",
+        "Avoidance",
+        "Other"
+    ];
+
+    const optionInnerHTML = [
+        "🔒 Compulsive",
+        "🚧 Avoidance",
+        "➕ Other"
+    ];
+
+    for (let i = 0; i < optionValues.length; i++) {
+        const optionElement = document.createElement('option');
+        optionElement.value = optionValues[i];
+        optionElement.innerHTML = optionInnerHTML[i];
+        dropdown.append(optionElement);
+    }
+
+    pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = dropdown.value;
+
+    // close button
+    const closeButton = document.createElement('div');
+    closeButton.classList.add("close-button");
+    const buttonIcon = document.createElement('span');
+    buttonIcon.innerHTML = "X";
+    closeButton.append(buttonIcon);
+
+    container.append(closeButton);
+
+    // textbox
+    const textbox = document.createElement('textarea');
+    textbox.classList.add("page3-text-input");
+    textbox.id = `page3-behaviour-text-${page3UnhelpfulBehaviourIncrement}`;
+    textbox.placeholder = "Explain your thinking..."
+    
+    textbox.addEventListener('change', (e) => {
+        pageContent["page3"]["unhelpfulBehaviourContent"][page3UnhelpfulBehaviourIncrement] = e.target.value;
+    })
+    container.append(textbox);
+
+    // append new div for unhelpful behaviour to parent
+    parentElement.append(container);
+
+    // add horizontal divider
+    const divider = document.createElement('hr');
+    divider.classList.add("page-divider");
+    divider.id = `page3-divider-behaviour-${page3UnhelpfulBehaviourIncrement}`;
+    parentElement.append(divider);
+
+    // add listener to delete
+    closeButton.addEventListener('click', (e) => {
+        delete pageContent["page3"]["unhelpfulBehaviourContent"][page3UnhelpfulBehaviourIncrement];
+        delete pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement];
+        container.remove();
+        divider.remove();
+    })
+
+    // increment increase for unique id's
+    page3UnhelpfulBehaviourIncrement ++;
 }

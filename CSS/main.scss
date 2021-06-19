@@ -666,6 +666,7 @@ section {
       }
     }
   }
+
   .page3-button-add {
     @include button-style();
     width: 100px;
@@ -674,4 +675,9 @@ section {
       left: 35%;
     }
   }
+}
+.page-divider {
+  border: 1px solid var(--font-white);
+  border-radius: 5px;
+  margin-bottom: 1em;
 }
