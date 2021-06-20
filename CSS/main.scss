@@ -516,7 +516,7 @@ section {
   align-items: center;
   select {
     margin: 0.5em auto;
-    padding: 0.8em;
+    padding: 0.8em 2em;
     option {
     }
   }
@@ -634,7 +634,7 @@ section {
 
     .page3-thought-dropdown {
       grid-area: page3-thought-dropdown;
-      padding: 0.5em;
+      padding: 0.8em;
       margin: auto;
     }
     .page3-hidden-textbox {
@@ -666,33 +666,48 @@ section {
       margin-bottom: 1em;
       margin-top: 1em;
     }
-    .close-button {
-      grid-area: close-button;
-      @include small-round-button();
-      span {
-        margin: 0;
-        font-size: 1em;
-        font-weight: 800;
-        color: var(--primary-colour);
-        text-align: center;
-        justify-self: center;
-        align-self: center;
-        padding-left: 0.45em;
-      }
-    }
   }
-
-  .page3-button-add {
-    @include button-style();
-    width: 100px;
-    .next-icon {
-      @include button-icon-style();
-      left: 35%;
-    }
+}
+.close-button {
+  grid-area: close-button;
+  @include small-round-button();
+  span {
+    margin: 0;
+    font-size: 1em;
+    font-weight: 800;
+    color: var(--primary-colour);
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+    padding-left: 0.45em;
+  }
+}
+.page3-button-add {
+  @include button-style();
+  height: 30px;
+  width: 60px;
+  .next-icon {
+    @include button-icon-style();
+    left: 40%;
+    bottom: 25%;
+    height: 15px;
+    width: 15px;
   }
 }
 .page-divider {
   border: 1px solid var(--font-white);
   border-radius: 5px;
   margin-bottom: 1em;
+}
+.hidden {
+  display: none;
+}
+.hidden-label {
+  font-size: 1em;
+  color: var(--font-white);
+  line-height: 20px;
+  margin-top: 1em;
+  font-weight: 500;
+  text-align: center;
+  display: none;
 }

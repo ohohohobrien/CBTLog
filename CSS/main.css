@@ -577,7 +577,7 @@ section {
 
 .dropdown-box-container select {
   margin: 0.5em auto;
-  padding: 0.8em;
+  padding: 0.8em 2em;
 }
 
 .slider-container {
@@ -818,7 +818,7 @@ section {
   -ms-grid-row: 1;
   -ms-grid-column: 1;
   grid-area: page3-thought-dropdown;
-  padding: 0.5em;
+  padding: 0.8em;
   margin: auto;
 }
 
@@ -881,7 +881,7 @@ section {
   outline: none;
 }
 
-.page3-choice-container .page3-unhelpful-thoughts-container .close-button {
+.close-button {
   -ms-grid-row: 1;
   -ms-grid-column: 2;
   grid-area: close-button;
@@ -896,7 +896,7 @@ section {
   transition: background 0.5s ease;
 }
 
-.page3-choice-container .page3-unhelpful-thoughts-container .close-button:hover {
+.close-button:hover {
   cursor: pointer;
   opacity: 80%;
   background: var(--secondary-colour);
@@ -904,7 +904,7 @@ section {
   transition: background 0.5s ease;
 }
 
-.page3-choice-container .page3-unhelpful-thoughts-container .close-button span {
+.close-button span {
   margin: 0;
   font-size: 1em;
   font-weight: 800;
@@ -918,7 +918,7 @@ section {
   padding-left: 0.45em;
 }
 
-.page3-choice-container .page3-button-add {
+.page3-button-add {
   margin: auto;
   width: 100px;
   height: 50px;
@@ -930,17 +930,18 @@ section {
   opacity: 60%;
   -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
           box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
-  width: 100px;
+  height: 30px;
+  width: 60px;
 }
 
-.page3-choice-container .page3-button-add:hover {
+.page3-button-add:hover {
   -webkit-transition: opacity 0.5s ease;
   transition: opacity 0.5s ease;
   cursor: pointer;
   opacity: 80%;
 }
 
-.page3-choice-container .page3-button-add .next-icon {
+.page3-button-add .next-icon {
   position: relative;
   bottom: 10%;
   left: 45%;
@@ -952,12 +953,29 @@ section {
   -webkit-filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
           filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
   opacity: 100%;
-  left: 35%;
+  left: 40%;
+  bottom: 25%;
+  height: 15px;
+  width: 15px;
 }
 
 .page-divider {
   border: 1px solid var(--font-white);
   border-radius: 5px;
   margin-bottom: 1em;
+}
+
+.hidden {
+  display: none;
+}
+
+.hidden-label {
+  font-size: 1em;
+  color: var(--font-white);
+  line-height: 20px;
+  margin-top: 1em;
+  font-weight: 500;
+  text-align: center;
+  display: none;
 }
 /*# sourceMappingURL=main.css.map */
