@@ -530,6 +530,7 @@ section {
     color: var(--font-white);
     font-weight: 500;
     margin: 0;
+    margin-top: 1em;
   }
   .slider {
     display: flex;
@@ -710,4 +711,40 @@ section {
   font-weight: 500;
   text-align: center;
   display: none;
+}
+
+// page 4
+.page4-section {
+  padding: 1.5em 1em;
+}
+.page-4-container {
+  padding: 0;
+  h5 {
+    text-align: center;
+    color: var(--font-white);
+    margin: 0 auto 1em auto;
+    padding: 0;
+  }
+  .page4-container-inner {
+    h2 {
+      text-align: center;
+      color: rgb(129, 129, 129);
+      margin: 0.5em auto;
+      padding: 0;
+    }
+    p {
+      text-align: left;
+      color: var(--font-white);
+      font-style: italic;
+      margin: auto;
+      margin-bottom: 0;
+    }
+    textarea {
+      @include textbox-style();
+      width: 90%;
+      height: 100px;
+      resize: none;
+      opacity: 60%;
+    }
+  }
 }

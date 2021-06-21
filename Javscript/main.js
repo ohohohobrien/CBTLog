@@ -5,13 +5,16 @@ let page2EmotionIncrement = 1;
 let page3UnhelpfulThoughtIncrement = 1;
 let page3UnhelpfulBehaviourIncrement = 1;
 
-
 let pageContent = {
-    "page1": {},
+    "page1": {
+        "event": "",
+    },
     "page2": {
         // track the index of checkboxes and see how many still remain
         "multipleCheckboxes": [page2OtherCheckboxIncrement],
         "feelings": {},
+        "feelings-slider-value": {},
+        "physicalFeelings": [],
     },
     "page3": {
         "unhelpfulThoughtDropdown": {},
@@ -43,9 +46,6 @@ function applyPageListeners() {
     
     // Page 2 Content
     const page2Container = document.getElementById('page2Container');
-    // need to remove the sliders here and add listeners in the function
-    const page2Slider = document.getElementById('Page2EmotionalSlider');
-    const page2SliderValueDisplay = document.getElementById('page2SliderValueDisplay');
     const page2FeelingsAddButton = document.getElementById('page2-unhelpful-thought-button');
     const page2OtherCheckbox = document.getElementById('page2CheckboxOption5');
     const page2CheckboxGrid = document.getElementById('page2CheckboxGrid');
@@ -62,10 +62,17 @@ function applyPageListeners() {
     const page3BackButton = document.getElementById('page3BackButton');
     const page3NextButton = document.getElementById('page3NextButton');
 
+    // Page 4 Content
+    const page4Container = document.getElementById('page4Container');
+    let page4Complete = false;
+    const page4BackButton = document.getElementById('page4BackButton');
+    const page4NextButton = document.getElementById('page4NextButton');
+
     // Applying Listeners
 
     // Page 1
-    page1NextButton.addEventListener("click", () => {
+
+    page1NextButton.addEventListener("click", function (event) {
         if (page1Complete) {
             changePage(page1Container, page2Container, "forward");
         } else {
@@ -75,14 +82,11 @@ function applyPageListeners() {
     })
 
     page1TextBox.addEventListener('input', function (event) {
-        if (event.target.value.length > 0) {
-            page1Complete = true;
-            pageContent["page1"].whatHappenedTextbox = event.target.value;
-            // insert positive reinforcement icon 
-        } else {
-            page1Complete = false;   
-            // insert message that needs to be filled out
-        }
+        pageContent["page1"]["event"] = event.target.value;
+        if (event.target.value.length > 0) page1Complete = true
+        else page1Complete = false;
+        
+        // insert positive reinforcement icon 
     })
 
     // Page 2
@@ -91,9 +95,7 @@ function applyPageListeners() {
         page2CreateEmotion();
     })
 
-    page2Slider.addEventListener('change', function (event) {
-        page2SliderValueDisplay.innerHTML = Math.floor(page2Slider.value / 10);
-    })
+    page2AddCheckboxListeners();
 
     page2OtherCheckbox.addEventListener('change', function (event) {    
         if (this.checked === true){
@@ -131,17 +133,21 @@ function applyPageListeners() {
     })
 
     page3NextButton.addEventListener("click", () => {
-
+        page3Complete = verifyPage3();
         //page3Complete = verifyPage3();
         if (page3Complete) {
+            console.log("success!")
             changePage(page3Container, page4Container, "forward");
         } else {
             alert("I haven't created a page 4 yet!")
         }
     })
 
-
 }
+
+/*
+    HELPER FUNCTIONS
+*/
 
 // Completed
 function changePage(from, to, direction) {
@@ -184,6 +190,48 @@ function changePage(from, to, direction) {
     } 
     else {
         console.log("You have input an incorrect direction at changePage().")
+    }
+
+}
+
+// Completed - helper function
+function arrayRemove(arr, value) { 
+    
+    return arr.filter(function(ele){ 
+        return ele != value; 
+    });
+}
+
+/*
+    PAGE 1
+*/
+
+
+/*
+    PAGE 2
+*/
+
+// not completed, just started
+function page2AddCheckboxListeners() {
+    // static checkbox options
+    const staticCheckboxList = [
+        document.getElementById("page2CheckboxOption1"),
+        document.getElementById("page2CheckboxOption2"),
+        document.getElementById("page2CheckboxOption3"),
+        document.getElementById("page2CheckboxOption4"),
+    ];
+
+    for (let i = 0; i < staticCheckboxList.length; i++) {
+        staticCheckboxList[i].addEventListener('change', function (event) {
+            if (staticCheckboxList[i].checked === true){
+                pageContent["page2"]["physicalFeelings"].push(staticCheckboxList[i].value);
+                console.log(`Detected change in the checkbox ${i} that CHECKS the box. ${staticCheckboxList[i].value} recorded into array.`)
+            }    
+            else {
+                pageContent["page2"]["physicalFeelings"] = arrayRemove(pageContent["page2"]["physicalFeelings"], staticCheckboxList[i].value);
+                console.log(`Detected change in the checkbox ${i} that UNCHECKS the box. ${staticCheckboxList[i].value} removed from array.`)
+            }
+        })
     }
 
 }
@@ -270,7 +318,7 @@ function page2DeleteCheckbox(checkbox) {
     divToDelete.remove();
 }
 
-// Making now - work on the data storage
+// Completed
 function page2CreateEmotion() {
 
     const parentElement = document.getElementById("page2-feeling-insert-container");
@@ -288,6 +336,7 @@ function page2CreateEmotion() {
     const dropdownList = document.createElement("select");
     dropdownList.id = `page2EmotionalFeeling-${page2EmotionIncrement}`;
     dropdownList.name = `page2EmotionalFeeling-${page2EmotionIncrement}`;
+    dropdownList.dataset.index = page2EmotionIncrement;
     dropdownContainer.append(dropdownList);
     
     const dropdownOptionValues = [
@@ -318,38 +367,7 @@ function page2CreateEmotion() {
         dropdownList.append(optionElement);
     }
 
-    pageContent["page2"]["feelings"][page2EmotionIncrement] = dropdownList.value;
-
-    // create the slider and container
-
-    const sliderContainer = document.createElement("div");
-    sliderContainer.classList.add("slider-container");
-    container.append(sliderContainer);
-
-    const headerText = document.createElement("h5");
-    headerText.innerHTML = "How intense is this feeling?";
-    sliderContainer.append(headerText);
-
-    const slider = document.createElement("input");
-    slider.classList.add("slider");
-    slider.type = "range";
-    slider.name = `Page2EmotionalSlider-${page2EmotionIncrement}`;
-    slider.id = `Page2EmotionalSlider-${page2EmotionIncrement}`;
-    slider.min = 0;
-    slider.max = 100;
-    slider.value = 50;
-    sliderContainer.append(slider);
-
-    const sliderNumberValue = document.createElement("p");
-    sliderNumberValue.innerHTML = "5";
-    sliderNumberValue.classList.add("slider-value");
-    sliderNumberValue.id = `page2SliderValueDisplay-${page2EmotionIncrement}`;
-    sliderContainer.append(sliderNumberValue);
-
-    // listener to update the number value
-    slider.addEventListener('change', function (event) {
-        sliderNumberValue.innerHTML = Math.floor(slider.value / 10);
-    })
+    pageContent["page2"]["feelings"][dropdownList.dataset.index] = dropdownList.value;
 
     // close button
     const closeButton = document.createElement('div');
@@ -374,31 +392,66 @@ function page2CreateEmotion() {
     container.append(hiddenTextbox);
 
     hiddenTextbox.addEventListener('change', (e) => {
-        pageContent["page2"]["feelings"][page2EmotionIncrement] = hiddenTextbox.value;
+        pageContent["page2"]["feelings"][dropdownList.dataset.index] = hiddenTextbox.value;
     })
 
     // allow other to show a textbox, if change to different value, then delete the textbox
     dropdownList.addEventListener('change', (e) => {
-        pageContent["page2"]["feelings"][page2EmotionIncrement] = e.target.value;
-        delete pageContent["page2"]["feelings"][page2EmotionIncrement]["1"];
+        pageContent["page2"]["feelings"][dropdownList.dataset.index] = e.target.value;
+        //delete pageContent["page2"]["feelings"]["1"];
 
         if (e.target.value === "Other") {
             hiddenTextbox.style.display = "block";
             hiddenLabel.style.display = "block";
-            pageContent["page2"]["feelings"][page2EmotionIncrement] = hiddenTextbox.value;
+            pageContent["page2"]["feelings"][dropdownList.dataset.index] = hiddenTextbox.value;
         }
 
         if (e.target.value !== "Other") {
             hiddenTextbox.style.display = "none";
             hiddenLabel.style.display = "none";
-            pageContent["page2"]["feelings"][page2EmotionIncrement] = e.target.value;
+            pageContent["page2"]["feelings"][dropdownList.dataset.index] = e.target.value;
         }
     })
 
     // add listener to delete
     closeButton.addEventListener('click', (e) => {
-        delete pageContent["page2"]["feelings"][page2EmotionIncrement];
+        delete pageContent["page2"]["feelings"][dropdownList.dataset.index];
+        delete pageContent["page2"]["feelings-slider-value"][dropdownList.dataset.index];
         container.remove();
+    })
+
+    // create the slider and container
+    const sliderContainer = document.createElement("div");
+    sliderContainer.classList.add("slider-container");
+    container.append(sliderContainer);
+
+    const headerText = document.createElement("h5");
+    headerText.innerHTML = "How intense is this feeling?";
+    sliderContainer.append(headerText);
+
+    const slider = document.createElement("input");
+    slider.classList.add("slider");
+    slider.type = "range";
+    slider.name = `Page2EmotionalSlider-${page2EmotionIncrement}`;
+    slider.id = `Page2EmotionalSlider-${page2EmotionIncrement}`;
+    slider.min = 0;
+    slider.max = 100;
+    slider.value = 50;
+    sliderContainer.append(slider);
+
+    const sliderNumberValue = document.createElement("p");
+    sliderNumberValue.innerHTML = "5";
+    pageContent["page2"]["feelings-slider-value"][dropdownList.dataset.index] = sliderNumberValue.innerHTML;
+    sliderNumberValue.classList.add("slider-value");
+    sliderNumberValue.id = `page2SliderValueDisplay-${dropdownList.dataset.index}`;
+    sliderContainer.append(sliderNumberValue);
+
+    // listener to update the number value
+    slider.addEventListener('change', function (event) {
+        sliderNumberValue.innerHTML = Math.floor(slider.value / 10);
+        //delete pageContent["page2"]["feelings-slider-value"]["1"];
+        console.log(`Updated the page content for slider value ${dropdownList.dataset.index} from ${pageContent["page2"]["feelings-slider-value"][page2EmotionIncrement]} to ${sliderNumberValue.innerHTML}.`);
+        pageContent["page2"]["feelings-slider-value"][dropdownList.dataset.index] = sliderNumberValue.innerHTML;
     })
 
     // page divider
@@ -410,18 +463,11 @@ function page2CreateEmotion() {
     page2EmotionIncrement ++;
 }
 
-// Completed - helper function
-function arrayRemove(arr, value) { 
-    
-    return arr.filter(function(ele){ 
-        return ele != value; 
-    });
-}
-
-// Making now
+// Completed
 function verifyPage2() {
     
     let verified = true;
+    // checkbox verification for other input
     for (entries of pageContent["page2"]["multipleCheckboxes"]) {
         try {
             const value = document.getElementById(`page2TextboxOption${entries}`).value;
@@ -432,9 +478,32 @@ function verifyPage2() {
             //console.log(`Element with id of page2TextboxOption${entries} not found for page 2 verification.`)
         }
     }
+
+    // textbox verification for other input
+    for (const [key, value] of Object.entries(pageContent["page2"]["feelings"])) {
+        console.log(`${key}: ${value}`);
+        if (value.length === 0) verified = false;
+    }
+
+    // slider value verification
+    for (const [key, value] of Object.entries(pageContent["page2"]["feelings-slider-value"])) {
+        console.log(`${key}: ${value}`);
+        if (value < 0 || value > 10) verified = false;
+    }
+
+    /* -------------------------
+    Test that object isn't empty (need to input an emotion)
+    ----------------------------*/
+    if (Object.keys(pageContent["page2"]["feelings"]).length === 0 && pageContent["page2"]["feelings"].constructor === Object) verified = false;
+    if (Object.keys(pageContent["page2"]["feelings-slider-value"]).length === 0 && pageContent["page2"]["feelings-slider-value"].constructor === Object) verified = false;
+   
     if (verified) return true
     else return false;
 }
+
+/*
+    PAGE 3
+*/
 
 // Completed
 function page3CreateUnhelpfulThought() {
@@ -443,6 +512,7 @@ function page3CreateUnhelpfulThought() {
     const container = document.createElement('div');
     container.id = `page3-unhelpful-thoughts-container-${page3UnhelpfulThoughtIncrement}`;
     container.classList.add("page3-unhelpful-thoughts-container");
+    container.dataset.index = String(page3UnhelpfulThoughtIncrement);
 
     // dropdown box
     const dropdown = document.createElement('select');
@@ -488,7 +558,7 @@ function page3CreateUnhelpfulThought() {
         dropdown.append(optionElement);
     }
 
-    pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = dropdown.value;
+    pageContent["page3"]["unhelpfulThoughtDropdown"][container.dataset.index] = dropdown.value;
 
     // close button
     const closeButton = document.createElement('div');
@@ -513,24 +583,25 @@ function page3CreateUnhelpfulThought() {
     container.append(hiddenLabel);
 
     hiddenTextbox.addEventListener('change', (e) => {
-        pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = hiddenTextbox.value;
+        pageContent["page3"]["unhelpfulThoughtDropdown"][container.dataset.index] = hiddenTextbox.value;
     })
 
     // allow other to show a textbox, if change to different value, then delete the textbox
     dropdown.addEventListener('change', (e) => {
-        pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = e.target.value;
+        pageContent["page3"]["unhelpfulThoughtDropdown"][container.dataset.index] = e.target.value;
         delete pageContent["page3"]["unhelpfulThoughtDropdown"]["1"];
+        delete pageContent["page3"]["unhelpfulThoughtContent"]["1"];
 
         if (e.target.value === "Other") {
             hiddenTextbox.style.display = "block";
             hiddenLabel.style.display = "block";
-            pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = hiddenTextbox.value;
+            pageContent["page3"]["unhelpfulThoughtDropdown"][container.dataset.index] = hiddenTextbox.value;
         }
 
         if (e.target.value !== "Other") {
             hiddenTextbox.style.display = "none";
             hiddenLabel.style.display = "none";
-            pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement] = e.target.value;
+            pageContent["page3"]["unhelpfulThoughtDropdown"][container.dataset.index] = e.target.value;
         }
     })
 
@@ -541,7 +612,7 @@ function page3CreateUnhelpfulThought() {
     textbox.placeholder = "Write down your thinking..."
     
     textbox.addEventListener('change', (e) => {
-        pageContent["page3"]["unhelpfulThoughtContent"][page3UnhelpfulThoughtIncrement] = e.target.value;
+        pageContent["page3"]["unhelpfulThoughtContent"][container.dataset.index] = e.target.value;
     })
     container.append(textbox);
 
@@ -556,8 +627,12 @@ function page3CreateUnhelpfulThought() {
 
     // add listener to delete
     closeButton.addEventListener('click', (e) => {
-        delete pageContent["page3"]["unhelpfulThoughtContent"][page3UnhelpfulThoughtIncrement];
-        delete pageContent["page3"]["unhelpfulThoughtDropdown"][page3UnhelpfulThoughtIncrement];
+        delete pageContent["page3"]["unhelpfulThoughtContent"][container.dataset.index];
+        delete pageContent["page3"]["unhelpfulThoughtDropdown"][container.dataset.index];
+        if (container.dataset.index == 1) {
+            delete pageContent["page3"]["unhelpfulThoughtContent"]["2"];
+            delete pageContent["page3"]["unhelpfulThoughtDropdown"]["2"];
+        }
         container.remove();
         divider.remove();
     })
@@ -573,6 +648,7 @@ function page3CreateUnhelpfulBehaviour() {
     const container = document.createElement('div');
     container.id = `page3-unhelpful-behaviour-container-${page3UnhelpfulBehaviourIncrement}`;
     container.classList.add("page3-unhelpful-thoughts-container");
+    container.dataset.index = String(page3UnhelpfulBehaviourIncrement);
 
     // dropdown box
     const dropdown = document.createElement('select');
@@ -600,7 +676,12 @@ function page3CreateUnhelpfulBehaviour() {
         dropdown.append(optionElement);
     }
 
-    pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = dropdown.value;
+    if (container.dataset.index === 1) {
+        pageContent["page3"]["unhelpfulBehaviourDropdown"][2] = dropdown.value;
+    } else {
+        pageContent["page3"]["unhelpfulBehaviourDropdown"][container.dataset.index] = dropdown.value;
+    }
+
 
     // close button
     const closeButton = document.createElement('div');
@@ -625,24 +706,25 @@ function page3CreateUnhelpfulBehaviour() {
     container.append(hiddenLabel);
 
     hiddenTextbox.addEventListener('change', (e) => {
-        pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = hiddenTextbox.value;
+        pageContent["page3"]["unhelpfulBehaviourDropdown"][container.dataset.index] = hiddenTextbox.value;
     })
 
     // allow other to show a textbox, if change to different value, then delete the textbox
     dropdown.addEventListener('change', (e) => {
-        pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = e.target.value;
+        pageContent["page3"]["unhelpfulBehaviourDropdown"][container.dataset.index] = e.target.value;
         delete pageContent["page3"]["unhelpfulBehaviourDropdown"]["1"];
+        delete pageContent["page3"]["unhelpfulBehaviourContent"]["1"];
 
         if (e.target.value === "Other") {
             hiddenTextbox.style.display = "block";
             hiddenLabel.style.display = "block";
-            pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = hiddenTextbox.value;
+            pageContent["page3"]["unhelpfulBehaviourDropdown"][container.dataset.index] = hiddenTextbox.value;
         }
 
         if (e.target.value !== "Other") {
             hiddenTextbox.style.display = "none";
             hiddenLabel.style.display = "none";
-            pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement] = e.target.value;
+            pageContent["page3"]["unhelpfulBehaviourDropdown"][container.dataset.index] = e.target.value;
         }
     })
 
@@ -653,7 +735,7 @@ function page3CreateUnhelpfulBehaviour() {
     textbox.placeholder = "Write down your behaviour..."
     
     textbox.addEventListener('change', (e) => {
-        pageContent["page3"]["unhelpfulBehaviourContent"][page3UnhelpfulBehaviourIncrement] = e.target.value;
+        pageContent["page3"]["unhelpfulBehaviourContent"][container.dataset.index] = e.target.value;
     })
     container.append(textbox);
 
@@ -668,8 +750,12 @@ function page3CreateUnhelpfulBehaviour() {
 
     // add listener to delete
     closeButton.addEventListener('click', (e) => {
-        delete pageContent["page3"]["unhelpfulBehaviourContent"][page3UnhelpfulBehaviourIncrement];
-        delete pageContent["page3"]["unhelpfulBehaviourDropdown"][page3UnhelpfulBehaviourIncrement];
+        delete pageContent["page3"]["unhelpfulBehaviourContent"][container.dataset.index];
+        delete pageContent["page3"]["unhelpfulBehaviourDropdown"][container.dataset.index];
+        if (container.dataset.index == 1) {
+            delete pageContent["page3"]["unhelpfulBehaviourContent"]["2"];
+            delete pageContent["page3"]["unhelpfulBehaviourDropdown"]["2"];
+        }
         container.remove();
         divider.remove();
     })
@@ -677,3 +763,39 @@ function page3CreateUnhelpfulBehaviour() {
     // increment increase for unique id's
     page3UnhelpfulBehaviourIncrement ++;
 }
+
+// completed
+function verifyPage3() {
+    
+    let verified = true;
+    
+    // textbox verification for other input
+    for (const [key, value] of Object.entries(pageContent["page3"]["unhelpfulThoughtContent"])) {
+        console.log(`${key}: ${value}`);
+        if (value.length === 0) verified = false;
+    }
+
+    // slider value verification
+    for (const [key, value] of Object.entries(pageContent["page3"]["unhelpfulBehaviourContent"])) {
+        console.log(`${key}: ${value}`);
+        if (value < 0 || value > 10) verified = false;
+    }
+
+    /* -------------------------
+    Check that objects are the same length for thoughts and behaviours
+    ----------------------------*/
+    if (Object.keys(pageContent["page3"]["unhelpfulThoughtDropdown"]).length !== Object.keys(pageContent["page3"]["unhelpfulThoughtContent"]).length) verified = false;
+    if (Object.keys(pageContent["page3"]["unhelpfulBehaviourDropdown"]).length !== Object.keys(pageContent["page3"]["unhelpfulBehaviourContent"]).length) verified = false;
+
+    /* -------------------------
+    Check that at least one thought or behaviour has been input 
+    ----------------------------*/
+    if (Object.keys(pageContent["page3"]["unhelpfulThoughtDropdown"]).length === 0 && Object.keys(pageContent["page3"]["unhelpfulBehaviourDropdown"]).length === 0) verified = false;
+   
+    if (verified) return true
+    else return false;
+}
+
+/*
+    PAGE 4
+*/

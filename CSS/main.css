@@ -589,6 +589,7 @@ section {
   color: var(--font-white);
   font-weight: 500;
   margin: 0;
+  margin-top: 1em;
 }
 
 .slider-container .slider {
@@ -977,5 +978,64 @@ section {
   font-weight: 500;
   text-align: center;
   display: none;
+}
+
+.page4-section {
+  padding: 1.5em 1em;
+}
+
+.page-4-container {
+  padding: 0;
+}
+
+.page-4-container h5 {
+  text-align: center;
+  color: var(--font-white);
+  margin: 0 auto 1em auto;
+  padding: 0;
+}
+
+.page-4-container .page4-container-inner h2 {
+  text-align: center;
+  color: #818181;
+  margin: 0.5em auto;
+  padding: 0;
+}
+
+.page-4-container .page4-container-inner p {
+  text-align: left;
+  color: var(--font-white);
+  font-style: italic;
+  margin: auto;
+  margin-bottom: 0;
+}
+
+.page-4-container .page4-container-inner textarea {
+  border-radius: 2em;
+  background-color: var(--primary-colour-lightest);
+  -webkit-transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease;
+  opacity: 80%;
+  border: 0.5px solid var(--font-white);
+  -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+          box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+  padding: 1em;
+  font-family: "Baloo Tammudu 2";
+  font-weight: 500;
+  color: var(--font-white);
+  font-size: 1.1rem;
+  width: 90%;
+  height: 100px;
+  resize: none;
+  opacity: 60%;
+}
+
+.page-4-container .page4-container-inner textarea:focus {
+  -webkit-transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease;
+  background-color: var(--secondary-colour-dark);
+  -webkit-box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
+          box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
+  outline: none;
 }
 /*# sourceMappingURL=main.css.map */
