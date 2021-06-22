@@ -4,6 +4,7 @@ let page2OtherCheckboxIncrement = 5;
 let page2EmotionIncrement = 1;
 let page3UnhelpfulThoughtIncrement = 1;
 let page3UnhelpfulBehaviourIncrement = 1;
+let page4Index = 0;
 
 let pageContent = {
     "page1": {
@@ -22,7 +23,9 @@ let pageContent = {
         "unhelpfulBehaviourDropdown": {},
         "unhelpfulBehaviourContent": {},
     },
-    "page4": {},
+    "page4": {
+        "alternativeObjects": [],
+    },
     "page5": {},
 };
 
@@ -64,6 +67,8 @@ function applyPageListeners() {
 
     // Page 4 Content
     const page4Container = document.getElementById('page4Container');
+    const page4BackAlternativeButton = document.getElementById('page4-alternative-back-button');
+    const page4NextAlternativeButton = document.getElementById('page4-alternative-next-button');
     let page4Complete = false;
     const page4BackButton = document.getElementById('page4BackButton');
     const page4NextButton = document.getElementById('page4NextButton');
@@ -136,10 +141,37 @@ function applyPageListeners() {
         page3Complete = verifyPage3();
         //page3Complete = verifyPage3();
         if (page3Complete) {
-            console.log("success!")
+            createPage4Objects();
+            page4PrepareElements();
+            page4CreateAlternativeHTMLElement();
             changePage(page3Container, page4Container, "forward");
         } else {
-            alert("I haven't created a page 4 yet!")
+            alert("Please fill out all information!")
+        }
+    })
+
+    // Page 4
+    page4BackButton.addEventListener("click", () => {
+        changePage(page4Container, page3Container, "back");
+    })
+
+    page4BackAlternativeButton.addEventListener("click", () => {
+        if (page4Index > 0) {
+            page4RemoveAlternativeHTMLElement();
+            page4Index --;
+            page4CreateAlternativeHTMLElement();
+        } else {
+            alert("Can't go back anymore.")
+        }
+    })
+
+    page4NextAlternativeButton.addEventListener("click", () => {
+        if (page4Index < (pageContent["page4"]["alternativeObjects"].length - 1)) {
+            page4RemoveAlternativeHTMLElement();
+            page4Index ++;
+            page4CreateAlternativeHTMLElement();
+        } else {
+            alert("Can't go forward anymore.")
         }
     })
 
@@ -589,8 +621,8 @@ function page3CreateUnhelpfulThought() {
     // allow other to show a textbox, if change to different value, then delete the textbox
     dropdown.addEventListener('change', (e) => {
         pageContent["page3"]["unhelpfulThoughtDropdown"][container.dataset.index] = e.target.value;
-        delete pageContent["page3"]["unhelpfulThoughtDropdown"]["1"];
-        delete pageContent["page3"]["unhelpfulThoughtContent"]["1"];
+        //delete pageContent["page3"]["unhelpfulThoughtDropdown"]["1"];
+        //delete pageContent["page3"]["unhelpfulThoughtContent"]["1"];
 
         if (e.target.value === "Other") {
             hiddenTextbox.style.display = "block";
@@ -629,10 +661,12 @@ function page3CreateUnhelpfulThought() {
     closeButton.addEventListener('click', (e) => {
         delete pageContent["page3"]["unhelpfulThoughtContent"][container.dataset.index];
         delete pageContent["page3"]["unhelpfulThoughtDropdown"][container.dataset.index];
+        /*
         if (container.dataset.index == 1) {
             delete pageContent["page3"]["unhelpfulThoughtContent"]["2"];
             delete pageContent["page3"]["unhelpfulThoughtDropdown"]["2"];
         }
+        */
         container.remove();
         divider.remove();
     })
@@ -641,7 +675,7 @@ function page3CreateUnhelpfulThought() {
     page3UnhelpfulThoughtIncrement ++;
 }
 
-// Compelted
+// completed
 function page3CreateUnhelpfulBehaviour() {
     const parentElement = document.getElementById('page3-insert-behaviour');
 
@@ -659,13 +693,13 @@ function page3CreateUnhelpfulBehaviour() {
     // insert the options
     const optionValues = [
         "Compulsive",
-        "Avoidance",
+        "Avoiding",
         "Other"
     ];
 
     const optionInnerHTML = [
         "🔒 Compulsive",
-        "🚧 Avoidance",
+        "🚧 Avoiding",
         "➕ Other"
     ];
 
@@ -712,8 +746,8 @@ function page3CreateUnhelpfulBehaviour() {
     // allow other to show a textbox, if change to different value, then delete the textbox
     dropdown.addEventListener('change', (e) => {
         pageContent["page3"]["unhelpfulBehaviourDropdown"][container.dataset.index] = e.target.value;
-        delete pageContent["page3"]["unhelpfulBehaviourDropdown"]["1"];
-        delete pageContent["page3"]["unhelpfulBehaviourContent"]["1"];
+        //delete pageContent["page3"]["unhelpfulBehaviourDropdown"]["1"];
+        //delete pageContent["page3"]["unhelpfulBehaviourContent"]["1"];
 
         if (e.target.value === "Other") {
             hiddenTextbox.style.display = "block";
@@ -752,10 +786,12 @@ function page3CreateUnhelpfulBehaviour() {
     closeButton.addEventListener('click', (e) => {
         delete pageContent["page3"]["unhelpfulBehaviourContent"][container.dataset.index];
         delete pageContent["page3"]["unhelpfulBehaviourDropdown"][container.dataset.index];
+        /*
         if (container.dataset.index == 1) {
             delete pageContent["page3"]["unhelpfulBehaviourContent"]["2"];
             delete pageContent["page3"]["unhelpfulBehaviourDropdown"]["2"];
         }
+        */
         container.remove();
         divider.remove();
     })
@@ -799,3 +835,186 @@ function verifyPage3() {
 /*
     PAGE 4
 */
+
+// completed (deletion / updating working)
+function createPage4Objects() {
+
+	// Thought object creation
+	objectCreation("unhelpfulThoughtDropdown", "unhelpfulThoughtContent", "thought");
+	// Behaviour object creation
+	objectCreation("unhelpfulBehaviourDropdown", "unhelpfulBehaviourContent", "behaviour");
+	
+	// Check if objects should be deleted
+	objectDeletion();
+
+}
+
+// completed
+function objectCreation(dropdownName, contentName, type) {
+
+	for (const [key, value] of Object.entries(pageContent["page3"][dropdownName])) {
+	
+		// Check if already exists and update values
+        if (pageContent["page4"]["alternativeObjects"].length > 0){
+            const existCheck = (element) => element.id === key && element.type === type;
+            if (pageContent["page4"]["alternativeObjects"].some(existCheck)) {
+                console.log(`Identified that ${type} of ${key}:${value} already exists within the object.`);
+                console.log(`To update the name of ${type} to ${pageContent["page3"][dropdownName][key]}.`);
+                console.log(`To update the description of ${type} to ${pageContent["page3"][contentName][key]}.`);
+                for (let k = 0; k < pageContent["page4"]["alternativeObjects"].length; k++)  {
+                    if (pageContent["page4"]["alternativeObjects"][k].type === type) {
+                        if (pageContent["page4"]["alternativeObjects"][k].id === key) {
+                            pageContent["page4"]["alternativeObjects"][k].name = pageContent["page3"][dropdownName][key];
+                            pageContent["page4"]["alternativeObjects"][k].description = pageContent["page3"][contentName][key];
+                            console.log("Successfully updated.");
+                        }
+                    }
+                }
+                continue
+            }
+        }
+		
+		// Create new object	
+        const newObject = {};
+        newObject.id = key;
+        newObject.type = type;
+        newObject.name = value;
+        newObject.description = pageContent["page3"][contentName][key];
+        newObject.answer = "";
+        newObject.checked = false;
+        
+        pageContent["page4"]["alternativeObjects"].push(newObject);
+	}
+}
+
+// completed
+function objectDeletion() {
+
+	const newArray = [];
+
+	for (let i = 0; i < pageContent["page4"]["alternativeObjects"].length; i++) {
+		let scheduleForDelete = false;
+		if (pageContent["page4"]["alternativeObjects"][i].type === "thought") {
+			if (pageContent["page3"]["unhelpfulThoughtDropdown"][pageContent["page4"]["alternativeObjects"][i].id]) scheduleForDelete = false
+			else scheduleForDelete = true;
+		}
+		if (pageContent["page4"]["alternativeObjects"][i].type === "behaviour") {
+			if (pageContent["page3"]["unhelpfulBehaviourDropdown"][pageContent["page4"]["alternativeObjects"][i].id]) scheduleForDelete = false
+			else scheduleForDelete = true;
+		}
+		
+		if (!scheduleForDelete) newArray.push(pageContent["page4"]["alternativeObjects"][i]);
+	}
+	
+	pageContent["page4"]["alternativeObjects"] = newArray;
+}
+
+// in progress - to add animation
+function page4CreateAlternativeHTMLElement() {
+
+    const parentElement = document.getElementById('page4-insert-container');
+
+    const fullContainer = document.createElement('div');
+    fullContainer.id = `page4-fullContainer-${page4Index}`;
+    parentElement.append(fullContainer);
+
+    // create the HTML parts
+    // update the HTML / CSS properties
+
+    // upper part
+    const topSection = document.createElement('section');
+    topSection.classList.add("page4-section")
+    parentElement.append(topSection);
+
+    const topContainer = document.createElement('div');
+    topContainer.classList.add("page4-container")
+    topSection.append(topContainer);
+    
+    const topHeader = document.createElement('h5');
+    // have an array of nice phrases to appear
+    const nicePhrasesThoughts = [
+        "Well done! - you realized an unhelpful thought pattern of:",
+        "Nice work! - you noticed an unhelpful thought pattern of:",
+        "You are doing so well! - you saw through an unhelpful thought pattern of:",
+        "Amazing! - you realized an unhelpful thought pattern of:",
+        "Keep it up! - you saw through an unhelpful thought pattern of:",
+        "Just a little more! - you noticed an unhelpful thought pattern of:",
+    ];
+    topHeader.innerHTML = nicePhrasesThoughts[Math.floor(Math.random() * nicePhrasesThoughts.length)];   
+    topContainer.append(topHeader);
+    
+    const topContainerInner = document.createElement('div');
+    topContainerInner.classList.add("page4-container-inner");
+    topContainer.append(topContainerInner);
+
+    const topName = document.createElement('h2');
+    topName.innerHTML = pageContent["page4"]["alternativeObjects"][page4Index].name;
+    topContainerInner.append(topName);
+
+    const topDivider = document.createElement('hr');
+    topDivider.classList.add("page-divider");
+    topContainerInner.append(topDivider);
+
+    const topDescription = document.createElement('p');
+    topDescription.innerHTML = pageContent["page4"]["alternativeObjects"][page4Index].description;
+    topContainerInner.append(topDescription);
+
+    // lower part
+
+    const bottomSection = document.createElement('section');
+    bottomSection.classList.add("page4-section")
+    parentElement.append(bottomSection);
+
+    const bottomContainer = document.createElement('div');
+    bottomContainer.classList.add("page4-container")
+    bottomSection.append(bottomContainer);
+
+    const bottomHeader = document.createElement('h5');
+    const nicePhrasesThoughtsAlternative = [
+        "Try and tell yourself an alernative thought:",
+        "A better way to think about this would be:",
+        "What would you tell a friend instead:",
+        "Is there a different way to think about this:",
+        "How else could you think about it:",
+    ];
+    bottomHeader.innerHTML = nicePhrasesThoughtsAlternative[Math.floor(Math.random() * nicePhrasesThoughtsAlternative.length)];  
+    bottomContainer.append(bottomHeader);
+
+    const bottomContainerInner = document.createElement('div');
+    bottomContainerInner.classList.add("page4-container-inner");
+    bottomContainer.append(bottomContainerInner);
+
+    const bottomTextbox = document.createElement('textarea');
+    bottomTextbox.classList.add("alternative-thought-input");
+    bottomTextbox.value = pageContent["page4"]["alternativeObjects"][page4Index].answer;
+    bottomTextbox.placeholder = "...";
+    bottomContainerInner.append(bottomTextbox);
+    
+    // apply listeners
+
+    bottomTextbox.addEventListener('change', (e) => {
+        pageContent["page4"]["alternativeObjects"][page4Index].answer = bottomTextbox.value;
+    })
+
+    fullContainer.append(topSection);
+    fullContainer.append(bottomSection);
+
+    // add animation class to it
+}
+
+// in progress - to add animation
+function page4RemoveAlternativeHTMLElement() {
+
+    // add animation class to it
+    document.getElementById(`page4-fullContainer-${page4Index}`).remove();
+
+}
+
+function page4PrepareElements() {
+
+    const node = document.getElementById("page4-insert-container");
+    
+    while (node.firstChild) {
+        node.removeChild(node.firstChild);
+    }
+}

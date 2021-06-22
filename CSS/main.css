@@ -982,6 +982,7 @@ section {
 
 .page4-section {
   padding: 1.5em 1em;
+  margin: 0 auto 2em auto;
 }
 
 .page-4-container {
@@ -992,12 +993,12 @@ section {
   text-align: center;
   color: var(--font-white);
   margin: 0 auto 1em auto;
-  padding: 0;
+  padding: 0 2em;
 }
 
 .page-4-container .page4-container-inner h2 {
   text-align: center;
-  color: #818181;
+  color: #645d5d;
   margin: 0.5em auto;
   padding: 0;
 }
@@ -1024,10 +1025,14 @@ section {
   font-weight: 500;
   color: var(--font-white);
   font-size: 1.1rem;
-  width: 90%;
+  margin: 0;
+  width: 100%;
   height: 100px;
   resize: none;
   opacity: 60%;
+  width: 80%;
+  margin: auto;
+  display: inherit;
 }
 
 .page-4-container .page4-container-inner textarea:focus {
@@ -1037,5 +1042,63 @@ section {
   -webkit-box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
           box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
   outline: none;
+}
+
+.page-4-container .page4-button-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  justify-items: center;
+  margin: 0.2em auto 0.2em;
+}
+
+.page-4-container .page4-button-container .button-small {
+  margin: auto;
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  border: 0.5px solid #fff1f14f;
+  background: var(--secondary-colour);
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  opacity: 60%;
+  -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+          box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+  height: 20px;
+  width: 40px;
+}
+
+.page-4-container .page4-button-container .button-small:hover {
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+  opacity: 80%;
+}
+
+.page-4-container .page4-button-container .button-small .button-small-icon {
+  position: relative;
+  bottom: 10%;
+  left: 45%;
+  height: 30px;
+  width: 30px;
+  margin: auto;
+  padding-top: 1em;
+  padding-left: 0;
+  -webkit-filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+          filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+  opacity: 100%;
+  left: 32%;
+  top: -60%;
+  height: 15px;
+  width: 15px;
+}
+
+.page-4-container .page4-button-container .button-small .back {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  top: 10%;
 }
 /*# sourceMappingURL=main.css.map */

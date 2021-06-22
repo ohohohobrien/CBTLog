@@ -716,6 +716,7 @@ section {
 // page 4
 .page4-section {
   padding: 1.5em 1em;
+  margin: 0 auto 2em auto;
 }
 .page-4-container {
   padding: 0;
@@ -723,12 +724,12 @@ section {
     text-align: center;
     color: var(--font-white);
     margin: 0 auto 1em auto;
-    padding: 0;
+    padding: 0 2em;
   }
   .page4-container-inner {
     h2 {
       text-align: center;
-      color: rgb(129, 129, 129);
+      color: rgb(100, 93, 93);
       margin: 0.5em auto;
       padding: 0;
     }
@@ -741,10 +742,40 @@ section {
     }
     textarea {
       @include textbox-style();
-      width: 90%;
+      margin: 0;
+      width: 100%;
       height: 100px;
       resize: none;
       opacity: 60%;
+      width: 80%;
+      margin: auto;
+      display: inherit;
+    }
+  }
+
+  .page4-button-container {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    margin: 0.2em auto 0.2em;
+
+    .button-small {
+      @include button-style();
+      height: 20px;
+      width: 40px;
+
+      .button-small-icon {
+        @include button-icon-style();
+        left: 32%;
+        top: -60%;
+        height: 15px;
+        width: 15px;
+      }
+
+      .back {
+        transform: rotate(180deg);
+        top: 10%;
+      }
     }
   }
 }
