@@ -930,18 +930,35 @@ function page4CreateAlternativeHTMLElement() {
     topContainer.classList.add("page4-container")
     topSection.append(topContainer);
     
-    const topHeader = document.createElement('h5');
-    // have an array of nice phrases to appear
-    const nicePhrasesThoughts = [
-        "Well done! - you realized an unhelpful thought pattern of:",
-        "Nice work! - you noticed an unhelpful thought pattern of:",
-        "You are doing so well! - you saw through an unhelpful thought pattern of:",
-        "Amazing! - you realized an unhelpful thought pattern of:",
-        "Keep it up! - you saw through an unhelpful thought pattern of:",
-        "Just a little more! - you noticed an unhelpful thought pattern of:",
-    ];
-    topHeader.innerHTML = nicePhrasesThoughts[Math.floor(Math.random() * nicePhrasesThoughts.length)];   
-    topContainer.append(topHeader);
+    // thoughts
+    if (pageContent["page4"]["alternativeObjects"][page4Index].type === "thought") {
+        const topHeader = document.createElement('h5');
+        // have an array of nice phrases to appear
+        const nicePhrasesThoughts = [
+            "Well done! - you realized an unhelpful thought pattern of:",
+            "Nice work! - you noticed an unhelpful thought pattern of:",
+            "You are doing so well! - you saw through an unhelpful thought pattern of:",
+            "Amazing! - you realized an unhelpful thought pattern of:",
+            "Keep it up! - you saw through an unhelpful thought pattern of:",
+            "Just a little more! - you noticed an unhelpful thought pattern of:",
+        ];
+        topHeader.innerHTML = nicePhrasesThoughts[Math.floor(Math.random() * nicePhrasesThoughts.length)];   
+        topContainer.append(topHeader);
+    // behaviours
+    } else {
+        const topHeader = document.createElement('h5');
+        // have an array of nice phrases to appear
+        const nicePhrasesThoughts = [
+            "Well done! - you realized an unhelpful behaviour:",
+            "Nice work! - you can stop this beahviour now:",
+            "You are doing so well! - you saw you are:",
+            "Amazing! - you realized an unhelpful behaviour of:",
+            "Keep it up! - you saw through your response of:",
+            "Just a little more! - you noticed an unhelpful behaviour of:",
+        ];
+        topHeader.innerHTML = nicePhrasesThoughts[Math.floor(Math.random() * nicePhrasesThoughts.length)];   
+        topContainer.append(topHeader);
+    }
     
     const topContainerInner = document.createElement('div');
     topContainerInner.classList.add("page4-container-inner");
@@ -969,16 +986,32 @@ function page4CreateAlternativeHTMLElement() {
     bottomContainer.classList.add("page4-container")
     bottomSection.append(bottomContainer);
 
-    const bottomHeader = document.createElement('h5');
-    const nicePhrasesThoughtsAlternative = [
-        "Try and tell yourself an alernative thought:",
-        "A better way to think about this would be:",
-        "What would you tell a friend instead:",
-        "Is there a different way to think about this:",
-        "How else could you think about it:",
-    ];
-    bottomHeader.innerHTML = nicePhrasesThoughtsAlternative[Math.floor(Math.random() * nicePhrasesThoughtsAlternative.length)];  
-    bottomContainer.append(bottomHeader);
+    // thought phrases
+    if (pageContent["page4"]["alternativeObjects"][page4Index].type === "thought") {
+        const bottomHeader = document.createElement('h5');
+        const nicePhrasesThoughtsAlternative = [
+            "Try and tell yourself an alernative thought:",
+            "A better way to think about this would be:",
+            "What would you tell a friend instead:",
+            "Is there a different way to think about this:",
+            "How else could you think about it:",
+        ];
+        bottomHeader.innerHTML = nicePhrasesThoughtsAlternative[Math.floor(Math.random() * nicePhrasesThoughtsAlternative.length)];  
+        bottomContainer.append(bottomHeader);
+    // behaviours
+    } else {
+        const bottomHeader = document.createElement('h5');
+        const nicePhrasesThoughtsAlternative = [
+            "What's a better way to act:",
+            "A better way to behave is:",
+            "What would you tell a friend instead:",
+            "Is there a different way to behave:",
+            "What is a more positive action:",
+            "What is a more beneficial action:",
+        ];
+        bottomHeader.innerHTML = nicePhrasesThoughtsAlternative[Math.floor(Math.random() * nicePhrasesThoughtsAlternative.length)];  
+        bottomContainer.append(bottomHeader);
+    }
 
     const bottomContainerInner = document.createElement('div');
     bottomContainerInner.classList.add("page4-container-inner");
@@ -1007,6 +1040,8 @@ function page4RemoveAlternativeHTMLElement() {
 
     // add animation class to it
     document.getElementById(`page4-fullContainer-${page4Index}`).remove();
+    page4Index --;
+    if (page4Index < 0) page4Index = 0;
 
 }
 
