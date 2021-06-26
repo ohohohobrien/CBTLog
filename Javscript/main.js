@@ -5,6 +5,7 @@ let page2EmotionIncrement = 1;
 let page3UnhelpfulThoughtIncrement = 1;
 let page3UnhelpfulBehaviourIncrement = 1;
 let page4Index = 0;
+let page45State = 0;
 
 let pageContent = {
     "page1": {
@@ -25,6 +26,7 @@ let pageContent = {
     },
     "page4": {
         "alternativeObjects": [],
+        "friendlyAdvice": "",
     },
     "page5": {},
 };
@@ -72,6 +74,10 @@ function applyPageListeners() {
     let page4Complete = false;
     const page4BackButton = document.getElementById('page4BackButton');
     const page4NextButton = document.getElementById('page4NextButton');
+
+    // Page 4.5 Content
+    const page45Container = document.getElementById('page45Container');
+    const page45BackButton = document.getElementById('page45BackButton');
 
     // Applying Listeners
 
@@ -153,6 +159,7 @@ function applyPageListeners() {
     // Page 4
     page4BackButton.addEventListener("click", () => {
         changePage(page4Container, page3Container, "back");
+        page4Index = 0;
     })
 
     page4BackAlternativeButton.addEventListener("click", () => {
@@ -160,19 +167,38 @@ function applyPageListeners() {
             page4RemoveAlternativeHTMLElement();
             page4Index --;
             page4CreateAlternativeHTMLElement();
+            page4Container.scrollIntoView({ behavior: 'smooth'});
         } else {
             alert("Can't go back anymore.")
         }
     })
 
     page4NextAlternativeButton.addEventListener("click", () => {
-        if (page4Index < (pageContent["page4"]["alternativeObjects"].length - 1)) {
-            page4RemoveAlternativeHTMLElement();
-            page4Index ++;
-            page4CreateAlternativeHTMLElement();
+        if (pageContent["page4"]["alternativeObjects"][page4Index].answer.length > 0) {
+            if (page4Index < (pageContent["page4"]["alternativeObjects"].length - 1)) {
+                page4RemoveAlternativeHTMLElement();
+                page4Index ++;
+                page4CreateAlternativeHTMLElement();
+                page4Container.scrollIntoView({ behavior: 'smooth'});
+            } else {
+                page4RemoveAlternativeHTMLElement();
+                changePage(page4Container, page45Container, "forward");
+                page45RemoveElements();
+                page45StateManager();
+                page45Container.scrollIntoView({ behavior: 'smooth'});
+                console.log("Made it to the penguin.")
+            }
         } else {
-            alert("Can't go forward anymore.")
+            alert("Please enter an alternative thought / behaviour.");
         }
+    })
+
+    // Page 45
+
+    page45BackButton.addEventListener("click", () => {
+        changePage(page45Container, page3Container, "back");
+        page4Index = 0;
+        page45State = 0;
     })
 
 }
@@ -199,8 +225,12 @@ function changePage(from, to, direction) {
         to.classList.remove("slideInLeft");
         to.classList.add("slideInRight");
         
-        from.listener = () => from.style.display = "none";
+        from.listener = () => {
+            from.style.display = "none";
+            to.scrollIntoView({ behavior: 'smooth'});
+        }
         from.addEventListener("animationend", from.listener);
+        
     } 
     else if (direction === "back") {
         to.style.display = "block";
@@ -217,8 +247,12 @@ function changePage(from, to, direction) {
         to.classList.remove("slideInLeft");
         to.classList.add("slideInLeft");
         
-        from.listener = () => from.style.display = "none";
+        from.listener = () => {
+            from.style.display = "none";
+            to.scrollIntoView({ behavior: 'smooth'});
+        }
         from.addEventListener("animationend", from.listener);
+        
     } 
     else {
         console.log("You have input an incorrect direction at changePage().")
@@ -641,7 +675,7 @@ function page3CreateUnhelpfulThought() {
     const textbox = document.createElement('textarea');
     textbox.classList.add("page3-text-input");
     textbox.id = `page3-thought-text-${page3UnhelpfulThoughtIncrement}`;
-    textbox.placeholder = "Write down your thinking..."
+    textbox.placeholder = "Write down your thinking...";
     
     textbox.addEventListener('change', (e) => {
         pageContent["page3"]["unhelpfulThoughtContent"][container.dataset.index] = e.target.value;
@@ -896,13 +930,21 @@ function objectDeletion() {
 		let scheduleForDelete = false;
 		if (pageContent["page4"]["alternativeObjects"][i].type === "thought") {
 			if (pageContent["page3"]["unhelpfulThoughtDropdown"][pageContent["page4"]["alternativeObjects"][i].id]) scheduleForDelete = false
-			else scheduleForDelete = true;
+			else {
+                scheduleForDelete = true;
+                page4Index --;
+                if (page4Index < 0) page4Index = 0;
+            }
 		}
 		if (pageContent["page4"]["alternativeObjects"][i].type === "behaviour") {
 			if (pageContent["page3"]["unhelpfulBehaviourDropdown"][pageContent["page4"]["alternativeObjects"][i].id]) scheduleForDelete = false
-			else scheduleForDelete = true;
-		}
-		
+			else {
+                scheduleForDelete = true;
+                page4Index --;
+                if (page4Index < 0) page4Index = 0;
+            }
+        }
+
 		if (!scheduleForDelete) newArray.push(pageContent["page4"]["alternativeObjects"][i]);
 	}
 	
@@ -950,7 +992,7 @@ function page4CreateAlternativeHTMLElement() {
         // have an array of nice phrases to appear
         const nicePhrasesThoughts = [
             "Well done! - you realized an unhelpful behaviour:",
-            "Nice work! - you can stop this beahviour now:",
+            "Nice work! - you can stop this behaviour now:",
             "You are doing so well! - you saw you are:",
             "Amazing! - you realized an unhelpful behaviour of:",
             "Keep it up! - you saw through your response of:",
@@ -1033,6 +1075,8 @@ function page4CreateAlternativeHTMLElement() {
     fullContainer.append(bottomSection);
 
     // add animation class to it
+
+    page4ControlIndex0AlternativeButton();
 }
 
 // in progress - to add animation
@@ -1040,16 +1084,225 @@ function page4RemoveAlternativeHTMLElement() {
 
     // add animation class to it
     document.getElementById(`page4-fullContainer-${page4Index}`).remove();
-    page4Index --;
-    if (page4Index < 0) page4Index = 0;
-
+    
 }
 
+// completed
 function page4PrepareElements() {
 
     const node = document.getElementById("page4-insert-container");
-    
+
     while (node.firstChild) {
         node.removeChild(node.firstChild);
     }
+}
+
+function page4ControlIndex0AlternativeButton() {
+    if (page4Index === 0) {
+        document.getElementById('page4-alternative-back-button').classList.add('hidden');
+    } else {
+        document.getElementById('page4-alternative-back-button').classList.remove('hidden');
+    }
+}
+
+// Page 4.5
+
+function page45StateManager() {
+
+    // temporary
+    let feeling = "FIX ME";
+
+    if (page45State === 0) {
+        // do something
+        // see "Page 4 - Talk to a friend part 0" on Figma
+        const text = `Here is your friend penguin.`;
+        const text2 = `Could you help them out?`;
+        const content = document.createElement('p');
+        content.innerHTML = text + "<br />" + "<br />" + text2;
+        content.classList.add("justify-center");
+        page45CreateElements(content, "none", "sad");
+    } else if (page45State === 1) {
+        // Page 4 - Talk to a friend part 1 on Figma
+        const text = `I'm feeling a bit ${feeling}.`;
+        const text2 = `I think you know the story.`;
+        const content = document.createElement('p');
+        content.innerHTML = text + "<br />" + "<br />" + text2;
+        page45CreateElements(content, "under", "sad");
+    } else if (page45State === 2) {
+        // Page 4 - Talk to a friend part 2 on Figma
+        const text = `I think I am ${feeling} and acting ${feeling}...`; // can change based on inputs
+        const content = document.createElement('p');
+        content.innerHTML = text;
+        page45CreateElements(content, "under", "sad");
+    } else if (page45State === 3) {
+        // Page 4 - Talk to a friend part 3 on Figma
+        const text = `Can you help me?`;
+        const text2 = `I’m not sure what to do.....`;
+        const content = document.createElement('p');
+        content.innerHTML = text + "<br />" + "<br />" + text2;
+        page45CreateElements(content, "under", "sad");
+    } else if (page45State === 4) {
+        // Page 4 - Talk to a friend part 4 on Figma
+        const textbox = document.createElement('textarea');
+        textbox.placeholder = "Give penguin some friendly advice...";
+        textbox.value = pageContent["page4"]["friendlyAdvice"];
+        textbox.addEventListener('change', (e) => {
+            pageContent["page4"]["friendlyAdvice"] = e.target.value;
+        })
+        page45CreateElements(textbox, "left", "sad");
+    } else if (page45State === 5) {
+        // Page 5 - Talk to a friend part 4 on Figma
+        const text = `Thanks!`;
+        const text2 = `I think I needed to hear that. I feel much better now.`;
+        const content = document.createElement('p');
+        content.innerHTML = text + "<br />" + text2;
+        page45CreateElements(content, "under", "happy");
+    }
+
+    console.log(`Reached page 45 state of ${page45State}.`)
+}
+
+function page45CreateElements(content, speechbox, image) {
+
+    const parentElement = document.getElementById('page4.5-insert-container');
+
+    // top row
+
+    // container
+    const topRowContainer = document.createElement('div');
+    topRowContainer.classList.add("page45-top-row");
+    topRowContainer.id = `page45-topRow-${page45State}`;
+    parentElement.append(topRowContainer);
+
+    // column 1
+    const column1 = document.createElement('div');
+    column1.classList.add("column1");
+    topRowContainer.append(column1);
+
+    // create the speech bubble
+    if (speechbox === "under") {
+        const speechBubble = document.createElement('div');
+        speechBubble.classList.add("speech-box");
+        speechBubble.classList.add("sb-rightside");
+        column1.append(speechBubble);
+        speechBubble.append(content);
+    }
+    if (speechbox === "left") {
+        const speechBubble = document.createElement('div');
+        speechBubble.classList.add("speech-box");
+        speechBubble.classList.add("sb-leftside");
+        column1.append(speechBubble);
+        speechBubble.append(content);
+    }
+    if (speechbox === "none") {
+        const speechBubble = document.createElement('div');
+        speechBubble.classList.add("container");
+        column1.append(speechBubble);
+        speechBubble.append(content);
+    }
+
+    // column 2
+    const column2 = document.createElement('div');
+    column2.classList.add("column2");
+    topRowContainer.append(column2);
+
+    // buttons
+    const backButtonContainer = document.createElement('div');
+    backButtonContainer.classList.add("button-small");
+    backButtonContainer.id = "page4.5-alternative-back-button";
+    column2.append(backButtonContainer);
+
+    const fwdButtonContainer = document.createElement('div');
+    fwdButtonContainer.classList.add("button-small");
+    fwdButtonContainer.classList.add('priority-button');
+    fwdButtonContainer.id = "page4.5-alternative-next-button";
+    column2.append(fwdButtonContainer);
+
+    // fwd
+    const buttonIcon = document.createElement('img');
+    buttonIcon.classList.add('button-small-icon');
+    buttonIcon.src = "./resources/icons/left-arrow.svg"; 
+    buttonIcon.alt = "next page";
+    fwdButtonContainer.append(buttonIcon);
+
+    fwdButtonContainer.addEventListener('click', (e) => {
+        if (page45State < 5) {
+            if (page45State === 4 || page45State === 5) {
+                if (pageContent["page4"]["friendlyAdvice"].length === 0) {
+                    alert("Please fill out advice for your penguin friend.");
+                } else {
+                    console.log("Something has gone wrong.");
+                    page45RemoveElements();
+                    page45State ++;
+                    page45StateManager();
+                    document.getElementById('page45Container').scrollIntoView({ behavior: 'smooth'});
+                }
+            } else {
+                page45RemoveElements();
+                page45State ++;
+                page45StateManager();
+                document.getElementById('page45Container').scrollIntoView({ behavior: 'smooth'});
+            }
+        } else {
+            alert('There is no more pages... Sean please implement going forward to the next part.')
+        }
+    })
+    
+    // back
+    const buttonIconBack = document.createElement('img');
+    buttonIconBack.classList.add('button-small-icon');
+    buttonIconBack.classList.add('back');
+    buttonIconBack.src = "./resources/icons/left-arrow.svg"; 
+    buttonIconBack.alt = "previous page";
+    backButtonContainer.append(buttonIconBack);
+
+    backButtonContainer.addEventListener('click', (e) => {
+        const page4Container = document.getElementById('page4Container');
+        const page45Container = document.getElementById('page45Container');
+        if (page45State > 0) {
+            page45RemoveElements();
+            page45State --;
+            page45StateManager();
+            page45Container.scrollIntoView({ behavior: 'smooth'});
+        } else {
+            console.log("Go back to alternative patterns")
+            page4Index = pageContent["page4"]["alternativeObjects"].length - 1;
+            //page4RemoveAlternativeHTMLElement();
+            page4CreateAlternativeHTMLElement();
+            page45RemoveElements();
+            changePage(page45Container, page4Container, "back");
+            page4Container.scrollIntoView({ behavior: 'smooth'});
+        }
+    })
+
+    // bottom row
+
+    // container
+    const bottomRowContainer = document.createElement('div');
+    bottomRowContainer.classList.add("page45-bottom-row");
+    bottomRowContainer.id = `page45-bottomRow-${page45State}`;
+    parentElement.append(bottomRowContainer);
+
+    const penguinPicture = document.createElement('img');
+    if (image === "sad") {
+        penguinPicture.src = "./resources/graphics/sadPenguin.png"; 
+    } else if (image === "happy") {
+        penguinPicture.src = "./resources/graphics/happyPenguin.png"; 
+    } else {
+        console.log("You have typed in the wrong type of Penguin character to generate.")
+    }
+    penguinPicture.alt = "Penguin Character";
+    bottomRowContainer.append(penguinPicture);
+}
+
+function page45RemoveElements() {
+    for (let i = 0; i < 6; i++) {
+        try {
+            document.getElementById(`page45-bottomRow-${i}`).remove();
+            document.getElementById(`page45-topRow-${i}`).remove();
+        } catch {
+            console.log(`Nothing to remove for ${i}.`)
+        }
+    }
+
 }
