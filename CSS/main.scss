@@ -7,6 +7,7 @@
   --primary-colour-lightest: #dcb2f0;
   --primary-colour-lightest-clear: #dcb2f081;
   --secondary-colour: #3efce8;
+  --secondary-colour-positive: #a0fff5;
   --secondary-colour-dark: #5eddd0d6;
   --font-white: #fff1f1;
 }
@@ -532,6 +533,7 @@ section {
     margin: 0;
     margin-top: 1em;
   }
+
   .slider {
     display: flex;
     justify-self: center;
@@ -546,6 +548,9 @@ section {
     color: var(--font-white);
     font-weight: 500;
     margin: 0;
+  }
+  .positive {
+    color: var(--secondary-colour-positive);
   }
 }
 
@@ -903,4 +908,25 @@ section {
   border-bottom: 15px solid transparent;
   left: -16px;
   top: 0px;
+}
+
+// Page 5
+
+.page5-feeling-container {
+  .page5-hidden-textbox-container {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 1em;
+    .hidden-label {
+      display: block;
+    }
+    .checkbox-textbox {
+      width: 40%;
+      max-width: 40%;
+    }
+  }
+  .hidden {
+    display: none;
+  }
 }

@@ -204,35 +204,9 @@
                 </div>
             </div>
 
-            <div class="page4-insert-container" id="page4-insert-container">
+            <div class="page4-insert-container" id="page4-insert-container"></div>
 
-                <!-- TO DELETE - this is a template of what to make with JS
-
-                <section class="page4-section">
-                    <div class="page4-container">
-                        <h5>Well done! - you realized an unhelpful thought pattern of:</h5>
-                        <div class="page4-container-inner">
-                            <h2>Catasrophizing</h2>
-                            <hr class="page-divider">
-                            <p>I feel like I am going to lose my job and then I am going to be unable to pay rent and... </p>
-                        </div>
-                    </div>
-                </section>
-    
-                <section class="page4-section">
-                    <div class="page4-container">
-                        <h5>Try and tell yourself an alernative thought:</h5>
-                        <div class="page4-container-inner">
-                            <textarea class="alternative-thought-input" name="alternative-thought-text-input" id="alternative-thought-text" cols="30" rows="10" placeholder="a better way to think about it is..."></textarea>
-                        </div>
-                    </div>
-                </section>
-
-                TO DELETE - this is a template of what to make with JS -->
-
-            </div>
-
-            <section class="page4-section" id="page4-button-container">
+            <div class="container" id="page4-button-container">
                 <div class="page4-button-container">
                     <div class="button-small" id="page4-alternative-back-button">
                         <img class="button-small-icon back" src="./resources/icons/left-arrow.svg" alt="previous page">
@@ -241,7 +215,9 @@
                         <img class="button-small-icon" src="./resources/icons/left-arrow.svg" alt="next page">
                     </div>
                 </div>
-            </section>
+            </div>
+
+            <hr class="page-divider">
 
             <div class="bottom-navigation-container">
                 <div class="back-button-small" id="page4BackButton">
@@ -276,43 +252,109 @@
                 </div>
             </div>
 
-            <div class="page4-insert-container" id="page4.5-insert-container">
+            <div class="page4-insert-container" id="page4.5-insert-container"></div>
 
-            <!-- To delete this, but keep it as a template for now
-                
-                    <div class="page45-top-row">
-                    <div class="column1">
-                        <div class="speech-box sb-rightside">
-                            <p>I'm feeling a bit anxious. <br> <br> I think you know the story.</p>
-                        </div>
-                    </div>
-                    <div class="column2">
-                        <div class="button-small" id="page4.5-alternative-back-button">
-                            <img class="button-small-icon back" src="./resources/icons/left-arrow.svg" alt="previous page">
-                        </div>
-                        <div class="button-small" id="page4.5-alternative-next-button">
-                            <img class="button-small-icon" src="./resources/icons/left-arrow.svg" alt="next page">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="page45-bottom-row">
-                    <img src="./resources/graphics/sadPenguin.png" alt="Penguin Character">
-                </div>
-            
-            To delete this, but keep it as a template for now -->
-
-            </div>
+            <hr class="page-divider">
 
             <div class="bottom-navigation-container">
                 <div class="back-button-small" id="page45BackButton">
                     <img class="back-icon" src="./resources/icons/left-arrow.svg" alt="previous page">
                 </div>
-                <!--
-                    <div class="next-button-small" id="page45NextButton">
-                        <img class="next-icon" src="./resources/icons/right-arrow.svg" alt="next page">
+            </div>
+
+        </div>
+        
+    </div>
+
+    <div style="display: none;" class="page-4-container" id="page5Container">
+
+        <div class="container">
+
+            <div class="background-triangle"></div>
+
+            <div class="top-navigation-container">
+                <img class="exit-button" src="./resources/icons/back-arrow.svg" alt="exit app"></img>
+                <h1 class="page-title">Talking to a friend</h1>
+                <div class="progress-bars">
+                    <div class="rectangle completed"></div>
+                    <div class="rectangle completed"></div>
+                    <div class="rectangle completed"></div>
+                    <div class="rectangle completed"></div>
+                    <div class="rectangle completed"></div>
+                </div>
+            </div>
+
+            <section id="page5-feelings-section">
+                <div class="helpful-text-container">
+                    <h3>Let's see how you feel now!</h3>
+                </div>
+                <!-- We are going to use page5-insert-container to insert our HTML from JS -->
+                <div class="page4-insert-container" id="page5-insert-container">
+
+                    <!-- A page5 feeling container will be constructed in JS - with some reactive elements towards the end (positive class and positive words) -->
+
+                    <!--
+                    <div class="page5-feeling-container">
+                        <hr class="page-divider">
+                        <div class="dropdown-box-container">
+                            <select id="" name="" data-index="1" disabled>
+                                <option value="Anxious">😟 Anxious</option>
+                            </select>
+                        </div>
+                        <div class="slider-container">
+                            <h5>Before you noticed it was this intense...</h5>
+                            <input class="slider" type="range" name="" id="" min="0" max="100" value="80" disabled>
+                            <p class="slider-value" id="-1">8</p>
+                        </div>
+                        <div class="slider-container">
+                            <h5>How intense is this feeling now?</h5>
+                            <input class="slider" type="range" name="" id="" min="0" max="100" value="50">
+                            <p class="slider-value positive" id="">5</p>
+                            <h5 class="positive">Congratulations! You are feeling better than before!</h5>
+                        </div>
                     </div>
-                -->
+                    -->
+
+                </div>
+            </section>
+
+            <section>
+                <div class="helpful-text-container">
+                    <h3>Feeling anything positive?</h3>
+                </div>
+                <div class="page4-insert-container" id="page5-new-feeling-container">
+                    <div class="page5-feeling-container">
+                        <hr class="page-divider">
+                        <div class="dropdown-box-container">
+                            <select id="page5-new-positive-feelings-dropdown" name="page5-new-positive-feelings-dropdown">
+                                <option value="Happy">😀 Happy</option>
+                                <option value="Relaxed">😊 Relaxed</option>
+                                <option value="Relieved">😌 Relieved</option>
+                                <option value="Other">➕ Other</option>
+                            </select>
+                        </div>
+                        <div class="page5-hidden-textbox-container hidden" id="page5-hidden-textbox-container">
+                            <label class="hidden-label" for="page5-hidden-textbox">feeling name</label>
+                            <input type="text" class="checkbox-textbox" name="page5-hidden-textbox" id="page5-hidden-textbox" placeholder="...">
+
+                        </div>
+                        <div class="slider-container">
+                            <h5>How intense is this positive feeling?</h5>
+                            <input class="slider" type="range" name="page5-new-positive-feelings-slider" id="page5-new-positive-feelings-slider" min="0" max="100" value="50">
+                            <p class="slider-value positive" id="page5-new-positive-feelings-slider-value">5</p>
+                            <h5 class="positive" id="page5-new-positive-feeling-success" style="display: none;">Nice job! You did so well.</h5>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="bottom-navigation-container">
+                <div class="back-button-small" id="page5BackButton">
+                    <img class="back-icon" src="./resources/icons/left-arrow.svg" alt="previous page">
+                </div>
+                <div class="next-button-small" id="page5NextButton">
+                    <img class="next-icon" src="./resources/icons/right-arrow.svg" alt="next page">
+                </div>
             </div>
 
         </div>

@@ -28,7 +28,13 @@ let pageContent = {
         "alternativeObjects": [],
         "friendlyAdvice": "",
     },
-    "page5": {},
+    "page5": {
+        "feelings": {},
+        "feelings-slider-value-initial": {},
+        "feelings-slider-value-new": {},
+        "new-feeling": "",
+        "new-feeling-value": "",
+    },
 };
 
 function init() {
@@ -78,6 +84,11 @@ function applyPageListeners() {
     // Page 4.5 Content
     const page45Container = document.getElementById('page45Container');
     const page45BackButton = document.getElementById('page45BackButton');
+
+    // Page 5 Content
+    const page5Container = document.getElementById('page5Container');
+    const page5BackButton = document.getElementById('page5BackButton');
+    const page5NextButton = document.getElementById('page5NextButton');
 
     // Applying Listeners
 
@@ -154,13 +165,13 @@ function applyPageListeners() {
         } else {
             alert("Please fill out all information!")
         }
-    })
+    });
 
     // Page 4
     page4BackButton.addEventListener("click", () => {
         changePage(page4Container, page3Container, "back");
         page4Index = 0;
-    })
+    });
 
     page4BackAlternativeButton.addEventListener("click", () => {
         if (page4Index > 0) {
@@ -171,7 +182,7 @@ function applyPageListeners() {
         } else {
             alert("Can't go back anymore.")
         }
-    })
+    });
 
     page4NextAlternativeButton.addEventListener("click", () => {
         if (pageContent["page4"]["alternativeObjects"][page4Index].answer.length > 0) {
@@ -182,16 +193,16 @@ function applyPageListeners() {
                 page4Container.scrollIntoView({ behavior: 'smooth'});
             } else {
                 page4RemoveAlternativeHTMLElement();
-                changePage(page4Container, page45Container, "forward");
                 page45RemoveElements();
                 page45StateManager();
+                changePage(page4Container, page45Container, "forward");
                 page45Container.scrollIntoView({ behavior: 'smooth'});
                 console.log("Made it to the penguin.")
             }
         } else {
             alert("Please enter an alternative thought / behaviour.");
         }
-    })
+    });
 
     // Page 45
 
@@ -199,7 +210,21 @@ function applyPageListeners() {
         changePage(page45Container, page3Container, "back");
         page4Index = 0;
         page45State = 0;
-    })
+    });
+
+    // page 5 
+
+    page5BackButton.addEventListener("click", () => {
+        changePage(page5Container, page45Container, "back");
+        page45State = 5;
+        page45RemoveElements();
+        page45StateManager();
+        page45Container.scrollIntoView({ behavior: 'smooth'});
+    });
+
+    page5NextButton.addEventListener("click", (e) => {
+        console.log("Congratulations on making it this far... just a little more.")
+    });
 
 }
 
@@ -277,7 +302,7 @@ function arrayRemove(arr, value) {
     PAGE 2
 */
 
-// not completed, just started
+// completed
 function page2AddCheckboxListeners() {
     // static checkbox options
     const staticCheckboxList = [
@@ -434,6 +459,7 @@ function page2CreateEmotion() {
     }
 
     pageContent["page2"]["feelings"][dropdownList.dataset.index] = dropdownList.value;
+    pageContent["page5"]["feelings"][dropdownList.dataset.index] = dropdownList.value;
 
     // close button
     const closeButton = document.createElement('div');
@@ -459,30 +485,37 @@ function page2CreateEmotion() {
 
     hiddenTextbox.addEventListener('change', (e) => {
         pageContent["page2"]["feelings"][dropdownList.dataset.index] = hiddenTextbox.value;
+        pageContent["page5"]["feelings"][dropdownList.dataset.index] = hiddenTextbox.value;
     })
 
     // allow other to show a textbox, if change to different value, then delete the textbox
     dropdownList.addEventListener('change', (e) => {
         pageContent["page2"]["feelings"][dropdownList.dataset.index] = e.target.value;
+        pageContent["page5"]["feelings"][dropdownList.dataset.index] = e.target.value;
         //delete pageContent["page2"]["feelings"]["1"];
 
         if (e.target.value === "Other") {
             hiddenTextbox.style.display = "block";
             hiddenLabel.style.display = "block";
             pageContent["page2"]["feelings"][dropdownList.dataset.index] = hiddenTextbox.value;
+            pageContent["page5"]["feelings"][dropdownList.dataset.index] = hiddenTextbox.value;
         }
 
         if (e.target.value !== "Other") {
             hiddenTextbox.style.display = "none";
             hiddenLabel.style.display = "none";
             pageContent["page2"]["feelings"][dropdownList.dataset.index] = e.target.value;
+            pageContent["page5"]["feelings"][dropdownList.dataset.index] = e.target.value;
         }
     })
 
     // add listener to delete
     closeButton.addEventListener('click', (e) => {
         delete pageContent["page2"]["feelings"][dropdownList.dataset.index];
+        delete pageContent["page5"]["feelings"][dropdownList.dataset.index];
         delete pageContent["page2"]["feelings-slider-value"][dropdownList.dataset.index];
+        delete pageContent["page5"]["feelings-slider-value-initial"][dropdownList.dataset.index];
+        delete pageContent["page5"]["feelings-slider-value-new"][dropdownList.dataset.index];
         container.remove();
     })
 
@@ -508,6 +541,8 @@ function page2CreateEmotion() {
     const sliderNumberValue = document.createElement("p");
     sliderNumberValue.innerHTML = "5";
     pageContent["page2"]["feelings-slider-value"][dropdownList.dataset.index] = sliderNumberValue.innerHTML;
+    pageContent["page5"]["feelings-slider-value-initial"][dropdownList.dataset.index] = sliderNumberValue.innerHTML;
+    pageContent["page5"]["feelings-slider-value-new"][dropdownList.dataset.index] = "5";
     sliderNumberValue.classList.add("slider-value");
     sliderNumberValue.id = `page2SliderValueDisplay-${dropdownList.dataset.index}`;
     sliderContainer.append(sliderNumberValue);
@@ -518,6 +553,7 @@ function page2CreateEmotion() {
         //delete pageContent["page2"]["feelings-slider-value"]["1"];
         console.log(`Updated the page content for slider value ${dropdownList.dataset.index} from ${pageContent["page2"]["feelings-slider-value"][page2EmotionIncrement]} to ${sliderNumberValue.innerHTML}.`);
         pageContent["page2"]["feelings-slider-value"][dropdownList.dataset.index] = sliderNumberValue.innerHTML;
+        pageContent["page5"]["feelings-slider-value-initial"][dropdownList.dataset.index] = sliderNumberValue.innerHTML;
     })
 
     // page divider
@@ -1244,7 +1280,12 @@ function page45CreateElements(content, speechbox, image) {
                 document.getElementById('page45Container').scrollIntoView({ behavior: 'smooth'});
             }
         } else {
-            alert('There is no more pages... Sean please implement going forward to the next part.')
+            console.log("Go to the final page. PLEASE!")
+            const to = document.getElementById('page5Container');
+            const from = document.getElementById('page45Container');
+            changePage(from, to, "forward");
+            //to.scrollIntoView({ behavior: 'smooth'});
+            page5CreateFeelingElements();
         }
     })
     
@@ -1271,7 +1312,7 @@ function page45CreateElements(content, speechbox, image) {
             page4CreateAlternativeHTMLElement();
             page45RemoveElements();
             changePage(page45Container, page4Container, "back");
-            page4Container.scrollIntoView({ behavior: 'smooth'});
+            //page4Container.scrollIntoView({ behavior: 'smooth'});
         }
     })
 
@@ -1304,5 +1345,171 @@ function page45RemoveElements() {
             console.log(`Nothing to remove for ${i}.`)
         }
     }
+}
+
+// Page 5
+
+function page5CreateFeelingElements() {
+
+    // delete any previous elements
+    try {
+        document.getElementById('page5-insert-container').remove();
+        console.log("Deleted the previous old feeling element.")
+    } catch {
+        console.log("Page 5 insert feelings element did not exist to delete.")
+    }
+
+    // create new elements
+    const parentElement = document.getElementById('page5-feelings-section');
+    const insertContainer = document.createElement('div');
+    insertContainer.id = "page5-insert-container";
+    insertContainer.classList.add('page4-insert-container');
+    parentElement.append(insertContainer);
+    
+    // create for every element in page content objects
+    for (const [key, value] of Object.entries(pageContent["page5"]["feelings"])) {
+        // create elements
+        const feelingsContainer = document.createElement('div');
+        feelingsContainer.classList.add('page5-feeling-container');
+        insertContainer.append(feelingsContainer);
+    
+        const divider = document.createElement('hr');
+        divider.classList.add('page-divider');
+        feelingsContainer.append(divider);
+    
+        // dropdown
+        const dropdownContainer = document.createElement('div');
+        dropdownContainer.classList.add('dropdown-box-container');
+        feelingsContainer.append(dropdownContainer);
+    
+        const selectDropdown = document.createElement('select');
+        selectDropdown.disabled = true;
+        dropdownContainer.append(selectDropdown);
+        const optionDropdown = document.createElement('option');
+        optionDropdown.innerHTML = pageContent["page5"]["feelings"][key];
+        selectDropdown.append(optionDropdown);
+    
+        // slider container - old value
+        const sliderContainerOld = document.createElement('div');
+        sliderContainerOld.classList.add('slider-container');
+        feelingsContainer.append(sliderContainerOld);
+        const sliderContainerOldHeader = document.createElement('h5');
+        sliderContainerOldHeader.innerHTML = "Before you noticed it was this intense...";
+        sliderContainerOld.append(sliderContainerOldHeader);
+        const sliderContainerOldSlider = document.createElement('input');
+        sliderContainerOldSlider.classList.add('slider');
+        sliderContainerOldSlider.type = "range";
+        sliderContainerOldSlider.max = 10;
+        sliderContainerOldSlider.min = 0;
+        sliderContainerOldSlider.value = pageContent["page5"]["feelings-slider-value-initial"][key];
+        sliderContainerOldSlider.disabled = true;
+        sliderContainerOld.append(sliderContainerOldSlider);
+        const sliderContainerOldValueText = document.createElement('p');
+        sliderContainerOldValueText.classList.add('slider-value');
+        sliderContainerOldValueText.innerHTML = pageContent["page5"]["feelings-slider-value-initial"][key];
+        sliderContainerOld.append(sliderContainerOldValueText);
+    
+        // slider container - new value
+        const sliderContainerNew = document.createElement('div');
+        sliderContainerNew.classList.add('slider-container');
+        feelingsContainer.append(sliderContainerNew);
+        const sliderContainerNewHeader = document.createElement('h5');
+        sliderContainerNewHeader.innerHTML = "How intense is this feeling now?";
+        sliderContainerNew.append(sliderContainerNewHeader);
+        const sliderContainerNewSlider = document.createElement('input');
+        sliderContainerNewSlider.classList.add('slider');
+        sliderContainerNewSlider.type = "range";
+        sliderContainerNewSlider.max = 100;
+        sliderContainerNewSlider.min = 0;
+        sliderContainerNewSlider.value = pageContent["page5"]["feelings-slider-value-initial"][key] * 10;
+        sliderContainerNewSlider.id = `page5-new-slider-${key}`;
+        sliderContainerNew.append(sliderContainerNewSlider);
+        const sliderContainerNewValueText = document.createElement('p');
+        sliderContainerNewValueText.classList.add('slider-value');
+        sliderContainerNewValueText.classList.add('positive');
+        sliderContainerNewValueText.innerHTML = pageContent["page5"]["feelings-slider-value-initial"][key];
+        sliderContainerNewValueText.id = `page5-new-value-${key}`;
+        sliderContainerNew.append(sliderContainerNewValueText);
+
+        // hidden box
+        const sliderContainerNewValueCongrats = document.createElement('h5');
+        sliderContainerNewValueCongrats.style.display = "none"; // hide initially
+        sliderContainerNew.append(sliderContainerNewValueCongrats);
+    
+        // add a listener here to update the new value in pageContent and innerHTML
+        let hasTheNewSliderValueChanged = false;        
+        sliderContainerNewSlider.addEventListener('change', function (event) {
+            sliderContainerNewValueText.innerHTML = Math.floor(sliderContainerNewSlider.value / 10);
+            pageContent["page5"]["feelings-slider-value-new"][key] = sliderContainerNewValueText.innerHTML;
+            hasTheNewSliderValueChanged = true;
+
+            if (hasTheNewSliderValueChanged) {
+                sliderContainerNewValueCongrats.style.display = "block";
+                let newValue = parseInt(sliderContainerNewValueText.innerHTML);
+                let oldValue = parseInt(pageContent["page5"]["feelings-slider-value-initial"][key]);
+                if (newValue < oldValue) {
+                    // BETTER
+                    sliderContainerNewValueCongrats.classList.add('positive');
+                    sliderContainerNewValueCongrats.innerHTML = "Woohoo! You are feeling better than before!";
+                } else if (newValue === oldValue) {
+                    // SAME
+                    sliderContainerNewValueCongrats.classList.add('positive');
+                    sliderContainerNewValueCongrats.innerHTML = "That's okay! You still worked hard to improve yourself!";
+                } else {
+                    // WORSE
+                    sliderContainerNewValueCongrats.classList.add('positive');
+                    sliderContainerNewValueCongrats.innerHTML = "It is still a step in the right direction, and I am glad you took it.";
+                }
+            } else {
+                sliderContainerNewValueCongrats.style.display = "none";
+            }
+
+        })
+    }
+
+    // create the new positive feeling dropdown listeners
+    const newPositiveFeelingsDropdown = document.getElementById('page5-new-positive-feelings-dropdown');
+    const newPositiveFeelingSlider = document.getElementById('page5-new-positive-feelings-slider');
+    const newPositiveFeelingSliderValue = document.getElementById('page5-new-positive-feelings-slider-value');
+
+    // hidden text box listeners
+    const hiddenContainerPage5 = document.getElementById('page5-hidden-textbox-container');
+    const hiddenTextboxPage5 = document.getElementById('page5-hidden-textbox');
+
+    hiddenTextboxPage5.addEventListener('change', (e) => {
+        pageContent["page5"]["new-feeling"] = hiddenTextboxPage5.value;
+    })
+
+    // allow other to show a textbox, if change to different value, then delete the textbox
+    newPositiveFeelingsDropdown.addEventListener('change', (e) => {
+        pageContent["page5"]["new-feeling"] = e.target.value;
+
+        if (e.target.value === "Other") {
+            hiddenContainerPage5.style.display = "flex";
+            pageContent["page5"]["new-feeling"] = hiddenTextboxPage5.value;
+        }
+
+        if (e.target.value !== "Other") {
+            hiddenContainerPage5.style.display = "none";
+            pageContent["page5"]["new-feeling"] = e.target.value;
+        }
+    })
+    
+    // new positive emotion slider listener
+    let hasTheNewPositiveSliderValueChanged = false;
+    const newPositiveFeelingSuccessMessage = document.getElementById('page5-new-positive-feeling-success');
+    newPositiveFeelingSlider.addEventListener('change', function (event) {
+        hasTheNewPositiveSliderValueChanged = true;
+        newPositiveFeelingSliderValue.innerHTML = Math.floor(newPositiveFeelingSlider.value / 10);
+        console.log("The new value for the positive emotion slider should be...")
+        console.log(`${Math.floor(newPositiveFeelingSlider.value / 10)}`);
+        pageContent["page5"]["new-feeling-value"] = newPositiveFeelingSliderValue.innerHTML;
+        if (hasTheNewPositiveSliderValueChanged) {
+            newPositiveFeelingSuccessMessage.style.display = "block";
+        } else {
+            newPositiveFeelingSuccessMessage.style.display = "none";
+        }
+    })
+
 
 }
