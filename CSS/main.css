@@ -324,9 +324,7 @@ body {
   margin-bottom: 0;
   text-align: center;
   -ms-flex-item-align: center;
-      -ms-grid-row-align: center;
       align-self: center;
-  -ms-grid-column-align: center;
       justify-self: center;
   line-height: 80%;
   font-size: 2rem;
@@ -551,6 +549,11 @@ body {
           transform: rotate(180deg);
   bottom: -20%;
   left: 35%;
+}
+
+.bottom-navigation-container .back-button-small .bold-icon {
+  -webkit-filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.5));
+          filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.5));
 }
 
 section {
@@ -1124,7 +1127,7 @@ section {
 .page45-top-row .column1 p {
   color: var(--font-white);
   font-weight: 500;
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 .page45-top-row .column1 textarea {
@@ -1161,9 +1164,11 @@ section {
 }
 
 .page45-top-row .column1 .justify-center {
-  text-align: center;
-  -ms-grid-column-align: center;
-      justify-self: center;
+  text-align: left;
+  padding: 0.5em 0;
+  font-size: 1.2em;
+  font-weight: 600;
+  margin: auto;
 }
 
 .page45-top-row .column2 {
@@ -1320,5 +1325,97 @@ section {
 
 .page5-feeling-container .hidden {
   display: none;
+}
+
+.page6-section {
+  margin: 1em auto;
+}
+
+.page-4-container {
+  padding: 0;
+}
+
+.page-4-container .page4-container-inner p {
+  text-align: left;
+  color: var(--font-white);
+  font-style: normal;
+  margin: auto;
+  margin-bottom: 0;
+}
+
+.page-4-container .page4-container-inner .unimportant {
+  text-align: center;
+  font-size: 0.8em;
+  font-weight: 800;
+  color: var(--secondary-colour);
+  padding: 0 2em;
+}
+
+.top-navigation-container-summary {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 0.1fr 1.5fr 1fr;
+      grid-template-columns: 0.1fr 1.5fr 1fr;
+  -ms-grid-rows: 1fr;
+      grid-template-rows: 1fr;
+  gap: 2px 2px;
+  grid-auto-flow: row;
+      grid-template-areas: "exit-button page-title page-title";
+  margin: 0;
+  padding: 1em;
+  margin-bottom: 0;
+}
+
+.top-navigation-container-summary .exit-button {
+  height: 30px;
+  width: 30px;
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: exit-button;
+  margin: auto;
+  padding-top: 1em;
+  padding-left: 0;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  -webkit-transition: -webkit-filter 0.5s ease;
+  transition: -webkit-filter 0.5s ease;
+  transition: filter 0.5s ease;
+  transition: filter 0.5s ease, -webkit-filter 0.5s ease;
+  -webkit-filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+          filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+  opacity: 80%;
+}
+
+.top-navigation-container-summary .exit-button:hover {
+  cursor: pointer;
+  -webkit-transition: -webkit-filter 0.5s ease;
+  transition: -webkit-filter 0.5s ease;
+  transition: filter 0.5s ease;
+  transition: filter 0.5s ease, -webkit-filter 0.5s ease;
+  -webkit-filter: invert(60%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+          filter: invert(60%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+}
+
+.top-navigation-container-summary .page-title {
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  color: var(--font-white);
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  -ms-grid-column-span: 2;
+  grid-area: page-title;
+  margin: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  text-align: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  line-height: 80%;
+  font-size: 2rem;
+  font-weight: normal;
+  font-style: normal;
+  opacity: 90%;
 }
 /*# sourceMappingURL=main.css.map */

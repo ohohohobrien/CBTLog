@@ -9,9 +9,6 @@
     
 </head>
 <body>
-    <!-- This is the first page container for "What Happened?" -->
-    <!-- <div display="none">Icons made by <a href="https://www.flaticon.com/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-    -->
 
     <div class="page-1-container" id="page1Container">
 
@@ -24,6 +21,7 @@
                 <h1 class="page-title">What happened?</h1>
                 <div class="progress-bars">
                     <div class="rectangle completed"></div>
+                    <div class="rectangle"></div>
                     <div class="rectangle"></div>
                     <div class="rectangle"></div>
                     <div class="rectangle"></div>
@@ -61,6 +59,7 @@
                 <div class="progress-bars">
                     <div class="rectangle completed"></div>
                     <div class="rectangle completed"></div>
+                    <div class="rectangle"></div>
                     <div class="rectangle"></div>
                     <div class="rectangle"></div>
                     <div class="rectangle"></div>
@@ -138,6 +137,7 @@
                     <div class="rectangle completed"></div>
                     <div class="rectangle"></div>
                     <div class="rectangle"></div>
+                    <div class="rectangle"></div>
                 </div>
             </div>
 
@@ -201,6 +201,7 @@
                     <div class="rectangle completed"></div>
                     <div class="rectangle completed"></div>
                     <div class="rectangle"></div>
+                    <div class="rectangle"></div>
                 </div>
             </div>
 
@@ -248,6 +249,7 @@
                     <div class="rectangle completed"></div>
                     <div class="rectangle completed"></div>
                     <div class="rectangle completed"></div>
+                    <div class="rectangle completed"></div>
                     <div class="rectangle"></div>
                 </div>
             </div>
@@ -274,8 +276,9 @@
 
             <div class="top-navigation-container">
                 <img class="exit-button" src="./resources/icons/back-arrow.svg" alt="exit app"></img>
-                <h1 class="page-title">Talking to a friend</h1>
+                <h1 class="page-title">New feelings</h1>
                 <div class="progress-bars">
+                    <div class="rectangle completed"></div>
                     <div class="rectangle completed"></div>
                     <div class="rectangle completed"></div>
                     <div class="rectangle completed"></div>
@@ -289,33 +292,7 @@
                     <h3>Let's see how you feel now!</h3>
                 </div>
                 <!-- We are going to use page5-insert-container to insert our HTML from JS -->
-                <div class="page4-insert-container" id="page5-insert-container">
-
-                    <!-- A page5 feeling container will be constructed in JS - with some reactive elements towards the end (positive class and positive words) -->
-
-                    <!--
-                    <div class="page5-feeling-container">
-                        <hr class="page-divider">
-                        <div class="dropdown-box-container">
-                            <select id="" name="" data-index="1" disabled>
-                                <option value="Anxious">😟 Anxious</option>
-                            </select>
-                        </div>
-                        <div class="slider-container">
-                            <h5>Before you noticed it was this intense...</h5>
-                            <input class="slider" type="range" name="" id="" min="0" max="100" value="80" disabled>
-                            <p class="slider-value" id="-1">8</p>
-                        </div>
-                        <div class="slider-container">
-                            <h5>How intense is this feeling now?</h5>
-                            <input class="slider" type="range" name="" id="" min="0" max="100" value="50">
-                            <p class="slider-value positive" id="">5</p>
-                            <h5 class="positive">Congratulations! You are feeling better than before!</h5>
-                        </div>
-                    </div>
-                    -->
-
-                </div>
+                <div class="page4-insert-container" id="page5-insert-container"></div>
             </section>
 
             <section>
@@ -327,6 +304,7 @@
                         <hr class="page-divider">
                         <div class="dropdown-box-container">
                             <select id="page5-new-positive-feelings-dropdown" name="page5-new-positive-feelings-dropdown">
+                                <option value="Unselected">-----</option>
                                 <option value="Happy">😀 Happy</option>
                                 <option value="Relaxed">😊 Relaxed</option>
                                 <option value="Relieved">😌 Relieved</option>
@@ -354,6 +332,40 @@
                 </div>
                 <div class="next-button-small" id="page5NextButton">
                     <img class="next-icon" src="./resources/icons/right-arrow.svg" alt="next page">
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+
+    <div style="display: none;" class="page-4-container" id="page6Container">
+
+        <div class="container">
+
+            <div class="background-triangle"></div>
+
+            <div class="top-navigation-container-summary">
+                <img class="exit-button" src="./resources/icons/back-arrow.svg" alt="exit app"></img>
+                <h1 class="page-title">Summary</h1>
+            </div>
+
+            <section class="page6-section" id="page6-section">
+                <div class="helpful-text-container">
+                    <h3>🎉🥳 Congratulations 🥳🎉</h3>
+                    <h3>You did an amazing thing!</h3>
+                </div>
+                <hr class="page-divider">
+                <!-- We are going to use page6-insert-container to insert our HTML from JS -->
+                <div class="page4-insert-container" id="page6-insert-container"></div>
+            </section>
+
+            <div class="bottom-navigation-container">
+                <div class="back-button-small" id="page6PrintButton">
+                    <img class="back-icon bold-icon" src="./resources/icons/print.svg" alt="previous page">
+                </div>
+                <div class="next-button-small" id="page6FinishButton">
+                    <img class="next-icon bold-icon" src="./resources/icons/finish.svg" alt="next page">
                 </div>
             </div>
 

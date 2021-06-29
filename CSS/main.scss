@@ -491,6 +491,12 @@ body {
       bottom: -20%;
       left: 35%;
     }
+
+    .bold-icon {
+      filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg)
+        brightness(108%) contrast(109%)
+        drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.5));
+    }
   }
 }
 
@@ -800,7 +806,7 @@ section {
     p {
       color: var(--font-white);
       font-weight: 500;
-      font-size: 1.2em;
+      font-size: 1em;
     }
     textarea {
       @include textbox-style();
@@ -814,8 +820,11 @@ section {
       border-radius: 0.5em;
     }
     .justify-center {
-      text-align: center;
-      justify-self: center;
+      text-align: left;
+      padding: 0.5em 0;
+      font-size: 1.2em;
+      font-weight: 600;
+      margin: auto;
     }
   }
   .column2 {
@@ -928,5 +937,82 @@ section {
   }
   .hidden {
     display: none;
+  }
+}
+
+// page 6
+
+.page6-section {
+  margin: 1em auto;
+}
+
+.page-4-container {
+  padding: 0;
+  .page4-container-inner {
+    p {
+      text-align: left;
+      color: var(--font-white);
+      font-style: normal;
+      margin: auto;
+      margin-bottom: 0;
+    }
+    .unimportant {
+      text-align: center;
+      font-size: 0.8em;
+      font-weight: 800;
+      color: var(--secondary-colour);
+      padding: 0 2em;
+    }
+  }
+}
+
+.top-navigation-container-summary {
+  display: grid;
+  grid-template-columns: 0.1fr 1.5fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 2px 2px;
+  grid-auto-flow: row;
+  grid-template-areas: "exit-button page-title page-title";
+  margin: 0;
+  padding: 1em;
+  margin-bottom: 0;
+
+  .exit-button {
+    height: 30px;
+    width: 30px;
+    grid-area: exit-button;
+    margin: auto;
+    padding-top: 1em;
+    padding-left: 0;
+    transform: rotate(180deg);
+    transition: filter 0.5s ease;
+    filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg)
+      brightness(108%) contrast(109%)
+      drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+    opacity: 80%;
+    &:hover {
+      cursor: pointer;
+      transition: filter 0.5s ease;
+      filter: invert(60%) sepia(1%) saturate(2176%) hue-rotate(314deg)
+        brightness(108%) contrast(109%)
+        drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+    }
+  }
+
+  .page-title {
+    @include text-outline();
+    color: var(--font-white);
+    grid-area: page-title;
+    margin: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+    align-self: center;
+    justify-self: center;
+    line-height: 80%;
+    font-size: 2rem;
+    font-weight: normal;
+    font-style: normal;
+    opacity: 90%;
   }
 }

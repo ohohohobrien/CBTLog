@@ -32,6 +32,7 @@ let pageContent = {
         "feelings": {},
         "feelings-slider-value-initial": {},
         "feelings-slider-value-new": {},
+        "feelings-slider-moved": {},
         "new-feeling": "",
         "new-feeling-value": "",
     },
@@ -90,6 +91,11 @@ function applyPageListeners() {
     const page5BackButton = document.getElementById('page5BackButton');
     const page5NextButton = document.getElementById('page5NextButton');
 
+    // Page 6 Content
+    const page6Container = document.getElementById('page6Container');
+    const page6PrintButton = document.getElementById('page6PrintButton');
+    const page6FinishButton = document.getElementById('page6FinishButton');
+
     // Applying Listeners
 
     // Page 1
@@ -137,7 +143,7 @@ function applyPageListeners() {
         if (page2Complete) {
             changePage(page2Container, page3Container, "forward");
         } else {
-            alert("please fill out everything first!")
+            alert("Please fill in all the information.")
         }
     })
 
@@ -163,7 +169,7 @@ function applyPageListeners() {
             page4CreateAlternativeHTMLElement();
             changePage(page3Container, page4Container, "forward");
         } else {
-            alert("Please fill out all information!")
+            alert("Please fill out all information.")
         }
     });
 
@@ -223,7 +229,23 @@ function applyPageListeners() {
     });
 
     page5NextButton.addEventListener("click", (e) => {
-        console.log("Congratulations on making it this far... just a little more.")
+        if (page5Verification()) {
+            console.log("Made it to the next page.")
+            page6CreateElements();
+            changePage(page5Container, page6Container, "forward");
+        } else {
+            alert("Please fill out all information.")
+        }
+    });
+
+    // page 6
+
+    page6PrintButton.addEventListener("click", () => {
+        console.log("PRINT ME");
+    });
+
+    page6FinishButton.addEventListener("click", (e) => {
+        console.log("FINISHED");
     });
 
 }
@@ -1146,7 +1168,42 @@ function page4ControlIndex0AlternativeButton() {
 function page45StateManager() {
 
     // temporary
-    let feeling = "FIX ME";
+    let primaryFeeling = "";
+    let primaryThought = "";
+    let primaryBehaviour = "";
+
+    //unhelpfulFeeling
+    let maxFeeling = 0;
+    for (const [key, value] of Object.entries(pageContent["page2"]["feelings"])) {
+        if (pageContent["page2"]["feelings-slider-value"][key] > maxFeeling) {
+            maxFeeling = pageContent["page2"]["feelings-slider-value"][key];
+            primaryFeeling = value.toLowerCase();
+        }
+    };
+
+    //unhelpfulThoughtDropdown
+    console.log("Trying to detect unhelpful thoughts.")
+    if (Object.keys(pageContent["page3"]["unhelpfulThoughtDropdown"]).length > 0) {
+        console.log("Detected that length of thoughts is more than 1.")
+        let i = 0;
+        const index = Math.floor(Math.random() * Object.keys(pageContent["page3"]["unhelpfulThoughtDropdown"]).length);
+        console.log(`Generated i of ${i} and index of ${index}`);
+        for (const [key, value] of Object.entries(pageContent["page3"]["unhelpfulThoughtDropdown"])) {
+            console.log(key, value, i);
+            if (i === index) primaryThought = value.toLowerCase();
+            i++;
+        };
+    }
+    
+    //unhelpfulBehaviourDropdown
+    if (Object.keys(pageContent["page3"]["unhelpfulBehaviourDropdown"]).length > 0) {
+        let i = 0;
+        const index = Math.floor(Math.random() * Object.keys(pageContent["page3"]["unhelpfulBehaviourDropdown"]).length)
+        for (const [key, value] of Object.entries(pageContent["page3"]["unhelpfulBehaviourDropdown"])) {
+            if (i === index) primaryBehaviour = value.toLowerCase();
+            i++;
+        };
+    }
 
     if (page45State === 0) {
         // do something
@@ -1159,21 +1216,28 @@ function page45StateManager() {
         page45CreateElements(content, "none", "sad");
     } else if (page45State === 1) {
         // Page 4 - Talk to a friend part 1 on Figma
-        const text = `I'm feeling a bit ${feeling}.`;
-        const text2 = `I think you know the story.`;
+        const text = `I'm feeling ${primaryFeeling}.`;
+        const text2 = `I think you know what happened... I just don't know what to do...`;
         const content = document.createElement('p');
-        content.innerHTML = text + "<br />" + "<br />" + text2;
+        content.innerHTML = text + "<br />" + text2;
         page45CreateElements(content, "under", "sad");
     } else if (page45State === 2) {
         // Page 4 - Talk to a friend part 2 on Figma
-        const text = `I think I am ${feeling} and acting ${feeling}...`; // can change based on inputs
+        let text = ""; // can change based on inputs
+        if (primaryThought && primaryBehaviour) {
+            text = `I noticed a thought pattern of ${primaryThought} and a behaviour pattern of ${primaryBehaviour}...`;
+        } else if (primaryThought) {
+            text = `I noticed a thought pattern of ${primaryThought}...`;
+        } else { // (primaryBehavriour)
+            text = `I noticed a thought pattern of ${primaryBehaviour}...`;
+        }
         const content = document.createElement('p');
         content.innerHTML = text;
         page45CreateElements(content, "under", "sad");
     } else if (page45State === 3) {
         // Page 4 - Talk to a friend part 3 on Figma
         const text = `Can you help me?`;
-        const text2 = `I’m not sure what to do.....`;
+        const text2 = `I’m not sure what I should do... Will it be okay?`;
         const content = document.createElement('p');
         content.innerHTML = text + "<br />" + "<br />" + text2;
         page45CreateElements(content, "under", "sad");
@@ -1342,7 +1406,7 @@ function page45RemoveElements() {
             document.getElementById(`page45-bottomRow-${i}`).remove();
             document.getElementById(`page45-topRow-${i}`).remove();
         } catch {
-            console.log(`Nothing to remove for ${i}.`)
+            console.log(`-`);
         }
     }
 }
@@ -1428,6 +1492,7 @@ function page5CreateFeelingElements() {
         sliderContainerNewValueText.classList.add('slider-value');
         sliderContainerNewValueText.classList.add('positive');
         sliderContainerNewValueText.innerHTML = pageContent["page5"]["feelings-slider-value-initial"][key];
+        pageContent["page5"]["feelings-slider-moved"][key] = false;
         sliderContainerNewValueText.id = `page5-new-value-${key}`;
         sliderContainerNew.append(sliderContainerNewValueText);
 
@@ -1442,6 +1507,7 @@ function page5CreateFeelingElements() {
             sliderContainerNewValueText.innerHTML = Math.floor(sliderContainerNewSlider.value / 10);
             pageContent["page5"]["feelings-slider-value-new"][key] = sliderContainerNewValueText.innerHTML;
             hasTheNewSliderValueChanged = true;
+            pageContent["page5"]["feelings-slider-moved"][key] = hasTheNewSliderValueChanged;
 
             if (hasTheNewSliderValueChanged) {
                 sliderContainerNewValueCongrats.style.display = "block";
@@ -1510,6 +1576,64 @@ function page5CreateFeelingElements() {
             newPositiveFeelingSuccessMessage.style.display = "none";
         }
     })
+}
 
+function page5Verification() {
+    let pageVerified = true;
 
+    // check all relevant page5 items that require changes
+    if (pageContent["page5"]["new-feeling-value"].length === 0) pageVerified = false;
+    if (pageContent["page5"]["new-feeling"].length === 0) pageVerified = false;
+    if (pageContent["page5"]["new-feeling"] === "Unselected") pageVerified = false;
+    for (const [key, value] of Object.entries(pageContent["page5"]["feelings-slider-moved"])) {if (value === false) pageVerified = value};
+
+    return pageVerified;
+}
+
+function page6CreateElements() {
+
+    const parentElement = document.getElementById('page6-insert-container');
+
+    const page6SummaryContainer = document.createElement('div');
+    page6SummaryContainer.id = 'page6-summary-container';
+    page6SummaryContainer.classList.add('page4-container-inner');
+    page6SummaryContainer.style.fontStyle = "normal";
+    parentElement.append(page6SummaryContainer);
+
+    // summary information
+
+    const numberOfThoughtPatterns = Object.keys(pageContent["page3"]["unhelpfulThoughtDropdown"]).length;
+    let thoughtPlural = "";
+    if (numberOfThoughtPatterns > 1) thoughtPlural = "s";
+    const numberOfBehaviourPatterns = Object.keys(pageContent["page3"]["unhelpfulBehaviourDropdown"]).length;
+    let behaviourPlural = "";
+    if (numberOfBehaviourPatterns > 1) behaviourPlural = "s";
+
+    // paragraphs
+
+    const point1 = document.createElement('p');
+    point1.innerHTML = "Don't forget to save your CBT log with the save icon below!";
+    point1.classList.add('unimportant');
+    page6SummaryContainer.append(point1);
+    page6SummaryContainer.append(document.createElement('br'));
+
+    const point2 = document.createElement('p');
+    if (numberOfThoughtPatterns > 0 && numberOfBehaviourPatterns > 0) {
+        point2.innerHTML = `You recognised ${numberOfThoughtPatterns} unhelpful thought pattern${thoughtPlural} and ${numberOfBehaviourPatterns} unhelpful behaviour pattern${behaviourPlural}!`;
+    } else if (numberOfThoughtPatterns > 0) {
+        point2.innerHTML = `You recognised ${numberOfThoughtPatterns} unhelpful thought pattern${thoughtPlural}!`;
+    } else {
+        point2.innerHTML = `You recognised ${numberOfBehaviourPatterns} unhelpful behaviour pattern${behaviourPlural}!`;
+    }
+    page6SummaryContainer.append(point2);
+    page6SummaryContainer.append(document.createElement('br'));
+
+    const point3 = document.createElement('p');
+    point3.innerHTML = "I'm sure you feel a little better now - you earned it!";
+    page6SummaryContainer.append(point3);
+    page6SummaryContainer.append(document.createElement('br'));
+
+    const point4 = document.createElement('p');
+    point4.innerHTML = "Doing this over time will help rewire your brain so you can respond better in the future! Keep it up - like any skill, it takes practice.";
+    page6SummaryContainer.append(point4);
 }
