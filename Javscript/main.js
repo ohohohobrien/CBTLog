@@ -1,5 +1,8 @@
 window.onload = init;
 
+// import JSPDF for use from CDN link
+const jspdf = window.jspdf;
+
 let page2OtherCheckboxIncrement = 5;
 let page2EmotionIncrement = 1;
 let page3UnhelpfulThoughtIncrement = 1;
@@ -38,10 +41,13 @@ let pageContent = {
     },
 };
 
+
+console.log(pageContent);
+
 function init() {
     
     applyPageListeners();
-
+    
 }
 
 function applyPageListeners() {
@@ -241,7 +247,7 @@ function applyPageListeners() {
     // page 6
 
     page6PrintButton.addEventListener("click", () => {
-        console.log("PRINT ME");
+        createPDF();
     });
 
     page6FinishButton.addEventListener("click", (e) => {
@@ -599,7 +605,7 @@ function verifyPage2() {
                 verified = false;
             }
         } catch(error) {
-            //console.log(`Element with id of page2TextboxOption${entries} not found for page 2 verification.`)
+            console.log(`Element with id of page2TextboxOption${entries} not found for page 2 verification.`)
         }
     }
 
@@ -1636,4 +1642,246 @@ function page6CreateElements() {
     const point4 = document.createElement('p');
     point4.innerHTML = "Doing this over time will help rewire your brain so you can respond better in the future! Keep it up - like any skill, it takes practice.";
     page6SummaryContainer.append(point4);
+}
+
+function createPDF() {
+
+    // testing purposes only
+
+    const longText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat.";
+    const name = "mountains and molehills";
+    const description = "I feel like the world is going to end. My boss will fire me..."
+    const numberValue = "3";
+    
+    // Default export is a4 paper, portrait, using millimeters for units
+    const doc = new jspdf.jsPDF({
+        lineHeight: 1.5,
+    });
+    
+    doc.setFont('helvetica', 'normal', 'normal')
+    
+    // add the image template background
+    doc.addImage("./resources/pdf/A4.png", "PNG", 0, 0, 210, 297);
+    
+    // font settings
+    doc.setFontSize(30);
+    doc.setTextColor(255, 241, 241);
+    
+    /*
+    THE DATE
+    */
+   
+    const date = new Date();
+    const dateString = `${date.getDate()} / ${date.getMonth()} / ${date.getYear().toString().slice(1)}`;
+    doc.text(dateString, x(169), y(43));
+    
+    // font settings
+    doc.setFontSize(10);
+    doc.setTextColor(182, 226, 248);
+    doc.setFont('helvetica', 'bold');
+    
+    // add the hyperlink
+    doc.textWithLink('Click here to make a new entry', x(406), y(40), { url: 'https://ohohohobrien.github.io/CBTLog/' });
+    
+    // font settings
+    doc.setTextColor(255, 241, 241);
+    doc.setFont('helvetica', 'normal', 'normal');
+    
+    /*
+    WHAT HAPPENED?
+    */
+   
+    const whatHappenedText = pageContent["page1"]["event"];
+    const whatHappenedLimit = 12;
+    let whatHappenedSplit = doc.splitTextToSize(whatHappenedText, x(270 - 41));
+
+    if (whatHappenedSplit.length > whatHappenedLimit) {
+        whatHappenedSplit = whatHappenedSplit.slice(0, whatHappenedLimit);
+        whatHappenedSplit[whatHappenedLimit - 1] = whatHappenedSplit[whatHappenedLimit - 1] + "...";
+    };
+    
+    for (let i = 0; i < whatHappenedLimit; i++) {
+        doc.text(whatHappenedSplit, x(41), y(130));
+    };
+
+    /*
+    INITIAL FEELINGS
+    */
+   
+        /*
+        EMOTIONAL
+        */
+
+    const lineDifferenceIncrement = 17;
+    let emotionalFeelingIncrement = 0;
+    for (const [key, value] of Object.entries(pageContent["page2"]["feelings"])) {
+        if (emotionalFeelingIncrement < 4) {
+            doc.text(pageContent["page2"]["feelings"][key], x(330), y(147 + lineDifferenceIncrement * emotionalFeelingIncrement));
+            doc.text("Intensity level: " + pageContent["page2"]["feelings-slider-value"][key], x(479), y(147 + lineDifferenceIncrement * emotionalFeelingIncrement));
+            emotionalFeelingIncrement++;
+        }
+    }
+
+
+        /*
+            PHYSICAL
+        */
+
+            // ISSUE HERE - CREATE NEW OBJECT PROPERTIES THAT I WILL HAVE TO LOOP OVER
+
+    const xIncrementPhys = 120;
+    const yIncrementPhys = 17;
+    const xMaxPhys = 460;
+    const xInitialPosPhys = 330;
+    const yInitialPosPhys = 230;
+    const limitIncrementerMaxPhys = 8;
+    let xPosPhys = xInitialPosPhys;
+    let yPosPhys = yInitialPosPhys;
+
+    addPhysicalFeelingsToPageContent();
+
+    for (let i = 0; i < pageContent["page2"]["physicalFeelings"].length; i++) {
+        if (i <= limitIncrementerMaxPhys) {
+
+            doc.text(pageContent["page2"]["physicalFeelings"][i], x(xPosPhys), y(yPosPhys));
+            xPosPhys += xIncrementPhys;
+
+            // check if odd number (every second [i]th element reset x and increase y)
+            if (i % 2 !== 0) {
+                xPosPhys = xInitialPosPhys;
+                yPosPhys += yIncrementPhys;
+            }
+            
+        }
+    }
+
+    /*
+        UNHELPFUL PATTERNS
+    */
+
+        /*
+            THOUGHT PATTERNS
+        */
+
+    // IMPLEMENT FOR LOOP FOR EACH - MAX 4
+
+    // name
+    doc.text(name, x(49), y(411));
+
+    // description
+    const initialThinking = doc.splitTextToSize(longText, x(356 - 177));
+    if (initialThinking.length > 1) {
+        initialThinking[0] = initialThinking[0] + "...";
+    }
+    doc.text(initialThinking[0], x(177), y(411));
+
+    // alternative
+    const alternativeThinking = doc.splitTextToSize(longText, x(546 - 384));
+    if (alternativeThinking.length > 1) {
+        alternativeThinking[0] = alternativeThinking[0] + "...";
+    }
+    doc.text(alternativeThinking[0], x(386), y(411));
+
+        /*
+            BEHAVIOUR PATTERNS
+        */
+
+    // IMPLEMENT FOR LOOP FOR EACH - MAX 4
+
+    // name
+    doc.text(name, x(49), y(497));
+
+    // description
+    const initialBehaviour = doc.splitTextToSize(longText, x(356 - 177));
+    if (initialBehaviour.length > 1) {
+        initialBehaviour[0] = initialBehaviour[0] + "...";
+    }
+    doc.text(initialBehaviour[0], x(177), y(497));
+
+    // alternative
+    const alternativeBehaviour = doc.splitTextToSize(longText, x(546 - 384));
+    if (alternativeBehaviour.length > 1) {
+        alternativeBehaviour[0] = alternativeBehaviour[0] + "...";
+    }
+    doc.text(alternativeBehaviour[0], x(386), y(497));
+
+    /*
+        ADVICE TO A FRIEND
+    */
+
+    const adviceToFriend = pageContent["page4"]["friendlyAdvice"];
+    let adviceToFriendSplit = doc.splitTextToSize(adviceToFriend, x(270 - 41));
+
+    if (adviceToFriendSplit.length > whatHappenedLimit) {
+        adviceToFriendSplit = adviceToFriendSplit.slice(0, whatHappenedLimit);
+        adviceToFriendSplit[whatHappenedLimit - 1] = adviceToFriendSplit[whatHappenedLimit - 1] + "...";
+    };
+    
+    for (let i = 0; i < whatHappenedLimit; i++) {
+        doc.text(adviceToFriendSplit, x(41), y(650));
+    };
+
+    /*
+        FEELINGS AFTERWARDS
+    */
+
+        /*
+            EMOTIONAL
+        */
+
+    // IMPLEMENT FOR LOOP - MAX 4
+    doc.text(name, x(330), y(671));
+    doc.text("Now: " + numberValue + " (Was: 5)", x(479), y(671));
+
+    doc.text(name, x(330), y(692));
+    doc.text("Now: " + numberValue + " (Was: 3)", x(479), y(692));
+
+        /*
+            NEW FEELING
+        */
+
+    doc.text(name, x(330), y(753));
+    doc.text("Intensity level: " + numberValue, x(479), y(753));
+
+        /*
+            CONGRATULATONS MESSSAGE
+        */
+
+    // font settings
+    doc.setFontSize(15);
+    doc.setTextColor(182, 226, 248);
+    doc.setFont('helvetica', 'bold');
+
+    doc.text("You did an amazing job!", x(350), y(793));
+
+    // add listener to save the document
+    document.getElementById('page6PrintButton').addEventListener('click', () => {
+        doc.save("a4.pdf");
+    })
+}
+
+// helper function for creating pdf - translates pixel value to mm
+function x(coord) {
+    const xPixelMax = 595;
+    const xMmMax = 210;
+
+    return coord / xPixelMax * xMmMax;
+}
+
+// helper function for creating pdf - translates pixel value to mm
+function y(coord) {
+    const yPixelMax = 842;
+    const yMmMax = 297;
+
+    return coord / yPixelMax * yMmMax;
+}
+
+function addPhysicalFeelingsToPageContent() {
+
+    for (let i = 0; i < pageContent["page2"]["multipleCheckboxes"].length; i++) {
+        if (pageContent["page2"][`page2TextboxOption${pageContent["page2"]["multipleCheckboxes"][i]}`]) {
+            pageContent["page2"]["physicalFeelings"].push(pageContent["page2"][`page2TextboxOption${pageContent["page2"]["multipleCheckboxes"][i]}`]);
+        }
+    }
+
 }
