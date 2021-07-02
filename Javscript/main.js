@@ -239,16 +239,13 @@ function applyPageListeners() {
             console.log("Made it to the next page.")
             page6CreateElements();
             changePage(page5Container, page6Container, "forward");
+            createPDF();
         } else {
             alert("Please fill out all information.")
         }
     });
 
     // page 6
-
-    page6PrintButton.addEventListener("click", () => {
-        createPDF();
-    });
 
     page6FinishButton.addEventListener("click", (e) => {
         console.log("FINISHED");
@@ -1658,12 +1655,14 @@ function createPDF() {
         lineHeight: 1.5,
     });
     
-    doc.setFont('helvetica', 'normal', 'normal')
     
     // add the image template background
     doc.addImage("./resources/pdf/A4.png", "PNG", 0, 0, 210, 297);
     
     // font settings
+    doc.addFont("./resources/fonts/BalooTammudu2-Regular.ttf", "BalooTammudu2", "normal");
+    doc.addFont("./resources/fonts/BalooTammudu2-Bold.ttf", "BalooTammudu2", "bold");
+    doc.setFont('BalooTammudu2', 'normal', 'normal')
     doc.setFontSize(30);
     doc.setTextColor(255, 241, 241);
     
@@ -1678,14 +1677,14 @@ function createPDF() {
     // font settings
     doc.setFontSize(10);
     doc.setTextColor(182, 226, 248);
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('BalooTammudu2', 'bold');
     
     // add the hyperlink
-    doc.textWithLink('Click here to make a new entry', x(406), y(40), { url: 'https://ohohohobrien.github.io/CBTLog/' });
+    doc.textWithLink('Click here to make a new entry', x(410), y(40), { url: 'https://ohohohobrien.github.io/CBTLog/' });
     
     // font settings
     doc.setTextColor(255, 241, 241);
-    doc.setFont('helvetica', 'normal', 'normal');
+    doc.setFont('BalooTammudu2', 'normal', 'normal')
     
     /*
     WHAT HAPPENED?
@@ -1722,12 +1721,9 @@ function createPDF() {
         }
     }
 
-
         /*
             PHYSICAL
         */
-
-            // ISSUE HERE - CREATE NEW OBJECT PROPERTIES THAT I WILL HAVE TO LOOP OVER
 
     const xIncrementPhys = 120;
     const yIncrementPhys = 17;
@@ -1761,49 +1757,71 @@ function createPDF() {
 
         /*
             THOUGHT PATTERNS
-        */
-
-    // IMPLEMENT FOR LOOP FOR EACH - MAX 4
-
-    // name
-    doc.text(name, x(49), y(411));
-
-    // description
-    const initialThinking = doc.splitTextToSize(longText, x(356 - 177));
-    if (initialThinking.length > 1) {
-        initialThinking[0] = initialThinking[0] + "...";
-    }
-    doc.text(initialThinking[0], x(177), y(411));
-
-    // alternative
-    const alternativeThinking = doc.splitTextToSize(longText, x(546 - 384));
-    if (alternativeThinking.length > 1) {
-        alternativeThinking[0] = alternativeThinking[0] + "...";
-    }
-    doc.text(alternativeThinking[0], x(386), y(411));
-
-        /*
+                &   &
             BEHAVIOUR PATTERNS
         */
 
     // IMPLEMENT FOR LOOP FOR EACH - MAX 4
 
-    // name
-    doc.text(name, x(49), y(497));
+    let thoughtCounter = 0;
+    let behaviourCounter = 0;
+    const unhelpfulPatternLimit = 4;
+    const unhelpfulPatternXPos1 = 49;
+    const unhelpfulPatternXPos2 = 177;
+    const unhelpfulPatternXPos3 = 386;
+    const unhelpfulPatternWidth1 = 112;
+    const unhelpfulPatternWidth2 = 179;
+    const unhelpfulPatternWidth3 = 162;
+    const unhelpfulPatternInitialThoughtY = 411;
+    const unhelpfulPatternInitialBehaviourY = 497;
+    let unhelpfulPatternYPosThought = unhelpfulPatternInitialThoughtY;
+    let unhelpfulPatternYPosBehaviour = unhelpfulPatternInitialBehaviourY;
 
-    // description
-    const initialBehaviour = doc.splitTextToSize(longText, x(356 - 177));
-    if (initialBehaviour.length > 1) {
-        initialBehaviour[0] = initialBehaviour[0] + "...";
-    }
-    doc.text(initialBehaviour[0], x(177), y(497));
+    for (let i = 0; i < pageContent["page4"]["alternativeObjects"].length; i++) {
+        const item = pageContent["page4"]["alternativeObjects"][i];
 
-    // alternative
-    const alternativeBehaviour = doc.splitTextToSize(longText, x(546 - 384));
-    if (alternativeBehaviour.length > 1) {
-        alternativeBehaviour[0] = alternativeBehaviour[0] + "...";
+        let yPos = 0;
+
+        // set the y position based on type
+        if (item.type === "thought" && thoughtCounter < unhelpfulPatternLimit) {
+            yPos = unhelpfulPatternYPosThought;
+            thoughtCounter++;
+        } else if (item.type === "behaviour" && behaviourCounter < unhelpfulPatternLimit) {
+            yPos = unhelpfulPatternYPosBehaviour;
+            behaviourCounter++
+        } else {
+            console.log("Error has occured trying to print the unhelpful patterns to PDF.");
+            continue;
+        }
+
+        // name
+        const nameOfPattern = doc.splitTextToSize(item.name, x(unhelpfulPatternWidth1));
+        if (nameOfPattern.length > 1) {
+            nameOfPattern[0] = nameOfPattern[0] + "...";
+        }
+        doc.text(nameOfPattern[0], x(unhelpfulPatternXPos1), y(yPos));
+        
+        // description
+        const initialThinking = doc.splitTextToSize(item.description, x(unhelpfulPatternWidth2));
+        if (initialThinking.length > 1) {
+            initialThinking[0] = initialThinking[0] + "...";
+        }
+        doc.text(initialThinking[0], x(unhelpfulPatternXPos2), y(yPos));
+
+        // alternative
+        const alternativeThinking = doc.splitTextToSize(item.answer, x(unhelpfulPatternWidth3));
+        if (alternativeThinking.length > 1) {
+            alternativeThinking[0] = alternativeThinking[0] + "...";
+        }
+        doc.text(alternativeThinking[0], x(unhelpfulPatternXPos3), y(yPos));
+
+         // set the y position based on type
+         if (item.type === "thought" && thoughtCounter < unhelpfulPatternLimit) {
+            unhelpfulPatternYPosThought += yIncrementPhys;
+        } else if (item.type === "behaviour" && behaviourCounter < unhelpfulPatternLimit) {
+            unhelpfulPatternYPosBehaviour += yIncrementPhys;
+        }
     }
-    doc.text(alternativeBehaviour[0], x(386), y(497));
 
     /*
         ADVICE TO A FRIEND
@@ -1829,19 +1847,21 @@ function createPDF() {
             EMOTIONAL
         */
 
-    // IMPLEMENT FOR LOOP - MAX 4
-    doc.text(name, x(330), y(671));
-    doc.text("Now: " + numberValue + " (Was: 5)", x(479), y(671));
-
-    doc.text(name, x(330), y(692));
-    doc.text("Now: " + numberValue + " (Was: 3)", x(479), y(692));
+    let emotionalFeelingAfterwardsIncrement = 0;
+    for (const [key, value] of Object.entries(pageContent["page5"]["feelings"])) {
+        if (emotionalFeelingAfterwardsIncrement < 4) {
+            doc.text(pageContent["page5"]["feelings"][key], x(330), y(671 + lineDifferenceIncrement * emotionalFeelingAfterwardsIncrement));
+            doc.text("Now: " + pageContent["page5"]["feelings-slider-value-new"][key]  + " (Was: " + pageContent["page5"]["feelings-slider-value-initial"][key] + ")", x(479), y(671 + lineDifferenceIncrement * emotionalFeelingAfterwardsIncrement));
+            emotionalFeelingAfterwardsIncrement++;
+        }
+    }
 
         /*
             NEW FEELING
         */
 
-    doc.text(name, x(330), y(753));
-    doc.text("Intensity level: " + numberValue, x(479), y(753));
+    doc.text(pageContent["page5"]["new-feeling"], x(330), y(753));
+    doc.text("Intensity level: " + pageContent["page5"]["new-feeling-value"], x(479), y(753));
 
         /*
             CONGRATULATONS MESSSAGE
@@ -1850,7 +1870,7 @@ function createPDF() {
     // font settings
     doc.setFontSize(15);
     doc.setTextColor(182, 226, 248);
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('BalooTammudu2', 'bold');
 
     doc.text("You did an amazing job!", x(350), y(793));
 
