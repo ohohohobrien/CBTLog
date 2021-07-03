@@ -76,6 +76,8 @@ function applyPageListeners() {
     const page3Container = document.getElementById('page3Container');
     const page3UnhelpfulThoughtAddButton = document.getElementById('page3-unhelpful-thought-button');
     const page3UnhelpfulBehaviourAddButton = document.getElementById('page3-unhelpful-behaviour-button');
+    const page3UnhelpfulThoughtHelpButton = document.getElementById('page3-unhelpful-thoughts');
+    const page3UnhelpfulBehaviourHelpButton = document.getElementById('page3-unhelpful-behaviour');
     let page3Complete = false;
     const page3BackButton = document.getElementById('page3BackButton');
     const page3NextButton = document.getElementById('page3NextButton');
@@ -166,6 +168,14 @@ function applyPageListeners() {
         changePage(page3Container, page2Container, "back");
     })
 
+    page3UnhelpfulThoughtHelpButton.addEventListener("click", () => {
+        window.open("https://www.getselfhelp.co.uk/docs/UnhelpfulThinkingHabitsWithAlternatives.pdf",'_blank');
+    })
+    
+    page3UnhelpfulBehaviourHelpButton.addEventListener("click", () => {
+        window.open("https://www.austinanxiety.com/safety-behaviors/",'_blank');
+    })
+
     page3NextButton.addEventListener("click", () => {
         page3Complete = verifyPage3();
         //page3Complete = verifyPage3();
@@ -208,8 +218,7 @@ function applyPageListeners() {
                 page45RemoveElements();
                 page45StateManager();
                 changePage(page4Container, page45Container, "forward");
-                page45Container.scrollIntoView({ behavior: 'smooth'});
-                console.log("Made it to the penguin.")
+                //page45Container.scrollIntoView({ behavior: 'smooth'});
             }
         } else {
             alert("Please enter an alternative thought / behaviour.");
@@ -248,7 +257,7 @@ function applyPageListeners() {
     // page 6
 
     page6FinishButton.addEventListener("click", (e) => {
-        console.log("FINISHED");
+        window.open("https://ohohohobrien.github.io/CBTLog/");
     });
 
 }
@@ -261,8 +270,8 @@ function applyPageListeners() {
 function changePage(from, to, direction) {
 
     if (direction === "forward") {
-        to.style.display = "block";
         to.removeEventListener("animationend", to.listener);
+        from.removeEventListener("animationend", from.listener);
         
         from.classList.remove("slideOutLeft");
         from.classList.remove("slideOutRight");
@@ -273,18 +282,19 @@ function changePage(from, to, direction) {
         to.classList.remove("slideOutRight");
         to.classList.remove("slideInRight");
         to.classList.remove("slideInLeft");
-        to.classList.add("slideInRight");
         
         from.listener = () => {
             from.style.display = "none";
             to.scrollIntoView({ behavior: 'smooth'});
+            to.style.display = "block";
+            to.classList.add("slideInRight");
         }
         from.addEventListener("animationend", from.listener);
         
     } 
     else if (direction === "back") {
-        to.style.display = "block";
         to.removeEventListener("animationend", to.listener);
+        from.removeEventListener("animationend", from.listener);
         
         from.classList.remove("slideOutLeft");
         from.classList.remove("slideOutRight");
@@ -295,11 +305,12 @@ function changePage(from, to, direction) {
         to.classList.remove("slideOutRight");
         to.classList.remove("slideInRight");
         to.classList.remove("slideInLeft");
-        to.classList.add("slideInLeft");
         
         from.listener = () => {
             from.style.display = "none";
             to.scrollIntoView({ behavior: 'smooth'});
+            to.style.display = "block";
+            to.classList.add("slideInLeft");
         }
         from.addEventListener("animationend", from.listener);
         

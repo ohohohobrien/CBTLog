@@ -190,19 +190,19 @@
   }
 
   30% {
-    opacity: 0.3;
+    opacity: 0.7;
   }
 
-  80% {
-    transform: translateX(-0.5em);
+  60% {
+    transform: translateX(-1em);
   }
 
   95% {
-    transform: translateX(0.5em);
+    transform: translateX(0em);
   }
 
   100% {
-    transform: translateX(0.6em);
+    transform: translateX(0em);
     opacity: 1;
   }
 }
@@ -221,19 +221,19 @@
   }
 
   30% {
-    opacity: 0.3;
+    opacity: 0.7;
   }
 
   80% {
-    transform: translateX(-0.5em);
-  }
-
-  95% {
     transform: translateX(0.5em);
   }
 
+  95% {
+    transform: translateX(0em);
+  }
+
   100% {
-    transform: translateX(0.6em);
+    transform: translateX(0em);
     opacity: 1;
   }
 }
@@ -269,7 +269,7 @@
 
 .slideOutLeft {
   animation-name: slide-out-to-left;
-  animation-duration: 1s;
+  animation-duration: 0.6s;
   animation-direction: normal;
 }
 
@@ -309,7 +309,30 @@
 .page-2-container .page-3-container .page-4-container .page-5-container {
   display: none;
   position: absolute;
-  z-index: 1;
+}
+
+.page-2-container {
+  z-index: 2;
+}
+
+.page-3-container {
+  z-index: 3;
+}
+
+.page-4-container {
+  z-index: 4;
+}
+
+.page-45-container {
+  z-index: 5;
+}
+
+.page-5-container {
+  z-index: 6;
+}
+
+.page-6-container {
+  z-index: 7;
 }
 
 .background-triangle {
@@ -461,6 +484,19 @@ body {
   align-items: center;
   justify-items: center;
   margin: 5em auto 2em;
+
+  a {
+    margin: auto;
+    .next-button-large {
+      @include button-style();
+      width: 200px;
+
+      .next-icon {
+        @include button-icon-style();
+        left: 5%;
+      }
+    }
+  }
 
   .next-button-large {
     @include button-style();
@@ -977,25 +1013,28 @@ section {
   padding: 1em;
   margin-bottom: 0;
 
-  .exit-button {
-    height: 30px;
-    width: 30px;
+  a {
     grid-area: exit-button;
-    margin: auto;
-    padding-top: 1em;
-    padding-left: 0;
-    transform: rotate(180deg);
-    transition: filter 0.5s ease;
-    filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg)
-      brightness(108%) contrast(109%)
-      drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
-    opacity: 80%;
-    &:hover {
-      cursor: pointer;
+    .exit-button {
+      height: 30px;
+      width: 30px;
+      margin: auto;
+      padding: auto;
+      padding-top: 0;
+      padding-left: 0;
+      transform: rotate(180deg);
       transition: filter 0.5s ease;
-      filter: invert(60%) sepia(1%) saturate(2176%) hue-rotate(314deg)
+      filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg)
         brightness(108%) contrast(109%)
         drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+      opacity: 80%;
+      &:hover {
+        cursor: pointer;
+        transition: filter 0.5s ease;
+        filter: invert(60%) sepia(1%) saturate(2176%) hue-rotate(314deg)
+          brightness(108%) contrast(109%)
+          drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
+      }
     }
   }
 
@@ -1015,4 +1054,55 @@ section {
     font-style: normal;
     opacity: 90%;
   }
+}
+
+/* Organise the screen sizes */
+
+@media (max-width: 440px) {
+  .wrapper {
+    padding: 1em;
+  }
+}
+
+@media (min-width: 440px) and (max-width: 520px) {
+  .wrapper {
+    padding: 1em 2em;
+  }
+}
+
+@media (min-width: 520px) and (max-width: 600px) {
+  .wrapper {
+    padding: 1em 4em;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 700px) {
+  .wrapper {
+    padding: 1em 7em;
+  }
+}
+
+@media (min-width: 700px) and (max-width: 1000px) {
+  .wrapper {
+    padding: 1em 10em;
+  }
+}
+
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .wrapper {
+    padding: 1em 20em;
+  }
+}
+
+@media (min-width: 1400px) {
+  .wrapper {
+    padding: 1em 25em;
+  }
+}
+
+.hero-container {
+  color: var(--font-white);
+  text-align: center;
+  margin: 20vh auto;
+  padding: auto;
 }
