@@ -1536,4 +1536,18 @@ section {
   margin: 5vh auto;
   padding: auto;
 }
+
+.hero-container h1 {
+  margin: 0 auto;
+  padding: 0 auto;
+}
+
+.hero-container h3 {
+  margin: 0 auto;
+  padding: 0 auto;
+}
+
+.index-container {
+  margin-top: 0.5em;
+}
 /*# sourceMappingURL=main.css.map */
