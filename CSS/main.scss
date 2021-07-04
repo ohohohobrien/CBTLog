@@ -377,7 +377,7 @@ body {
     width: 30px;
     grid-area: exit-button;
     margin: auto;
-    padding-top: 1em;
+    padding-top: 0;
     padding-left: 0;
     transform: rotate(180deg);
     transition: filter 0.5s ease;
@@ -1103,6 +1103,6 @@ section {
 .hero-container {
   color: var(--font-white);
   text-align: center;
-  margin: 20vh auto;
+  margin: 5vh auto;
   padding: auto;
 }
