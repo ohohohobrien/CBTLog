@@ -1100,10 +1100,12 @@ section {
   }
 }
 
+// landing page
+
 .hero-container {
   color: var(--font-white);
   text-align: center;
-  margin: 5vh auto;
+  margin: 2vh auto;
   padding: auto;
 
   h1 {
@@ -1115,11 +1117,38 @@ section {
     margin: 0 auto;
     padding: 0 auto;
   }
+
+  section {
+    margin-top: 2em;
+    padding-bottom: 1em;
+    .index-info-container {
+      h3 {
+      }
+      p {
+        text-align: left;
+      }
+    }
+  }
 }
 
 .index-container {
   margin-top: 0.5em;
+  margin-bottom: 12em;
 }
 
 .svg-wrapper {
+}
+
+svg {
+  height: 320px;
+  width: 300px;
+}
+
+.span-link {
+  color: var(--secondary-colour);
+  font-weight: 800;
+  a {
+    color: var(--secondary-colour);
+    font-weight: 800;
+  }
 }
