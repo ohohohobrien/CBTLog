@@ -1887,7 +1887,7 @@ function createPDF() {
 
     // add listener to save the document
     document.getElementById('page6PrintButton').addEventListener('click', () => {
-        doc.save("a4.pdf");
+        doc.save(`CBT-Log-${date.getDate()}-${date.getMonth()}-${date.getYear().toString().slice(1)}.pdf`);
     })
 }
 
