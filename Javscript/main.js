@@ -584,7 +584,7 @@ function page2CreateEmotion() {
     sliderContainer.append(sliderNumberValue);
 
     // listener to update the number value
-    slider.addEventListener('change', function (event) {
+    slider.addEventListener('input', function (event) {
         sliderNumberValue.innerHTML = Math.floor(slider.value / 10);
         //delete pageContent["page2"]["feelings-slider-value"]["1"];
         console.log(`Updated the page content for slider value ${dropdownList.dataset.index} from ${pageContent["page2"]["feelings-slider-value"][page2EmotionIncrement]} to ${sliderNumberValue.innerHTML}.`);
@@ -1517,7 +1517,7 @@ function page5CreateFeelingElements() {
     
         // add a listener here to update the new value in pageContent and innerHTML
         let hasTheNewSliderValueChanged = false;        
-        sliderContainerNewSlider.addEventListener('change', function (event) {
+        sliderContainerNewSlider.addEventListener('input', function (event) {
             sliderContainerNewValueText.innerHTML = Math.floor(sliderContainerNewSlider.value / 10);
             pageContent["page5"]["feelings-slider-value-new"][key] = sliderContainerNewValueText.innerHTML;
             hasTheNewSliderValueChanged = true;
@@ -1578,7 +1578,7 @@ function page5CreateFeelingElements() {
     // new positive emotion slider listener
     let hasTheNewPositiveSliderValueChanged = false;
     const newPositiveFeelingSuccessMessage = document.getElementById('page5-new-positive-feeling-success');
-    newPositiveFeelingSlider.addEventListener('change', function (event) {
+    newPositiveFeelingSlider.addEventListener('input', function (event) {
         hasTheNewPositiveSliderValueChanged = true;
         newPositiveFeelingSliderValue.innerHTML = Math.floor(newPositiveFeelingSlider.value / 10);
         console.log("The new value for the positive emotion slider should be...")
