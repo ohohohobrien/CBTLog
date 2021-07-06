@@ -539,7 +539,7 @@ body {
 // Page 2
 
 section {
-  margin: 1em auto 4em auto;
+  margin: 1em 0 4em 0;
 }
 
 .helpful-text-container {
@@ -628,7 +628,7 @@ section {
   @include outline-light();
   border-radius: 30px;
   padding: 2em 1em;
-  margin: 2em 1em;
+  margin: 2em 0;
 }
 
 .page3-choice-container {
@@ -1120,12 +1120,48 @@ section {
 
   section {
     margin-top: 2em;
+    margin-left: 0;
+    margin-right: 0;
     padding-bottom: 1em;
     .index-info-container {
       h3 {
       }
       p {
         text-align: left;
+      }
+    }
+  }
+
+  .bottom-navigation-container {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    margin: 3em auto 2em;
+
+    .next-button-small {
+      text-align: center;
+      padding: auto;
+      @include button-style();
+      width: 100px;
+      background: #fff1f1;
+      opacity: 100%;
+
+      h3 {
+        padding: 0.5em;
+        color: #0d0d0d;
+      }
+    }
+
+    .back-button-small {
+      text-align: center;
+      padding: auto;
+      @include button-style();
+      width: 100px;
+      background: #8e44ad;
+      opacity: 90%;
+
+      h3 {
+        padding: 0.5em;
       }
     }
   }

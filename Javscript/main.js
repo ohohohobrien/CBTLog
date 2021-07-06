@@ -41,13 +41,24 @@ let pageContent = {
     },
 };
 
-
-console.log(pageContent);
-
 function init() {
     
     applyPageListeners();
+    setInterval(checkAccessibility, 100);
     
+}
+
+// changes the font color to black or white
+function checkAccessibility() {
+
+    let accessibilityMode = sessionStorage.getItem("accessibilityMode");
+
+    if (accessibilityMode === "true") {
+        // accessibility mode
+        document.body.querySelectorAll('*').forEach(function(node) {
+            node.style.color = '#0D0D0D';
+        });
+    }
 }
 
 function applyPageListeners() {
@@ -259,6 +270,8 @@ function applyPageListeners() {
     page6FinishButton.addEventListener("click", (e) => {
         window.open("https://ohohohobrien.github.io/CBTLog/");
     });
+
+    checkAccessibility();
 
 }
 

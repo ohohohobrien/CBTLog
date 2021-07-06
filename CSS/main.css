@@ -621,7 +621,7 @@ body {
 }
 
 section {
-  margin: 1em auto 4em auto;
+  margin: 1em 0 4em 0;
 }
 
 .helpful-text-container h3 {
@@ -804,7 +804,7 @@ section {
           box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.082);
   border-radius: 30px;
   padding: 2em 1em;
-  margin: 2em 1em;
+  margin: 2em 0;
 }
 
 .page3-choice-container .top-row {
@@ -1549,11 +1549,85 @@ section {
 
 .hero-container section {
   margin-top: 2em;
+  margin-left: 0;
+  margin-right: 0;
   padding-bottom: 1em;
 }
 
 .hero-container section .index-info-container p {
   text-align: left;
+}
+
+.hero-container .bottom-navigation-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  justify-items: center;
+  margin: 3em auto 2em;
+}
+
+.hero-container .bottom-navigation-container .next-button-small {
+  text-align: center;
+  padding: auto;
+  margin: auto;
+  width: 100px;
+  height: 50px;
+  border-radius: 20px;
+  border: 0.5px solid #fff1f14f;
+  background: var(--secondary-colour);
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  opacity: 60%;
+  -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+          box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+  width: 100px;
+  background: #fff1f1;
+  opacity: 100%;
+}
+
+.hero-container .bottom-navigation-container .next-button-small:hover {
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+  opacity: 80%;
+}
+
+.hero-container .bottom-navigation-container .next-button-small h3 {
+  padding: 0.5em;
+  color: #0d0d0d;
+}
+
+.hero-container .bottom-navigation-container .back-button-small {
+  text-align: center;
+  padding: auto;
+  margin: auto;
+  width: 100px;
+  height: 50px;
+  border-radius: 20px;
+  border: 0.5px solid #fff1f14f;
+  background: var(--secondary-colour);
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  opacity: 60%;
+  -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+          box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
+  width: 100px;
+  background: #8e44ad;
+  opacity: 90%;
+}
+
+.hero-container .bottom-navigation-container .back-button-small:hover {
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  cursor: pointer;
+  opacity: 80%;
+}
+
+.hero-container .bottom-navigation-container .back-button-small h3 {
+  padding: 0.5em;
 }
 
 .index-container {
