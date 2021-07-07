@@ -511,7 +511,7 @@ function page2CreateEmotion() {
     pageContent["page5"]["feelings"][dropdownList.dataset.index] = dropdownList.value;
 
     // close button
-    const closeButton = document.createElement('div');
+    const closeButton = document.createElement('button');
     closeButton.classList.add("close-button");
     const buttonIcon = document.createElement('span');
     buttonIcon.innerHTML = "X";
@@ -712,7 +712,7 @@ function page3CreateUnhelpfulThought() {
     pageContent["page3"]["unhelpfulThoughtDropdown"][container.dataset.index] = dropdown.value;
 
     // close button
-    const closeButton = document.createElement('div');
+    const closeButton = document.createElement('button');
     closeButton.classList.add("close-button");
     const buttonIcon = document.createElement('span');
     buttonIcon.innerHTML = "X";
@@ -837,7 +837,7 @@ function page3CreateUnhelpfulBehaviour() {
 
 
     // close button
-    const closeButton = document.createElement('div');
+    const closeButton = document.createElement('button');
     closeButton.classList.add("close-button");
     const buttonIcon = document.createElement('span');
     buttonIcon.innerHTML = "X";
@@ -1059,7 +1059,7 @@ function page4CreateAlternativeHTMLElement() {
     
     // thoughts
     if (pageContent["page4"]["alternativeObjects"][page4Index].type === "thought") {
-        const topHeader = document.createElement('h5');
+        const topHeader = document.createElement('h3');
         // have an array of nice phrases to appear
         const nicePhrasesThoughts = [
             "Well done! - you realized an unhelpful thought pattern of:",
@@ -1073,7 +1073,7 @@ function page4CreateAlternativeHTMLElement() {
         topContainer.append(topHeader);
     // behaviours
     } else {
-        const topHeader = document.createElement('h5');
+        const topHeader = document.createElement('h3');
         // have an array of nice phrases to appear
         const nicePhrasesThoughts = [
             "Well done! - you realized an unhelpful behaviour:",
@@ -1115,7 +1115,7 @@ function page4CreateAlternativeHTMLElement() {
 
     // thought phrases
     if (pageContent["page4"]["alternativeObjects"][page4Index].type === "thought") {
-        const bottomHeader = document.createElement('h5');
+        const bottomHeader = document.createElement('h3');
         const nicePhrasesThoughtsAlternative = [
             "Try and tell yourself an alernative thought:",
             "A better way to think about this would be:",
@@ -1127,7 +1127,7 @@ function page4CreateAlternativeHTMLElement() {
         bottomContainer.append(bottomHeader);
     // behaviours
     } else {
-        const bottomHeader = document.createElement('h5');
+        const bottomHeader = document.createElement('h3');
         const nicePhrasesThoughtsAlternative = [
             "What's a better way to act:",
             "A better way to behave is:",
@@ -1334,12 +1334,12 @@ function page45CreateElements(content, speechbox, image) {
     topRowContainer.append(column2);
 
     // buttons
-    const backButtonContainer = document.createElement('div');
+    const backButtonContainer = document.createElement('button');
     backButtonContainer.classList.add("button-small");
     backButtonContainer.id = "page4.5-alternative-back-button";
     column2.append(backButtonContainer);
 
-    const fwdButtonContainer = document.createElement('div');
+    const fwdButtonContainer = document.createElement('button');
     fwdButtonContainer.classList.add("button-small");
     fwdButtonContainer.classList.add('priority-button');
     fwdButtonContainer.id = "page4.5-alternative-next-button";

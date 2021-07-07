@@ -398,6 +398,11 @@ body {
   line-height: 2rem;
 }
 
+.helpful-text-container .larger-text {
+  font-size: 1.2rem;
+  line-height: 3rem;
+}
+
 .text-box-container {
   margin: auto;
   padding: 1em;
@@ -490,7 +495,7 @@ body {
 .bottom-navigation-container a .next-button-large .next-icon {
   position: relative;
   bottom: 10%;
-  left: 45%;
+  left: 5%;
   height: 30px;
   width: 30px;
   margin: auto;
@@ -527,7 +532,7 @@ body {
 .bottom-navigation-container .next-button-large .next-icon {
   position: relative;
   bottom: 10%;
-  left: 45%;
+  left: 5%;
   height: 30px;
   width: 30px;
   margin: auto;
@@ -536,6 +541,7 @@ body {
   -webkit-filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
           filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
   opacity: 100%;
+  left: 5%;
 }
 
 .bottom-navigation-container .next-button-small {
@@ -563,7 +569,7 @@ body {
 .bottom-navigation-container .next-button-small .next-icon {
   position: relative;
   bottom: 10%;
-  left: 45%;
+  left: 5%;
   height: 30px;
   width: 30px;
   margin: auto;
@@ -572,7 +578,7 @@ body {
   -webkit-filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
           filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
   opacity: 100%;
-  left: 38%;
+  left: 5%;
 }
 
 .bottom-navigation-container .back-button-small {
@@ -600,7 +606,7 @@ body {
 .bottom-navigation-container .back-button-small .back-icon {
   position: relative;
   bottom: 10%;
-  left: 45%;
+  left: 5%;
   height: 30px;
   width: 30px;
   margin: auto;
@@ -612,7 +618,7 @@ body {
   -webkit-transform: rotate(180deg);
           transform: rotate(180deg);
   bottom: -20%;
-  left: 35%;
+  left: 0%;
 }
 
 .bottom-navigation-container .back-button-small .bold-icon {
@@ -846,6 +852,7 @@ section {
   opacity: 80%;
   -webkit-transition: background 0.5s ease;
   transition: background 0.5s ease;
+  border: none;
 }
 
 .page3-choice-container .top-row .help-button:hover {
@@ -967,6 +974,7 @@ section {
   opacity: 80%;
   -webkit-transition: background 0.5s ease;
   transition: background 0.5s ease;
+  border: none;
 }
 
 .close-button:hover {
@@ -988,10 +996,13 @@ section {
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
-  padding-left: 0.45em;
+  padding-left: 0.1em;
 }
 
 .page3-button-add {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   margin: auto;
   width: 100px;
   height: 50px;
@@ -1017,7 +1028,7 @@ section {
 .page3-button-add .next-icon {
   position: relative;
   bottom: 10%;
-  left: 45%;
+  left: 5%;
   height: 30px;
   width: 30px;
   margin: auto;
@@ -1026,7 +1037,7 @@ section {
   -webkit-filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
           filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
   opacity: 100%;
-  left: 40%;
+  left: 5%;
   bottom: 25%;
   height: 15px;
   width: 15px;
@@ -1061,7 +1072,7 @@ section {
   padding: 0;
 }
 
-.page-4-container h5 {
+.page-4-container h3 {
   text-align: center;
   color: var(--font-white);
   margin: 0 auto 1em auto;
@@ -1153,7 +1164,7 @@ section {
 .page-4-container .page4-button-container .button-small .button-small-icon {
   position: relative;
   bottom: 10%;
-  left: 45%;
+  left: 5%;
   height: 30px;
   width: 30px;
   margin: auto;
@@ -1162,8 +1173,8 @@ section {
   -webkit-filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
           filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
   opacity: 100%;
-  left: 32%;
-  top: -60%;
+  left: 5%;
+  top: -70%;
   height: 15px;
   width: 15px;
 }
@@ -1267,7 +1278,7 @@ section {
 .page45-top-row .column2 .button-small .button-small-icon {
   position: relative;
   bottom: 10%;
-  left: 45%;
+  left: 5%;
   height: 30px;
   width: 30px;
   margin: auto;
@@ -1276,7 +1287,7 @@ section {
   -webkit-filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
           filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
   opacity: 100%;
-  left: 32%;
+  left: 0%;
   top: -62%;
   height: 15px;
   width: 15px;
@@ -1296,7 +1307,7 @@ section {
 .page45-top-row .column2 .priority-button .button-small-icon {
   position: relative;
   bottom: 10%;
-  left: 45%;
+  left: 5%;
   height: 30px;
   width: 30px;
   margin: auto;
@@ -1305,7 +1316,7 @@ section {
   -webkit-filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
           filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.25));
   opacity: 100%;
-  left: 40%;
+  left: 5%;
   top: -25%;
   height: 15px;
   width: 15px;
@@ -1600,6 +1611,10 @@ section {
   color: #0d0d0d;
 }
 
+.hero-container .bottom-navigation-container .next-button-small .calm {
+  color: var(--font-white);
+}
+
 .hero-container .bottom-navigation-container .back-button-small {
   text-align: center;
   padding: auto;
@@ -1628,6 +1643,10 @@ section {
 
 .hero-container .bottom-navigation-container .back-button-small h3 {
   padding: 0.5em;
+}
+
+.hero-container .bottom-navigation-container .back-button-small .calm {
+  color: var(--font-white);
 }
 
 .index-container {

@@ -2,7 +2,9 @@ window.onload = init;
 
 
 function init() {
-    sessionStorage.setItem("accessibilityMode", false);
+    checkAccessibility();
+
+    //sessionStorage.setItem("accessibilityMode", false);
     
     // calm mode
     document.getElementById('calmButton').addEventListener('click', () => {
@@ -25,5 +27,23 @@ function init() {
         document.getElementById('calmText').style.color = '#fff1f1';
         sessionStorage.setItem("accessibilityMode", true);
     })
-    
+
+    document.getElementById('accessibilityText').style.color = '#0D0D0D';
+    document.getElementById('calmText').style.color = '#fff1f1';
+
+}
+
+// changes the font color to black or white
+function checkAccessibility() {
+
+    let accessibilityMode = sessionStorage.getItem("accessibilityMode");
+
+    if (accessibilityMode === "true") {
+        // accessibility mode
+        document.body.querySelectorAll('*').forEach(function(node) {
+            if (node.nodeName !== "A") {
+                node.style.color = '#0D0D0D';
+            }
+        });
+    }
 }
