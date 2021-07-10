@@ -3,6 +3,7 @@ window.onload = init;
 // import JSPDF for use from CDN link
 const jspdf = window.jspdf;
 
+let page1ExtraInfo = false;
 let page2OtherCheckboxIncrement = 5;
 let page2EmotionIncrement = 1;
 let page3UnhelpfulThoughtIncrement = 1;
@@ -41,13 +42,24 @@ let pageContent = {
     },
 };
 
-
-console.log(pageContent);
-
 function init() {
     
     applyPageListeners();
+    setInterval(checkAccessibility, 100);
     
+}
+
+// changes the font color to black or white
+function checkAccessibility() {
+
+    let accessibilityMode = sessionStorage.getItem("accessibilityMode");
+
+    if (accessibilityMode === "true") {
+        // accessibility mode
+        document.body.querySelectorAll('*').forEach(function(node) {
+            node.style.color = '#0D0D0D';
+        });
+    }
 }
 
 function applyPageListeners() {
@@ -108,6 +120,8 @@ function applyPageListeners() {
 
     // Page 1
 
+    page1Setup();
+
     page1NextButton.addEventListener("click", function (event) {
         if (page1Complete) {
             changePage(page1Container, page2Container, "forward");
@@ -132,6 +146,7 @@ function applyPageListeners() {
     })
 
     page2AddCheckboxListeners();
+    page2Setup();
 
     page2OtherCheckbox.addEventListener('change', function (event) {    
         if (this.checked === true){
@@ -260,6 +275,8 @@ function applyPageListeners() {
         window.open("https://ohohohobrien.github.io/CBTLog/");
     });
 
+    checkAccessibility();
+
 }
 
 /*
@@ -333,10 +350,64 @@ function arrayRemove(arr, value) {
     PAGE 1
 */
 
+function page1Setup() {
+
+    const moreInfoButton = document.getElementById('page1-extra-information-button');
+    const moreInfoContainer = document.getElementById('page1-container-insert');
+
+    function removeInfoContainer() {
+        moreInfoContainer.style.display = "none";
+        page1ExtraInfo = false;
+    }
+
+    moreInfoButton.addEventListener('click', () => {
+
+        if (page1ExtraInfo === false) {
+            moreInfoContainer.style.display = "block";
+            moreInfoContainer.classList.remove('minimizeInwards');
+            moreInfoContainer.classList.add('maximizeOutwardsPage1');
+            moreInfoContainer.removeEventListener('animationend', removeInfoContainer);
+            page1ExtraInfo = true;
+        } else {   
+            moreInfoContainer.classList.remove('maximizeOutwardsPage1');
+            moreInfoContainer.classList.add('minimizeInwards');
+            moreInfoContainer.addEventListener('animationend', removeInfoContainer);
+        }
+        
+    })
+}
+
 
 /*
     PAGE 2
 */
+
+function page2Setup() {
+
+    const moreInfoButton = document.getElementById('page2-extra-information-button');
+    const moreInfoContainer = document.getElementById('page2-info');
+
+    function removeInfoContainer() {
+        moreInfoContainer.style.display = "none";
+        page1ExtraInfo = false;
+    }
+
+    moreInfoButton.addEventListener('click', () => {
+
+        if (page1ExtraInfo === false) {
+            moreInfoContainer.style.display = "block";
+            moreInfoContainer.classList.remove('minimizeInwards');
+            moreInfoContainer.classList.add('maximizeOutwardsPage2');
+            moreInfoContainer.removeEventListener('animationend', removeInfoContainer);
+            page1ExtraInfo = true;
+        } else {   
+            moreInfoContainer.classList.remove('maximizeOutwardsPage2');
+            moreInfoContainer.classList.add('minimizeInwards');
+            moreInfoContainer.addEventListener('animationend', removeInfoContainer);
+        }
+        
+    })
+}
 
 // completed
 function page2AddCheckboxListeners() {
@@ -453,6 +524,7 @@ function page2CreateEmotion() {
     // container to append to
     const container = document.createElement("div");
     container.id = `page2-feeling-${page2EmotionIncrement}`;
+    container.classList.add('maximizeOutwards');
     parentElement.append(container);
 
     // dropdown box and container
@@ -498,7 +570,7 @@ function page2CreateEmotion() {
     pageContent["page5"]["feelings"][dropdownList.dataset.index] = dropdownList.value;
 
     // close button
-    const closeButton = document.createElement('div');
+    const closeButton = document.createElement('button');
     closeButton.classList.add("close-button");
     const buttonIcon = document.createElement('span');
     buttonIcon.innerHTML = "X";
@@ -552,7 +624,11 @@ function page2CreateEmotion() {
         delete pageContent["page2"]["feelings-slider-value"][dropdownList.dataset.index];
         delete pageContent["page5"]["feelings-slider-value-initial"][dropdownList.dataset.index];
         delete pageContent["page5"]["feelings-slider-value-new"][dropdownList.dataset.index];
-        container.remove();
+        container.classList.remove('maximizeOutwards');
+        container.classList.add('minimizeInwards');
+        container.addEventListener('animationend', () => {
+            container.remove();
+        })
     })
 
     // create the slider and container
@@ -647,6 +723,12 @@ function verifyPage2() {
 function page3CreateUnhelpfulThought() {
     const parentElement = document.getElementById('page3-insert-thoughts');
 
+    // new test
+    const containerForAnimation = document.createElement('div');
+    containerForAnimation.classList.add('containerZero');
+    containerForAnimation.classList.add('maximizeOutwardsPage3');
+    parentElement.append(containerForAnimation);
+
     const container = document.createElement('div');
     container.id = `page3-unhelpful-thoughts-container-${page3UnhelpfulThoughtIncrement}`;
     container.classList.add("page3-unhelpful-thoughts-container");
@@ -699,7 +781,7 @@ function page3CreateUnhelpfulThought() {
     pageContent["page3"]["unhelpfulThoughtDropdown"][container.dataset.index] = dropdown.value;
 
     // close button
-    const closeButton = document.createElement('div');
+    const closeButton = document.createElement('button');
     closeButton.classList.add("close-button");
     const buttonIcon = document.createElement('span');
     buttonIcon.innerHTML = "X";
@@ -755,13 +837,13 @@ function page3CreateUnhelpfulThought() {
     container.append(textbox);
 
     // append new div for unhelpful thought to parent
-    parentElement.append(container);
+    containerForAnimation.append(container);
 
     // add horizontal divider
     const divider = document.createElement('hr');
     divider.classList.add("page-divider");
     divider.id = `page3-divider-thoughts-${page3UnhelpfulThoughtIncrement}`;
-    parentElement.append(divider);
+    containerForAnimation.append(divider);
 
     // add listener to delete
     closeButton.addEventListener('click', (e) => {
@@ -773,8 +855,11 @@ function page3CreateUnhelpfulThought() {
             delete pageContent["page3"]["unhelpfulThoughtDropdown"]["2"];
         }
         */
-        container.remove();
-        divider.remove();
+        containerForAnimation.classList.remove('maximizeOutwardsPage3');
+        containerForAnimation.classList.add('minimizeInwards');
+        containerForAnimation.addEventListener('animationend', () => {
+            containerForAnimation.remove();
+        })
     })
 
     // increment increase for unique id's
@@ -784,6 +869,12 @@ function page3CreateUnhelpfulThought() {
 // completed
 function page3CreateUnhelpfulBehaviour() {
     const parentElement = document.getElementById('page3-insert-behaviour');
+
+    // new test
+    const containerForAnimation = document.createElement('div');
+    containerForAnimation.classList.add('containerZero');
+    containerForAnimation.classList.add('maximizeOutwardsPage3');
+    parentElement.append(containerForAnimation);
 
     const container = document.createElement('div');
     container.id = `page3-unhelpful-behaviour-container-${page3UnhelpfulBehaviourIncrement}`;
@@ -822,9 +913,8 @@ function page3CreateUnhelpfulBehaviour() {
         pageContent["page3"]["unhelpfulBehaviourDropdown"][container.dataset.index] = dropdown.value;
     }
 
-
     // close button
-    const closeButton = document.createElement('div');
+    const closeButton = document.createElement('button');
     closeButton.classList.add("close-button");
     const buttonIcon = document.createElement('span');
     buttonIcon.innerHTML = "X";
@@ -880,13 +970,13 @@ function page3CreateUnhelpfulBehaviour() {
     container.append(textbox);
 
     // append new div for unhelpful behaviour to parent
-    parentElement.append(container);
+    containerForAnimation.append(container);
 
     // add horizontal divider
     const divider = document.createElement('hr');
     divider.classList.add("page-divider");
     divider.id = `page3-divider-behaviour-${page3UnhelpfulBehaviourIncrement}`;
-    parentElement.append(divider);
+    containerForAnimation.append(divider);
 
     // add listener to delete
     closeButton.addEventListener('click', (e) => {
@@ -898,8 +988,11 @@ function page3CreateUnhelpfulBehaviour() {
             delete pageContent["page3"]["unhelpfulBehaviourDropdown"]["2"];
         }
         */
-        container.remove();
-        divider.remove();
+        containerForAnimation.classList.remove('maximizeOutwardsPage3');
+        containerForAnimation.classList.add('minimizeInwards');
+        containerForAnimation.addEventListener('animationend', () => {
+            containerForAnimation.remove();
+        })
     })
 
     // increment increase for unique id's
@@ -1046,7 +1139,7 @@ function page4CreateAlternativeHTMLElement() {
     
     // thoughts
     if (pageContent["page4"]["alternativeObjects"][page4Index].type === "thought") {
-        const topHeader = document.createElement('h5');
+        const topHeader = document.createElement('h3');
         // have an array of nice phrases to appear
         const nicePhrasesThoughts = [
             "Well done! - you realized an unhelpful thought pattern of:",
@@ -1060,7 +1153,7 @@ function page4CreateAlternativeHTMLElement() {
         topContainer.append(topHeader);
     // behaviours
     } else {
-        const topHeader = document.createElement('h5');
+        const topHeader = document.createElement('h3');
         // have an array of nice phrases to appear
         const nicePhrasesThoughts = [
             "Well done! - you realized an unhelpful behaviour:",
@@ -1102,7 +1195,7 @@ function page4CreateAlternativeHTMLElement() {
 
     // thought phrases
     if (pageContent["page4"]["alternativeObjects"][page4Index].type === "thought") {
-        const bottomHeader = document.createElement('h5');
+        const bottomHeader = document.createElement('h3');
         const nicePhrasesThoughtsAlternative = [
             "Try and tell yourself an alernative thought:",
             "A better way to think about this would be:",
@@ -1114,7 +1207,7 @@ function page4CreateAlternativeHTMLElement() {
         bottomContainer.append(bottomHeader);
     // behaviours
     } else {
-        const bottomHeader = document.createElement('h5');
+        const bottomHeader = document.createElement('h3');
         const nicePhrasesThoughtsAlternative = [
             "What's a better way to act:",
             "A better way to behave is:",
@@ -1321,12 +1414,12 @@ function page45CreateElements(content, speechbox, image) {
     topRowContainer.append(column2);
 
     // buttons
-    const backButtonContainer = document.createElement('div');
+    const backButtonContainer = document.createElement('button');
     backButtonContainer.classList.add("button-small");
     backButtonContainer.id = "page4.5-alternative-back-button";
     column2.append(backButtonContainer);
 
-    const fwdButtonContainer = document.createElement('div');
+    const fwdButtonContainer = document.createElement('button');
     fwdButtonContainer.classList.add("button-small");
     fwdButtonContainer.classList.add('priority-button');
     fwdButtonContainer.id = "page4.5-alternative-next-button";
