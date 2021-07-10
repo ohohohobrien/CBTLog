@@ -1814,7 +1814,7 @@ section {
       -ms-flex-align: center;
           align-items: center;
   justify-items: center;
-  margin: 3em auto 2em;
+  margin: 1em auto 2em;
 }
 
 .hero-container .bottom-navigation-container .next-button-small {
