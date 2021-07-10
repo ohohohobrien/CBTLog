@@ -366,6 +366,37 @@
   animation-direction: normal;
 }
 
+@keyframes maximize-outwards-page1 {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+  }
+
+  30% {
+    opacity: 0.1;
+  }
+
+  80% {
+    transform: scaleY(0.9);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+    max-height: 572px;
+    margin-bottom: 1em;
+  }
+}
+
+.maximizeOutwardsPage1 {
+  animation-name: maximize-outwards-page1;
+  animation-duration: 1s;
+  animation-direction: normal;
+}
+
 @keyframes minimize-inwards {
   0% {
     transform: scaleY(1);
@@ -485,6 +516,42 @@ body {
 .containerZero {
   margin: 0;
   padding: 0;
+}
+
+.float {
+  display: grid;
+  grid-template-columns: 0.9fr 0.1fr;
+  grid-template-rows: 1fr;
+  gap: 2px 2px;
+  grid-auto-flow: row;
+  grid-template-areas: "paragraph info-button";
+  margin: 0;
+
+  h3 {
+    grid-area: paragraph;
+  }
+
+  .help-button {
+    margin: 0;
+    grid-area: info-button;
+    @include small-round-button();
+
+    span {
+      padding-right: 0.1em;
+      margin: 0;
+      font-size: 1em;
+      font-style: italic;
+      font-weight: 800;
+      color: var(--primary-colour);
+      text-align: center;
+      justify-self: center;
+      align-self: center;
+    }
+  }
+}
+
+#page1-container-insert {
+  color: var(--font-white);
 }
 
 .top-navigation-container {
@@ -677,6 +744,7 @@ section {
 }
 
 .helpful-text-container {
+  padding: auto;
   h3 {
     color: var(--font-white);
     font-weight: 700;

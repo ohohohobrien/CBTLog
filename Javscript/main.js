@@ -3,6 +3,7 @@ window.onload = init;
 // import JSPDF for use from CDN link
 const jspdf = window.jspdf;
 
+let page1ExtraInfo = false;
 let page2OtherCheckboxIncrement = 5;
 let page2EmotionIncrement = 1;
 let page3UnhelpfulThoughtIncrement = 1;
@@ -118,6 +119,8 @@ function applyPageListeners() {
     // Applying Listeners
 
     // Page 1
+
+    page1Setup();
 
     page1NextButton.addEventListener("click", function (event) {
         if (page1Complete) {
@@ -345,6 +348,33 @@ function arrayRemove(arr, value) {
 /*
     PAGE 1
 */
+
+function page1Setup() {
+
+    const moreInfoButton = document.getElementById('page1-extra-information-button');
+    const moreInfoContainer = document.getElementById('page1-container-insert');
+
+    function removeInfoContainer() {
+        moreInfoContainer.style.display = "none";
+        page1ExtraInfo = false;
+    }
+
+    moreInfoButton.addEventListener('click', () => {
+
+        if (page1ExtraInfo === false) {
+            moreInfoContainer.style.display = "block";
+            moreInfoContainer.classList.remove('minimizeInwards');
+            moreInfoContainer.classList.add('maximizeOutwardsPage1');
+            moreInfoContainer.removeEventListener('animationend', removeInfoContainer);
+            page1ExtraInfo = true;
+        } else {   
+            moreInfoContainer.classList.remove('maximizeOutwardsPage1');
+            moreInfoContainer.classList.add('minimizeInwards');
+            moreInfoContainer.addEventListener('animationend', removeInfoContainer);
+        }
+        
+    })
+}
 
 
 /*
