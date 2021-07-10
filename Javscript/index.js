@@ -57,5 +57,9 @@ function randomizeFace() {
     if (randomNumber === 60) randomNumber = 59;
     if (randomNumber === 0) randomNumber = 1; 
 
+    if (randomNumber < 10) {
+        randomNumber = `0${randomNumber}`;
+    }
+
     faceImage.src = `./resources/SvgFaces/Artboards_Diversity_Avatars_by_Netguru-${randomNumber}.svg`;
 }
