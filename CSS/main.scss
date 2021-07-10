@@ -335,6 +335,37 @@
   animation-direction: normal;
 }
 
+@keyframes maximize-outwards-page2 {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+  }
+
+  30% {
+    opacity: 0.1;
+  }
+
+  80% {
+    transform: scaleY(0.9);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+    max-height: 164px;
+    margin-bottom: 1em;
+  }
+}
+
+.maximizeOutwardsPage2 {
+  animation-name: maximize-outwards-page2;
+  animation-duration: 1s;
+  animation-direction: normal;
+}
+
 @keyframes maximize-outwards-page3 {
   0% {
     transform: scaleY(0);
@@ -516,6 +547,11 @@ body {
 .containerZero {
   margin: 0;
   padding: 0;
+
+  h3 {
+    margin: auto;
+    padding: auto;
+  }
 }
 
 .float {
@@ -662,6 +698,11 @@ body {
     min-height: 200px;
     height: 200px;
     @include textbox-style();
+  }
+
+  .error-container {
+    border: 2px solid #ff0000;
+    border-radius: 40px;
   }
 }
 
@@ -831,6 +872,10 @@ section {
   border-radius: 30px;
   padding: 2em 1em;
   margin: 2em 0;
+}
+
+.page2-info {
+  color: var(--font-white);
 }
 
 .page3-choice-container {
@@ -1404,4 +1449,18 @@ svg {
     color: var(--secondary-colour);
     font-weight: 800;
   }
+}
+
+.error-message {
+  p {
+    margin: 0;
+    text-align: center;
+    color: #ff0000;
+    font-weight: 600;
+  }
+}
+
+.error-container {
+  border: 2px solid #ff0000;
+  border-radius: 40px;
 }

@@ -295,6 +295,65 @@
           animation-direction: normal;
 }
 
+@-webkit-keyframes maximize-outwards-page2 {
+  0% {
+    -webkit-transform: scaleY(0);
+            transform: scaleY(0);
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+  }
+  30% {
+    opacity: 0.1;
+  }
+  80% {
+    -webkit-transform: scaleY(0.9);
+            transform: scaleY(0.9);
+    opacity: 0.9;
+  }
+  100% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+    opacity: 1;
+    max-height: 164px;
+    margin-bottom: 1em;
+  }
+}
+
+@keyframes maximize-outwards-page2 {
+  0% {
+    -webkit-transform: scaleY(0);
+            transform: scaleY(0);
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+  }
+  30% {
+    opacity: 0.1;
+  }
+  80% {
+    -webkit-transform: scaleY(0.9);
+            transform: scaleY(0.9);
+    opacity: 0.9;
+  }
+  100% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+    opacity: 1;
+    max-height: 164px;
+    margin-bottom: 1em;
+  }
+}
+
+.maximizeOutwardsPage2 {
+  -webkit-animation-name: maximize-outwards-page2;
+          animation-name: maximize-outwards-page2;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-direction: normal;
+          animation-direction: normal;
+}
+
 @-webkit-keyframes maximize-outwards-page3 {
   0% {
     -webkit-transform: scaleY(0);
@@ -586,6 +645,11 @@ body {
   padding: 0;
 }
 
+.containerZero h3 {
+  margin: auto;
+  padding: auto;
+}
+
 .float {
   display: -ms-grid;
   display: grid;
@@ -797,6 +861,11 @@ body {
   -webkit-box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
           box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
   outline: none;
+}
+
+.text-box-container .error-container {
+  border: 2px solid #ff0000;
+  border-radius: 40px;
 }
 
 .helpful-reminder-container {
@@ -1174,6 +1243,10 @@ section {
   border-radius: 30px;
   padding: 2em 1em;
   margin: 2em 0;
+}
+
+.page2-info {
+  color: var(--font-white);
 }
 
 .page3-choice-container .top-row {
@@ -2035,5 +2108,17 @@ svg {
 .span-link a {
   color: var(--secondary-colour);
   font-weight: 800;
+}
+
+.error-message p {
+  margin: 0;
+  text-align: center;
+  color: #ff0000;
+  font-weight: 600;
+}
+
+.error-container {
+  border: 2px solid #ff0000;
+  border-radius: 40px;
 }
 /*# sourceMappingURL=main.css.map */

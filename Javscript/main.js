@@ -70,9 +70,11 @@ function applyPageListeners() {
     const page1Container = document.getElementById('page1Container');
     const page1NextButton = document.getElementById('page1NextButton');
     const page1TextBox = document.getElementById('page1Textbox');
+    const page1TextBoxText = document.getElementById('facts-text-input');
     let page1TextBoxContents = "";
     // todo: implement a way to check if contents already exist in the textbox
     let page1Complete = false;
+    const page1Error = document.getElementById('page1Error');
     
     // Page 2 Content
     const page2Container = document.getElementById('page2Container');
@@ -126,15 +128,19 @@ function applyPageListeners() {
         if (page1Complete) {
             changePage(page1Container, page2Container, "forward");
         } else {
-            alert("fill out the text box");
-            // insert message that needs to be filled out for textbox
+            page1Error.style.display = "block";
+            page1TextBoxText.classList.add('error-container');
+            page1Error.scrollIntoView({ behavior: 'smooth'});
         }
     })
 
     page1TextBox.addEventListener('input', function (event) {
         pageContent["page1"]["event"] = event.target.value;
-        if (event.target.value.length > 0) page1Complete = true
-        else page1Complete = false;
+        if (event.target.value.length > 0) {
+            page1Complete = true;
+            page1Error.style.display = "none";
+            page1TextBoxText.classList.remove('error-container');
+        } else page1Complete = false;
         
         // insert positive reinforcement icon 
     })
@@ -146,6 +152,7 @@ function applyPageListeners() {
     })
 
     page2AddCheckboxListeners();
+    page2Setup();
 
     page2OtherCheckbox.addEventListener('change', function (event) {    
         if (this.checked === true){
@@ -380,6 +387,33 @@ function page1Setup() {
 /*
     PAGE 2
 */
+
+function page2Setup() {
+
+    const moreInfoButton = document.getElementById('page2-extra-information-button');
+    const moreInfoContainer = document.getElementById('page2-info');
+
+    function removeInfoContainer() {
+        moreInfoContainer.style.display = "none";
+        page1ExtraInfo = false;
+    }
+
+    moreInfoButton.addEventListener('click', () => {
+
+        if (page1ExtraInfo === false) {
+            moreInfoContainer.style.display = "block";
+            moreInfoContainer.classList.remove('minimizeInwards');
+            moreInfoContainer.classList.add('maximizeOutwardsPage2');
+            moreInfoContainer.removeEventListener('animationend', removeInfoContainer);
+            page1ExtraInfo = true;
+        } else {   
+            moreInfoContainer.classList.remove('maximizeOutwardsPage2');
+            moreInfoContainer.classList.add('minimizeInwards');
+            moreInfoContainer.addEventListener('animationend', removeInfoContainer);
+        }
+        
+    })
+}
 
 // completed
 function page2AddCheckboxListeners() {

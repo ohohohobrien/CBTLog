@@ -77,8 +77,12 @@
             </div>
 
             <div class="text-box-container" id="page1Textbox">
+                <div class="error-message containerZero" style="display: none;" id="page1Error">
+                    <p>Please fill out the textbox below.</p>
+                </div>
                 <textarea autofocus class="text-input" name="facts-text-input" id="facts-text-input" cols="30" rows="10" placeholder="This happened..."></textarea>
             </div>
+
 
             <div class="bottom-navigation-container">
                 <button class="next-button-large" id="page1NextButton">
@@ -111,8 +115,17 @@
             </div>
 
             <section>
-                <div class="helpful-text-container">
-                    <h3>What is your emotional feeling?</h3>
+                <div class="containerZero float">
+                    <div class="helpful-text-container">
+                        <h3>What is your emotional feeling?</h3>
+                    </div>
+                    <button class="help-button" id="page2-extra-information-button">
+                        <span>i</span>
+                    </button>
+                </div>
+                <div class="containerZero page2-info hidden" style="display: none;" id="page2-info">
+                    <p>Being able to define your emotion is hard. Below is a resource to help learn about emotions.</p>
+                    <a href="https://www.healthline.com/health/list-of-emotions" target="_blank">emotions information</a>
                 </div>
                 <hr class="page-divider">
                 <div class="page2-feeling-insert-container" id="page2-feeling-insert-container"></div> 
