@@ -466,6 +466,7 @@ function page2CreateEmotion() {
     // container to append to
     const container = document.createElement("div");
     container.id = `page2-feeling-${page2EmotionIncrement}`;
+    container.classList.add('maximizeOutwards');
     parentElement.append(container);
 
     // dropdown box and container
@@ -565,7 +566,11 @@ function page2CreateEmotion() {
         delete pageContent["page2"]["feelings-slider-value"][dropdownList.dataset.index];
         delete pageContent["page5"]["feelings-slider-value-initial"][dropdownList.dataset.index];
         delete pageContent["page5"]["feelings-slider-value-new"][dropdownList.dataset.index];
-        container.remove();
+        container.classList.remove('maximizeOutwards');
+        container.classList.add('minimizeInwards');
+        container.addEventListener('animationend', () => {
+            container.remove();
+        })
     })
 
     // create the slider and container
@@ -659,6 +664,12 @@ function verifyPage2() {
 // Completed
 function page3CreateUnhelpfulThought() {
     const parentElement = document.getElementById('page3-insert-thoughts');
+
+    // new test
+    const containerForAnimation = document.createElement('div');
+    containerForAnimation.classList.add('containerZero');
+    containerForAnimation.classList.add('maximizeOutwardsPage3');
+    parentElement.append(containerForAnimation);
 
     const container = document.createElement('div');
     container.id = `page3-unhelpful-thoughts-container-${page3UnhelpfulThoughtIncrement}`;
@@ -768,13 +779,13 @@ function page3CreateUnhelpfulThought() {
     container.append(textbox);
 
     // append new div for unhelpful thought to parent
-    parentElement.append(container);
+    containerForAnimation.append(container);
 
     // add horizontal divider
     const divider = document.createElement('hr');
     divider.classList.add("page-divider");
     divider.id = `page3-divider-thoughts-${page3UnhelpfulThoughtIncrement}`;
-    parentElement.append(divider);
+    containerForAnimation.append(divider);
 
     // add listener to delete
     closeButton.addEventListener('click', (e) => {
@@ -786,8 +797,11 @@ function page3CreateUnhelpfulThought() {
             delete pageContent["page3"]["unhelpfulThoughtDropdown"]["2"];
         }
         */
-        container.remove();
-        divider.remove();
+        containerForAnimation.classList.remove('maximizeOutwardsPage3');
+        containerForAnimation.classList.add('minimizeInwards');
+        containerForAnimation.addEventListener('animationend', () => {
+            containerForAnimation.remove();
+        })
     })
 
     // increment increase for unique id's
@@ -797,6 +811,12 @@ function page3CreateUnhelpfulThought() {
 // completed
 function page3CreateUnhelpfulBehaviour() {
     const parentElement = document.getElementById('page3-insert-behaviour');
+
+    // new test
+    const containerForAnimation = document.createElement('div');
+    containerForAnimation.classList.add('containerZero');
+    containerForAnimation.classList.add('maximizeOutwardsPage3');
+    parentElement.append(containerForAnimation);
 
     const container = document.createElement('div');
     container.id = `page3-unhelpful-behaviour-container-${page3UnhelpfulBehaviourIncrement}`;
@@ -834,7 +854,6 @@ function page3CreateUnhelpfulBehaviour() {
     } else {
         pageContent["page3"]["unhelpfulBehaviourDropdown"][container.dataset.index] = dropdown.value;
     }
-
 
     // close button
     const closeButton = document.createElement('button');
@@ -893,13 +912,13 @@ function page3CreateUnhelpfulBehaviour() {
     container.append(textbox);
 
     // append new div for unhelpful behaviour to parent
-    parentElement.append(container);
+    containerForAnimation.append(container);
 
     // add horizontal divider
     const divider = document.createElement('hr');
     divider.classList.add("page-divider");
     divider.id = `page3-divider-behaviour-${page3UnhelpfulBehaviourIncrement}`;
-    parentElement.append(divider);
+    containerForAnimation.append(divider);
 
     // add listener to delete
     closeButton.addEventListener('click', (e) => {
@@ -911,8 +930,11 @@ function page3CreateUnhelpfulBehaviour() {
             delete pageContent["page3"]["unhelpfulBehaviourDropdown"]["2"];
         }
         */
-        container.remove();
-        divider.remove();
+        containerForAnimation.classList.remove('maximizeOutwardsPage3');
+        containerForAnimation.classList.add('minimizeInwards');
+        containerForAnimation.addEventListener('animationend', () => {
+            containerForAnimation.remove();
+        })
     })
 
     // increment increase for unique id's

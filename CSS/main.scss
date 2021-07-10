@@ -74,8 +74,8 @@
   margin: auto;
   padding: 0;
   border-radius: 1000px;
-  background: var(--font-white);
-  opacity: 80%;
+  background: var(--secondary-colour);
+  opacity: 95%;
   transition: background 0.5s ease;
   border: none;
   &:hover {
@@ -274,6 +274,128 @@
   animation-direction: normal;
 }
 
+@keyframes slide-out-to-left-minimize {
+  0% {
+    transform: translateX(0) scaleY(1);
+    opacity: 1;
+    max-height: 165px;
+  }
+
+  30% {
+    opacity: 0.1;
+  }
+
+  80% {
+    transform: translateX(-10em) scaleY(0.1);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(-10em) scaleY(0);
+    opacity: 0;
+    display: none;
+    max-height: 0;
+  }
+}
+
+.slideOutLeftMinimize {
+  animation-name: slide-out-to-left-minimize;
+  animation-duration: 1s;
+  animation-direction: normal;
+}
+
+@keyframes maximize-outwards {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+  }
+
+  30% {
+    opacity: 0.1;
+  }
+
+  80% {
+    transform: scaleY(0.9);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+    max-height: 163.156px;
+    margin-bottom: 1em;
+  }
+}
+
+.maximizeOutwards {
+  animation-name: maximize-outwards;
+  animation-duration: 1s;
+  animation-direction: normal;
+}
+
+@keyframes maximize-outwards-page3 {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+  }
+
+  30% {
+    opacity: 0.1;
+  }
+
+  80% {
+    transform: scaleY(0.9);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+    max-height: 215px;
+    margin-bottom: 1em;
+  }
+}
+
+.maximizeOutwardsPage3 {
+  animation-name: maximize-outwards-page3;
+  animation-duration: 1s;
+  animation-direction: normal;
+}
+
+@keyframes minimize-inwards {
+  0% {
+    transform: scaleY(1);
+    opacity: 1;
+    max-height: 165px;
+  }
+
+  30% {
+    opacity: 0.1;
+  }
+
+  80% {
+    transform: scaleY(0.1);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scaleY(0);
+    opacity: 0;
+    display: none;
+    max-height: 0;
+  }
+}
+
+.minimizeInwards {
+  animation-name: minimize-inwards;
+  animation-duration: 1s;
+  animation-direction: normal;
+}
+
 @keyframes slide-out-to-right {
   0% {
     transform: translateX(0) scaleY(1);
@@ -358,6 +480,11 @@ body {
 .container {
   margin: 0;
   padding: 1em;
+}
+
+.containerZero {
+  margin: 0;
+  padding: 0;
 }
 
 .top-navigation-container {
@@ -1189,11 +1316,16 @@ section {
   margin-bottom: 12em;
 }
 
+.index-face {
+  height: 100px;
+  width: 300px;
+}
+
 .svg-wrapper {
 }
 
 svg {
-  height: 320px;
+  height: 200px;
   width: 300px;
 }
 

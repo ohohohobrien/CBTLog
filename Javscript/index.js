@@ -3,6 +3,7 @@ window.onload = init;
 
 function init() {
     checkAccessibility();
+    randomizeFace();
 
     //sessionStorage.setItem("accessibilityMode", false);
     
@@ -46,4 +47,15 @@ function checkAccessibility() {
             }
         });
     }
+}
+
+function randomizeFace() {
+    const faceImage = document.getElementById('indexFace');
+    let randomNumber = Math.floor(Math.random() * 59);
+    console.log(randomNumber);
+
+    if (randomNumber === 60) randomNumber = 59;
+    if (randomNumber === 0) randomNumber = 1; 
+
+    faceImage.src = `./resources/SvgFaces/Artboards_Diversity_Avatars_by_Netguru-${randomNumber}.svg`;
 }
