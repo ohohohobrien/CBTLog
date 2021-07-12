@@ -81,6 +81,8 @@ function applyPageListeners() {
     const page2FeelingsAddButton = document.getElementById('page2-unhelpful-thought-button');
     const page2OtherCheckbox = document.getElementById('page2CheckboxOption5');
     const page2CheckboxGrid = document.getElementById('page2CheckboxGrid');
+    const page2ErrorEmotion = document.getElementById('page2ErrorEmotion');
+    const page2Section = document.getElementById('page2Section');
     let page2OtherCheckboxExtra = [];
     let page2Complete = false;
     const page2BackButton = document.getElementById('page2BackButton');
@@ -98,6 +100,7 @@ function applyPageListeners() {
 
     // Page 4 Content
     const page4Container = document.getElementById('page4Container');
+    const page4InsertContainer = document.getElementById('page4-insert-container');
     const page4BackAlternativeButton = document.getElementById('page4-alternative-back-button');
     const page4NextAlternativeButton = document.getElementById('page4-alternative-next-button');
     let page4Complete = false;
@@ -128,9 +131,7 @@ function applyPageListeners() {
         if (page1Complete) {
             changePage(page1Container, page2Container, "forward");
         } else {
-            page1Error.style.display = "block";
-            page1TextBoxText.classList.add('error-container');
-            page1Error.scrollIntoView({ behavior: 'smooth'});
+            addError(page1Error, page1TextBoxText);
         }
     })
 
@@ -138,21 +139,27 @@ function applyPageListeners() {
         pageContent["page1"]["event"] = event.target.value;
         if (event.target.value.length > 0) {
             page1Complete = true;
-            page1Error.style.display = "none";
-            page1TextBoxText.classList.remove('error-container');
-        } else page1Complete = false;
+            nextPageReady(page1NextButton);
+            addSuccess(page1Error, page1TextBoxText);
+        } else {
+            removeErrorSuccess(page1Error, page1TextBoxText);
+            nextPageNotReady(page1NextButton);
+            page1Complete = false;
+        }
         
         // insert positive reinforcement icon 
     })
 
     // Page 2
 
-    page2FeelingsAddButton.addEventListener("click", () => {
-        page2CreateEmotion();
-    })
-
     page2AddCheckboxListeners();
     page2Setup();
+
+    page2FeelingsAddButton.addEventListener("click", () => {
+        page2CreateEmotion();
+        addSuccess(page2ErrorEmotion, page2Section);
+        manageNextButtonVerification(page2Complete, verifyPage2(), page2NextButton);
+    })
 
     page2OtherCheckbox.addEventListener('change', function (event) {    
         if (this.checked === true){
@@ -171,18 +178,18 @@ function applyPageListeners() {
         page2Complete = verifyPage2();
         if (page2Complete) {
             changePage(page2Container, page3Container, "forward");
-        } else {
-            alert("Please fill in all the information.")
         }
     })
 
     // Page 3
     page3UnhelpfulThoughtAddButton.addEventListener("click", () => {
         page3CreateUnhelpfulThought();
+        //verifyPage3();
     })
 
     page3UnhelpfulBehaviourAddButton.addEventListener("click", () => {
         page3CreateUnhelpfulBehaviour();
+        //verifyPage3();
     })
 
     page3BackButton.addEventListener("click", () => {
@@ -199,14 +206,11 @@ function applyPageListeners() {
 
     page3NextButton.addEventListener("click", () => {
         page3Complete = verifyPage3();
-        //page3Complete = verifyPage3();
         if (page3Complete) {
             createPage4Objects();
             page4PrepareElements();
             page4CreateAlternativeHTMLElement();
             changePage(page3Container, page4Container, "forward");
-        } else {
-            alert("Please fill out all information.")
         }
     });
 
@@ -221,7 +225,7 @@ function applyPageListeners() {
             page4RemoveAlternativeHTMLElement();
             page4Index --;
             page4CreateAlternativeHTMLElement();
-            page4Container.scrollIntoView({ behavior: 'smooth'});
+            page4InsertContainer.scrollIntoView({ behavior: 'smooth'});
         } else {
             alert("Can't go back anymore.")
         }
@@ -233,7 +237,7 @@ function applyPageListeners() {
                 page4RemoveAlternativeHTMLElement();
                 page4Index ++;
                 page4CreateAlternativeHTMLElement();
-                page4Container.scrollIntoView({ behavior: 'smooth'});
+                page4InsertContainer.scrollIntoView({ behavior: 'smooth'});
             } else {
                 page4RemoveAlternativeHTMLElement();
                 page45RemoveElements();
@@ -288,6 +292,57 @@ function applyPageListeners() {
 /*
     HELPER FUNCTIONS
 */
+
+function addSuccess(textElement, containerElement) {
+    textElement.style.display = "none";
+    containerElement.classList.remove('error-container');
+    containerElement.classList.add('success-container');
+}
+
+function addSuccessSingleContainer(containerElement) {
+    containerElement.classList.remove('error-container');
+    containerElement.classList.add('success-container');
+}
+
+function addError(textElement, containerElement) {
+    textElement.style.display = "block";
+    containerElement.classList.remove('success-container');
+    containerElement.classList.add('error-container');
+    textElement.scrollIntoView({ behavior: 'smooth'});
+}
+
+function addErrorSingleContainer(containerElement) {
+    containerElement.classList.remove('success-container');
+    containerElement.classList.add('error-container');
+}
+
+function removeErrorSuccess(textElement, containerElement) {
+    textElement.style.display = "none";
+    containerElement.classList.remove('error-container');
+    containerElement.classList.remove('success-container');
+}
+
+function removeErrorSuccessSingleContainer(containerElement) {
+    containerElement.classList.remove('error-container');
+    containerElement.classList.remove('success-container');
+}
+
+function nextPageReady(nextButton) {
+    nextButton.classList.remove("incomplete-page");
+}
+
+function nextPageNotReady(nextButton) {
+    nextButton.classList.add("incomplete-page");
+}
+
+function manageNextButtonVerification(pageCompleteBoolean, verifyPageFunction, nextPageButton) {
+    pageCompleteBoolean = verifyPageFunction;
+        if (pageCompleteBoolean) {
+            nextPageReady(nextPageButton);
+        } else {
+            nextPageNotReady(nextPageButton);
+        }
+}
 
 // Completed
 function changePage(from, to, direction) {
@@ -350,6 +405,10 @@ function arrayRemove(arr, value) {
     return arr.filter(function(ele){ 
         return ele != value; 
     });
+}
+
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
 }
 
 /*
@@ -451,6 +510,14 @@ function page2CreateNewCheckbox(page2CheckboxGrid) {
 
     newTextbox.addEventListener('input', function (event) {
         pageContent["page2"][event.target.id] = event.target.value;
+
+        if (this.value.length > 0) {
+            addSuccessSingleContainer(this);
+        } else {
+            removeErrorSuccessSingleContainer(this);
+        }
+
+        verifyPage2();
     })
 
     // Create a new other text div
@@ -520,6 +587,8 @@ function page2DeleteCheckbox(checkbox) {
     pageContent["page2"]["multipleCheckboxes"] = arrayRemove(pageContent["page2"]["multipleCheckboxes"], index);
     divToDeleteText.remove();
     divToDelete.remove();
+
+    verifyPage2();
 }
 
 // Completed
@@ -593,13 +662,31 @@ function page2CreateEmotion() {
     hiddenLabel.innerHTML = "feeling name";
     hiddenLabel.id = `page2-feeling-hidden-label-${page2EmotionIncrement}`
     hiddenLabel.classList.add("hidden-label");
+    // error handling
+    const hiddenErrorContainer = document.createElement('div');
+    hiddenErrorContainer.classList.add('error-message');
+    hiddenErrorContainer.classList.add('containerZero');
+    hiddenErrorContainer.style.display = 'none';
+    hiddenErrorContainer.id = `page2ErrorEmotion-feeling-${page2EmotionIncrement}`;
+    const hiddenErrorText = document.createElement('p');
+    hiddenErrorText.innerHTML = "Name your feeling.";
+    hiddenErrorContainer.append(hiddenErrorText);
 
+    container.append(hiddenErrorContainer);
     container.append(hiddenLabel);
     container.append(hiddenTextbox);
 
-    hiddenTextbox.addEventListener('change', (e) => {
+    hiddenTextbox.addEventListener('input', (e) => {
         pageContent["page2"]["feelings"][dropdownList.dataset.index] = hiddenTextbox.value;
         pageContent["page5"]["feelings"][dropdownList.dataset.index] = hiddenTextbox.value;
+
+        if (hiddenTextbox.value !== "") {
+            addSuccess(hiddenErrorContainer, hiddenTextbox);
+            verifyPage2();
+        } else {
+            removeErrorSuccessSingleContainer(hiddenTextbox);
+            nextPageNotReady(document.getElementById('page2NextButton'));
+        }
     })
 
     // allow other to show a textbox, if change to different value, then delete the textbox
@@ -613,6 +700,11 @@ function page2CreateEmotion() {
             hiddenLabel.style.display = "block";
             pageContent["page2"]["feelings"][dropdownList.dataset.index] = hiddenTextbox.value;
             pageContent["page5"]["feelings"][dropdownList.dataset.index] = hiddenTextbox.value;
+            
+            if (hiddenTextbox.value === "") {
+                removeErrorSuccessSingleContainer(document.getElementById('page2Section'));
+                nextPageNotReady(document.getElementById('page2NextButton'));
+            }
         }
 
         if (e.target.value !== "Other") {
@@ -635,6 +727,11 @@ function page2CreateEmotion() {
         container.addEventListener('animationend', () => {
             container.remove();
         })
+        verifyPage2();
+        if (isEmpty(pageContent["page2"]["feelings"])) {
+            removeErrorSuccess(document.getElementById('page2ErrorEmotion'), document.getElementById('page2Section'));
+            nextPageNotReady(document.getElementById('page2NextButton'));
+        }
     })
 
     // create the slider and container
@@ -687,12 +784,19 @@ function page2CreateEmotion() {
 function verifyPage2() {
     
     let verified = true;
+    const valueErrorText = document.getElementById("page2ErrorPhysical");
     // checkbox verification for other input
     for (entries of pageContent["page2"]["multipleCheckboxes"]) {
         try {
-            const value = document.getElementById(`page2TextboxOption${entries}`).value;
-            if (value.length === 0) {
-                verified = false;
+            const valueElement = document.getElementById(`page2TextboxOption${entries}`);
+            const value = valueElement.value;
+            if (value !== 5) {
+                if (value.length === 0) {
+                    verified = false;
+                    addError(valueErrorText, valueElement);
+                } else {
+                    addSuccess(valueErrorText, valueElement);
+                }
             }
         } catch(error) {
             console.log(`Element with id of page2TextboxOption${entries} not found for page 2 verification.`)
@@ -702,7 +806,12 @@ function verifyPage2() {
     // textbox verification for other input
     for (const [key, value] of Object.entries(pageContent["page2"]["feelings"])) {
         console.log(`${key}: ${value}`);
-        if (value.length === 0) verified = false;
+        if (value.length === 0) {
+            verified = false;
+            const containerElement = document.getElementById(`page2-feelings-hidden-text-${key}`);
+            addError(document.getElementById(`page2ErrorEmotion-feeling-${key}`), containerElement);
+        } 
+            
     }
 
     // slider value verification
@@ -716,9 +825,70 @@ function verifyPage2() {
     ----------------------------*/
     if (Object.keys(pageContent["page2"]["feelings"]).length === 0 && pageContent["page2"]["feelings"].constructor === Object) verified = false;
     if (Object.keys(pageContent["page2"]["feelings-slider-value"]).length === 0 && pageContent["page2"]["feelings-slider-value"].constructor === Object) verified = false;
-   
+
+    page2ErrorOutlineSetter();
+    
     if (verified) return true
     else return false;
+}
+
+// determine if red or green outlines can be set on the section or not
+function page2ErrorOutlineSetter() {
+
+    const upperContainer = document.getElementById('page2Section');
+    const upperErrorText = document.getElementById('page2ErrorEmotion');
+    const lowerContainer = document.getElementById('page2SectionPhysical');
+    const lowerErrorText = document.getElementById('page2ErrorPhysical');
+    const nextPageButton = document.getElementById('page2NextButton');
+    let upperComplete = true;
+    let lowerComplete = true;
+
+    // check the upper section
+    for (const [key, value] of Object.entries(pageContent["page2"]["feelings"])) {
+        const hiddenContainer = document.getElementById(`page2ErrorEmotion-feeling-${key}`);
+        const hiddenTextbox = document.getElementById(`page2-feelings-hidden-text-${key}`);
+        const emotionDropdown = document.getElementById(`page2EmotionalFeeling-${key}`);
+        if (emotionDropdown.value === "Other") {
+            if (hiddenTextbox.value.length === 0) {
+                addError(hiddenContainer, hiddenTextbox);
+                upperComplete = false;
+            } else {
+                addSuccess(hiddenContainer, hiddenTextbox);
+            }
+        }
+    }
+
+    if (upperComplete) addSuccessSingleContainer(upperContainer)
+    else addErrorSingleContainer(upperContainer);
+
+    if (Object.keys(pageContent["page2"]["feelings"]).length === 0 && pageContent["page2"]["feelings"].constructor === Object) {
+        addError(upperErrorText, upperContainer);
+        upperComplete = false;
+    }
+
+    // lower container
+
+    const checkboxArrayLength = pageContent["page2"]["multipleCheckboxes"].length;
+    if (checkboxArrayLength > 1) {
+        for (let i = 0; i < (checkboxArrayLength - 1); i++) {
+            const index = pageContent["page2"]["multipleCheckboxes"][i];
+            const textbox = document.getElementById(`page2TextboxOption${index}`);
+
+            if (textbox.value.length !== 0) {
+                addSuccessSingleContainer(textbox);
+            } else {
+                addErrorSingleContainer(textbox);
+                lowerComplete = false;
+            }
+        }
+    }
+
+    if (lowerComplete) addSuccess(lowerErrorText, lowerContainer)
+    else addError(lowerErrorText, lowerContainer);
+
+    if (upperComplete && lowerComplete) nextPageReady(nextPageButton)
+    else nextPageNotReady(nextPageButton); 
+
 }
 
 /*
@@ -808,8 +978,11 @@ function page3CreateUnhelpfulThought() {
     container.append(hiddenTextbox);
     container.append(hiddenLabel);
 
-    hiddenTextbox.addEventListener('change', (e) => {
+    hiddenTextbox.addEventListener('input', (e) => {
         pageContent["page3"]["unhelpfulThoughtDropdown"][container.dataset.index] = hiddenTextbox.value;
+        if (hiddenTextbox.value.length === 0) addErrorSingleContainer(hiddenTextbox)
+        else addSuccessSingleContainer(hiddenTextbox);
+        verifyPage3();
     })
 
     // allow other to show a textbox, if change to different value, then delete the textbox
@@ -837,8 +1010,11 @@ function page3CreateUnhelpfulThought() {
     textbox.id = `page3-thought-text-${page3UnhelpfulThoughtIncrement}`;
     textbox.placeholder = "Write down your thinking...";
     
-    textbox.addEventListener('change', (e) => {
+    textbox.addEventListener('input', (e) => {
         pageContent["page3"]["unhelpfulThoughtContent"][container.dataset.index] = e.target.value;
+        if (textbox.value.length === 0) addErrorSingleContainer(textbox)
+        else addSuccessSingleContainer(textbox);
+        verifyPage3();
     })
     container.append(textbox);
 
@@ -866,7 +1042,12 @@ function page3CreateUnhelpfulThought() {
         containerForAnimation.addEventListener('animationend', () => {
             containerForAnimation.remove();
         })
+        verifyPage3();
     })
+
+    // force that no outline show when first created
+    removeErrorSuccessSingleContainer(textbox);
+    removeErrorSuccessSingleContainer(hiddenTextbox);
 
     // increment increase for unique id's
     page3UnhelpfulThoughtIncrement ++;
@@ -941,8 +1122,11 @@ function page3CreateUnhelpfulBehaviour() {
     container.append(hiddenTextbox);
     container.append(hiddenLabel);
 
-    hiddenTextbox.addEventListener('change', (e) => {
+    hiddenTextbox.addEventListener('input', (e) => {
         pageContent["page3"]["unhelpfulBehaviourDropdown"][container.dataset.index] = hiddenTextbox.value;
+        if (hiddenTextbox.value.length === 0) addErrorSingleContainer(hiddenTextbox)
+        else addSuccessSingleContainer(hiddenTextbox);
+        verifyPage3();
     })
 
     // allow other to show a textbox, if change to different value, then delete the textbox
@@ -970,8 +1154,11 @@ function page3CreateUnhelpfulBehaviour() {
     textbox.id = `page3-behaviour-text-${page3UnhelpfulBehaviourIncrement}`;
     textbox.placeholder = "Write down your behaviour..."
     
-    textbox.addEventListener('change', (e) => {
+    textbox.addEventListener('input', (e) => {
         pageContent["page3"]["unhelpfulBehaviourContent"][container.dataset.index] = e.target.value;
+        if (textbox.value.length === 0) addErrorSingleContainer(textbox)
+        else addSuccessSingleContainer(textbox);
+        verifyPage3();
     })
     container.append(textbox);
 
@@ -999,7 +1186,12 @@ function page3CreateUnhelpfulBehaviour() {
         containerForAnimation.addEventListener('animationend', () => {
             containerForAnimation.remove();
         })
+        verifyPage3();
     })
+
+    // force that no outline show when first created
+    removeErrorSuccessSingleContainer(textbox);
+    removeErrorSuccessSingleContainer(hiddenTextbox);
 
     // increment increase for unique id's
     page3UnhelpfulBehaviourIncrement ++;
@@ -1008,18 +1200,50 @@ function page3CreateUnhelpfulBehaviour() {
 // completed
 function verifyPage3() {
     
+    const upperContainer = document.getElementById('page3SectionThought');
+    const lowerContainer = document.getElementById('page3SectionBehaviour');
+    const errorText = document.getElementById('page3ErrorTextMain');
+    const nextPageButton = document.getElementById('page3NextButton');
     let verified = true;
+    let noContent = true;
     
+    console.log("Loop through the page content.")
     // textbox verification for other input
-    for (const [key, value] of Object.entries(pageContent["page3"]["unhelpfulThoughtContent"])) {
-        console.log(`${key}: ${value}`);
-        if (value.length === 0) verified = false;
+    for (const [key, value] of Object.entries(pageContent["page3"]["unhelpfulThoughtDropdown"])) {
+        const textContent = document.getElementById(`page3-thought-text-${key}`);
+        const hiddenName = document.getElementById(`page3-thought-hidden-text-${key}`);
+        if (textContent.value.length === 0) {
+            verified = false;
+            addErrorSingleContainer(upperContainer);
+            addErrorSingleContainer(textContent);
+        } else {
+            addSuccessSingleContainer(textContent);
+        }
+        if (pageContent["page3"]["unhelpfulThoughtDropdown"][key].length === 0) {
+            verified = false;
+            addErrorSingleContainer(hiddenName);
+        } else {
+            addSuccessSingleContainer(hiddenName);
+        }
     }
 
-    // slider value verification
-    for (const [key, value] of Object.entries(pageContent["page3"]["unhelpfulBehaviourContent"])) {
-        console.log(`${key}: ${value}`);
-        if (value < 0 || value > 10) verified = false;
+    // textbox verification for other input
+    for (const [key, value] of Object.entries(pageContent["page3"]["unhelpfulBehaviourDropdown"])) {
+        const textContent = document.getElementById(`page3-behaviour-text-${key}`);
+        const hiddenName = document.getElementById(`page3-behaviour-hidden-text-${key}`);
+        if (textContent.value.length === 0) {
+            verified = false;
+            addErrorSingleContainer(upperContainer);
+            addErrorSingleContainer(textContent);
+        } else {
+            addSuccessSingleContainer(textContent);
+        }
+        if (pageContent["page3"]["unhelpfulBehaviourDropdown"][key].length === 0) {
+            verified = false;
+            addErrorSingleContainer(hiddenName);
+        } else {
+            addSuccessSingleContainer(hiddenName);
+        }
     }
 
     /* -------------------------
@@ -1031,10 +1255,36 @@ function verifyPage3() {
     /* -------------------------
     Check that at least one thought or behaviour has been input 
     ----------------------------*/
-    if (Object.keys(pageContent["page3"]["unhelpfulThoughtDropdown"]).length === 0 && Object.keys(pageContent["page3"]["unhelpfulBehaviourDropdown"]).length === 0) verified = false;
+    if (Object.keys(pageContent["page3"]["unhelpfulThoughtDropdown"]).length === 0 && Object.keys(pageContent["page3"]["unhelpfulBehaviourDropdown"]).length === 0) {
+        verified = false;
+        noContent = true;
+    } else {
+        noContent = false;
+    }
+
+    if (noContent) {
+        addError(errorText, upperContainer);
+        addError(errorText, lowerContainer);
+    } else {
+        removeErrorSuccess(errorText, upperContainer);
+        removeErrorSuccess(errorText, lowerContainer);
+    }
    
-    if (verified) return true
-    else return false;
+    if (verified) {
+        if (Object.keys(pageContent["page3"]["unhelpfulThoughtDropdown"]).length !== 0) {
+            addSuccessSingleContainer(upperContainer);
+            if (Object.keys(pageContent["page3"]["unhelpfulBehaviourDropdown"]).length === 0) addSuccessSingleContainer(lowerContainer);
+        }
+        if (Object.keys(pageContent["page3"]["unhelpfulBehaviourDropdown"]).length !== 0) {
+            addSuccessSingleContainer(lowerContainer);
+            if (Object.keys(pageContent["page3"]["unhelpfulThoughtDropdown"]).length === 0) addSuccessSingleContainer(upperContainer);
+        }
+        nextPageReady(nextPageButton);
+        return true;
+    } else {
+        nextPageNotReady(nextPageButton);
+        return false;
+    }
 }
 
 /*

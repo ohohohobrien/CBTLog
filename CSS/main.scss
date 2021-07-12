@@ -9,6 +9,7 @@
   --secondary-colour: #3efce8;
   --secondary-colour-positive: #a0fff5;
   --secondary-colour-dark: #5eddd0d6;
+  --incomplete-page-button: #91ded6;
   --font-white: #fff1f1;
 }
 
@@ -34,6 +35,34 @@
   background: -webkit-linear-gradient(top left, #ab6bc9, #d1a2e7);
   background: -moz-linear-gradient(top left, #ab6bc9, #d1a2e7);
   background: linear-gradient(to bottom right, #ab6bc9, #d1a2e7);
+}
+
+@mixin error-message {
+  p {
+    margin: 0;
+    text-align: center;
+    color: #ff0000;
+    font-weight: 600;
+  }
+}
+
+@mixin error-container {
+  border: 2px solid #ff0000;
+  border-radius: 40px;
+}
+
+@mixin success-message {
+  p {
+    margin: 0;
+    text-align: center;
+    color: var(--secondary-colour);
+    font-weight: 600;
+  }
+}
+
+@mixin success-container {
+  border: 2px solid var(--secondary-colour);
+  border-radius: 40px;
 }
 
 @mixin button-style {
@@ -90,7 +119,7 @@
   //styling options
   border-radius: 2em;
   background-color: var(--primary-colour-lightest);
-  transition: background-color 0.5s ease;
+  transition: background-color 0.5s ease, border 0.5s ease;
   opacity: 80%;
   border: 0.5px solid var(--font-white);
   @include outline();
@@ -678,6 +707,10 @@ body {
     line-height: 2rem;
   }
 
+  .light-text {
+    font-weight: 400;
+  }
+
   .larger-text {
     font-size: 1.2rem;
     line-height: 3rem;
@@ -701,8 +734,11 @@ body {
   }
 
   .error-container {
-    border: 2px solid #ff0000;
-    border-radius: 40px;
+    @include error-container;
+  }
+
+  .success-container {
+    @include success-container;
   }
 }
 
@@ -776,12 +812,24 @@ body {
         drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.5));
     }
   }
+
+  .incomplete-page {
+    background-color: var(--incomplete-page-button);
+  }
 }
 
 // Page 2
 
 section {
   margin: 1em 0 4em 0;
+}
+
+.error-container {
+  @include error-container();
+}
+
+.success-container {
+  @include success-container();
 }
 
 .helpful-text-container {
@@ -862,6 +910,14 @@ section {
   max-width: 80%;
   height: 40px;
   max-height: 40px;
+}
+
+.error-container {
+  @include error-container();
+}
+
+.success-container {
+  @include success-container();
 }
 
 // page 3
@@ -960,6 +1016,12 @@ section {
       margin: auto;
       margin-bottom: 1em;
       margin-top: 1em;
+    }
+    .error-container {
+      @include error-container();
+    }
+    .success-container {
+      @include success-container();
     }
   }
 }
@@ -1452,15 +1514,9 @@ svg {
 }
 
 .error-message {
-  p {
-    margin: 0;
-    text-align: center;
-    color: #ff0000;
-    font-weight: 600;
-  }
+  @include error-message;
 }
 
-.error-container {
-  border: 2px solid #ff0000;
-  border-radius: 40px;
+.success-message {
+  @include success-message;
 }

@@ -7,6 +7,7 @@
   --secondary-colour: #3efce8;
   --secondary-colour-positive: #a0fff5;
   --secondary-colour-dark: #5eddd0d6;
+  --incomplete-page-button: #91ded6;
   --font-white: #fff1f1;
 }
 
@@ -821,6 +822,10 @@ body {
   line-height: 2rem;
 }
 
+.helpful-text-container .light-text {
+  font-weight: 400;
+}
+
 .helpful-text-container .larger-text {
   font-size: 1.2rem;
   line-height: 3rem;
@@ -841,8 +846,8 @@ body {
   height: 200px;
   border-radius: 2em;
   background-color: var(--primary-colour-lightest);
-  -webkit-transition: background-color 0.5s ease;
-  transition: background-color 0.5s ease;
+  -webkit-transition: background-color 0.5s ease, border 0.5s ease;
+  transition: background-color 0.5s ease, border 0.5s ease;
   opacity: 80%;
   border: 0.5px solid var(--font-white);
   -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
@@ -865,6 +870,11 @@ body {
 
 .text-box-container .error-container {
   border: 2px solid #ff0000;
+  border-radius: 40px;
+}
+
+.text-box-container .success-container {
+  border: 2px solid var(--secondary-colour);
   border-radius: 40px;
 }
 
@@ -1054,8 +1064,22 @@ body {
           filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg) brightness(108%) contrast(109%) drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.5));
 }
 
+.bottom-navigation-container .incomplete-page {
+  background-color: var(--incomplete-page-button);
+}
+
 section {
   margin: 1em 0 4em 0;
+}
+
+.error-container {
+  border: 2px solid #ff0000;
+  border-radius: 40px;
+}
+
+.success-container {
+  border: 2px solid var(--secondary-colour);
+  border-radius: 40px;
 }
 
 .helpful-text-container {
@@ -1207,8 +1231,8 @@ section {
 .checkbox-textbox {
   border-radius: 2em;
   background-color: var(--primary-colour-lightest);
-  -webkit-transition: background-color 0.5s ease;
-  transition: background-color 0.5s ease;
+  -webkit-transition: background-color 0.5s ease, border 0.5s ease;
+  transition: background-color 0.5s ease, border 0.5s ease;
   opacity: 80%;
   border: 0.5px solid var(--font-white);
   -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
@@ -1234,6 +1258,16 @@ section {
   -webkit-box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
           box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
   outline: none;
+}
+
+.error-container {
+  border: 2px solid #ff0000;
+  border-radius: 40px;
+}
+
+.success-container {
+  border: 2px solid var(--secondary-colour);
+  border-radius: 40px;
 }
 
 section {
@@ -1365,8 +1399,8 @@ section {
   grid-area: page3-text-input;
   border-radius: 2em;
   background-color: var(--primary-colour-lightest);
-  -webkit-transition: background-color 0.5s ease;
-  transition: background-color 0.5s ease;
+  -webkit-transition: background-color 0.5s ease, border 0.5s ease;
+  transition: background-color 0.5s ease, border 0.5s ease;
   opacity: 80%;
   border: 0.5px solid var(--font-white);
   -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
@@ -1395,6 +1429,16 @@ section {
   -webkit-box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
           box-shadow: 4px 4px 10px 8px rgba(53, 53, 53, 0.26);
   outline: none;
+}
+
+.page3-choice-container .page3-unhelpful-thoughts-container .error-container {
+  border: 2px solid #ff0000;
+  border-radius: 40px;
+}
+
+.page3-choice-container .page3-unhelpful-thoughts-container .success-container {
+  border: 2px solid var(--secondary-colour);
+  border-radius: 40px;
 }
 
 .close-button {
@@ -1533,8 +1577,8 @@ section {
 .page-4-container .page4-container-inner textarea {
   border-radius: 2em;
   background-color: var(--primary-colour-lightest);
-  -webkit-transition: background-color 0.5s ease;
-  transition: background-color 0.5s ease;
+  -webkit-transition: background-color 0.5s ease, border 0.5s ease;
+  transition: background-color 0.5s ease, border 0.5s ease;
   opacity: 80%;
   border: 0.5px solid var(--font-white);
   -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
@@ -1644,8 +1688,8 @@ section {
 .page45-top-row .column1 textarea {
   border-radius: 2em;
   background-color: var(--primary-colour-lightest);
-  -webkit-transition: background-color 0.5s ease;
-  transition: background-color 0.5s ease;
+  -webkit-transition: background-color 0.5s ease, border 0.5s ease;
+  transition: background-color 0.5s ease, border 0.5s ease;
   opacity: 80%;
   border: 0.5px solid var(--font-white);
   -webkit-box-shadow: 2px 2px 5px 4px rgba(53, 53, 53, 0.26);
@@ -2117,8 +2161,10 @@ svg {
   font-weight: 600;
 }
 
-.error-container {
-  border: 2px solid #ff0000;
-  border-radius: 40px;
+.success-message p {
+  margin: 0;
+  text-align: center;
+  color: var(--secondary-colour);
+  font-weight: 600;
 }
 /*# sourceMappingURL=main.css.map */
