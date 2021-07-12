@@ -9,6 +9,7 @@
   --secondary-colour-dark: #5eddd0d6;
   --incomplete-page-button: #91ded6;
   --font-white: #fff1f1;
+  --error-red: #ff0000;
 }
 
 @-webkit-keyframes slide-in-from-right {
@@ -869,12 +870,12 @@ body {
 }
 
 .text-box-container .error-container {
-  border: 2px solid #ff0000;
+  border: 2px solid var(--error-red);
   border-radius: 40px;
 }
 
 .text-box-container .success-container {
-  border: 2px solid var(--secondary-colour);
+  border: 1px solid var(--secondary-colour);
   border-radius: 40px;
 }
 
@@ -1073,12 +1074,12 @@ section {
 }
 
 .error-container {
-  border: 2px solid #ff0000;
+  border: 2px solid var(--error-red);
   border-radius: 40px;
 }
 
 .success-container {
-  border: 2px solid var(--secondary-colour);
+  border: 1px solid var(--secondary-colour);
   border-radius: 40px;
 }
 
@@ -1261,12 +1262,12 @@ section {
 }
 
 .error-container {
-  border: 2px solid #ff0000;
+  border: 2px solid var(--error-red);
   border-radius: 40px;
 }
 
 .success-container {
-  border: 2px solid var(--secondary-colour);
+  border: 1px solid var(--secondary-colour);
   border-radius: 40px;
 }
 
@@ -1432,12 +1433,12 @@ section {
 }
 
 .page3-choice-container .page3-unhelpful-thoughts-container .error-container {
-  border: 2px solid #ff0000;
+  border: 2px solid var(--error-red);
   border-radius: 40px;
 }
 
 .page3-choice-container .page3-unhelpful-thoughts-container .success-container {
-  border: 2px solid var(--secondary-colour);
+  border: 1px solid var(--secondary-colour);
   border-radius: 40px;
 }
 
@@ -2157,7 +2158,7 @@ svg {
 .error-message p {
   margin: 0;
   text-align: center;
-  color: #ff0000;
+  color: var(--error-red);
   font-weight: 600;
 }
 
