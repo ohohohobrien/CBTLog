@@ -76,6 +76,8 @@ function applyListener(buttonElement) {
         indexContainer.classList.add('slideOutLeft');
 
         indexContainer.addEventListener('animationend', () => {
+            indexContainer.style.display = "none";
+            indexContainer.classList.add('hidden');
             window.open("https://ohohohobrien.github.io/CBTLog/cbtlog.html", "_self");
         })
 
