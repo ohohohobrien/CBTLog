@@ -4,6 +4,7 @@ window.onload = init;
 function init() {
     checkAccessibility();
     randomizeFace();
+    setButtonListener();
 
     //sessionStorage.setItem("accessibilityMode", false);
     
@@ -62,4 +63,21 @@ function randomizeFace() {
     }
 
     faceImage.src = `./resources/SvgFaces/Artboards_Diversity_Avatars_by_Netguru-${randomNumber}.svg`;
+}
+
+function setButtonListener() {
+    applyListener(document.getElementById('startButton1'));
+    applyListener(document.getElementById('startButton2'));
+}
+
+function applyListener(buttonElement) {
+    buttonElement.addEventListener('click', () => {
+        const indexContainer = document.getElementById('index-container');
+        indexContainer.classList.add('slideOutLeft');
+
+        indexContainer.addEventListener('animationend', () => {
+            window.open("https://ohohohobrien.github.io/CBTLog/cbtlog.html", "_self");
+        })
+
+    })
 }

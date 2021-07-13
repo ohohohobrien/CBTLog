@@ -12,6 +12,7 @@
   --incomplete-page-button: #91ded6;
   --font-white: #fff1f1;
   --error-red: #ff0000;
+  --success-colour: #3efce970;
 }
 
 @mixin outline {
@@ -48,7 +49,7 @@
 }
 
 @mixin error-container {
-  border: 2px solid var(--error-red);
+  border: 2px outset var(--error-red);
   border-radius: 40px;
 }
 
@@ -56,13 +57,13 @@
   p {
     margin: 0;
     text-align: center;
-    color: var(--secondary-colour);
+    color: var(--success-colour);
     font-weight: 600;
   }
 }
 
 @mixin success-container {
-  border: 1px solid var(--secondary-colour);
+  border: 2px outset var(--success-colour);
   border-radius: 40px;
 }
 
@@ -1110,6 +1111,12 @@ section {
       margin: auto;
       display: inherit;
     }
+    .error-container {
+      @include error-container();
+    }
+    .success-container {
+      @include success-container();
+    }
   }
 
   .page4-button-container {
@@ -1135,6 +1142,10 @@ section {
         transform: rotate(180deg);
         top: 10%;
       }
+    }
+
+    .incomplete-page {
+      background-color: var(--incomplete-page-button);
     }
   }
 }
@@ -1168,11 +1179,17 @@ section {
       border-radius: 0.5em;
     }
     .justify-center {
-      text-align: left;
+      text-align: center;
       padding: 0.5em 0;
-      font-size: 1.2em;
+      font-size: 1.1em;
       font-weight: 600;
       margin: auto;
+    }
+    .error-container {
+      @include error-container();
+    }
+    .success-container {
+      @include success-container();
     }
   }
   .column2 {
@@ -1210,6 +1227,10 @@ section {
         height: 15px;
         width: 15px;
       }
+    }
+
+    .incomplete-page {
+      background-color: var(--incomplete-page-button);
     }
   }
 }
@@ -1311,6 +1332,16 @@ section {
       color: var(--secondary-colour);
       padding: 0 2em;
     }
+  }
+
+  .error-container {
+    @include error-container();
+  }
+  .error-message {
+    @include error-message();
+  }
+  .success-container {
+    @include success-container();
   }
 }
 

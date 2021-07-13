@@ -10,6 +10,7 @@
   --incomplete-page-button: #91ded6;
   --font-white: #fff1f1;
   --error-red: #ff0000;
+  --success-colour: #3efce970;
 }
 
 @-webkit-keyframes slide-in-from-right {
@@ -870,12 +871,12 @@ body {
 }
 
 .text-box-container .error-container {
-  border: 2px solid var(--error-red);
+  border: 2px outset var(--error-red);
   border-radius: 40px;
 }
 
 .text-box-container .success-container {
-  border: 1px solid var(--secondary-colour);
+  border: 2px outset var(--success-colour);
   border-radius: 40px;
 }
 
@@ -1074,12 +1075,12 @@ section {
 }
 
 .error-container {
-  border: 2px solid var(--error-red);
+  border: 2px outset var(--error-red);
   border-radius: 40px;
 }
 
 .success-container {
-  border: 1px solid var(--secondary-colour);
+  border: 2px outset var(--success-colour);
   border-radius: 40px;
 }
 
@@ -1262,12 +1263,12 @@ section {
 }
 
 .error-container {
-  border: 2px solid var(--error-red);
+  border: 2px outset var(--error-red);
   border-radius: 40px;
 }
 
 .success-container {
-  border: 1px solid var(--secondary-colour);
+  border: 2px outset var(--success-colour);
   border-radius: 40px;
 }
 
@@ -1433,12 +1434,12 @@ section {
 }
 
 .page3-choice-container .page3-unhelpful-thoughts-container .error-container {
-  border: 2px solid var(--error-red);
+  border: 2px outset var(--error-red);
   border-radius: 40px;
 }
 
 .page3-choice-container .page3-unhelpful-thoughts-container .success-container {
-  border: 1px solid var(--secondary-colour);
+  border: 2px outset var(--success-colour);
   border-radius: 40px;
 }
 
@@ -1608,6 +1609,16 @@ section {
   outline: none;
 }
 
+.page-4-container .page4-container-inner .error-container {
+  border: 2px outset var(--error-red);
+  border-radius: 40px;
+}
+
+.page-4-container .page4-container-inner .success-container {
+  border: 2px outset var(--success-colour);
+  border-radius: 40px;
+}
+
 .page-4-container .page4-button-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1666,6 +1677,10 @@ section {
   top: 10%;
 }
 
+.page-4-container .page4-button-container .incomplete-page {
+  background-color: var(--incomplete-page-button);
+}
+
 .page45-top-row {
   display: -ms-grid;
   display: grid;
@@ -1720,11 +1735,21 @@ section {
 }
 
 .page45-top-row .column1 .justify-center {
-  text-align: left;
+  text-align: center;
   padding: 0.5em 0;
-  font-size: 1.2em;
+  font-size: 1.1em;
   font-weight: 600;
   margin: auto;
+}
+
+.page45-top-row .column1 .error-container {
+  border: 2px outset var(--error-red);
+  border-radius: 40px;
+}
+
+.page45-top-row .column1 .success-container {
+  border: 2px outset var(--success-colour);
+  border-radius: 40px;
 }
 
 .page45-top-row .column2 {
@@ -1801,6 +1826,10 @@ section {
   top: -25%;
   height: 15px;
   width: 15px;
+}
+
+.page45-top-row .column2 .incomplete-page {
+  background-color: var(--incomplete-page-button);
 }
 
 .page45-bottom-row {
@@ -1905,6 +1934,23 @@ section {
   font-weight: 800;
   color: var(--secondary-colour);
   padding: 0 2em;
+}
+
+.page-4-container .error-container {
+  border: 2px outset var(--error-red);
+  border-radius: 40px;
+}
+
+.page-4-container .error-message p {
+  margin: 0;
+  text-align: center;
+  color: var(--error-red);
+  font-weight: 600;
+}
+
+.page-4-container .success-container {
+  border: 2px outset var(--success-colour);
+  border-radius: 40px;
 }
 
 .top-navigation-container-summary {
@@ -2165,7 +2211,7 @@ svg {
 .success-message p {
   margin: 0;
   text-align: center;
-  color: var(--secondary-colour);
+  color: var(--success-colour);
   font-weight: 600;
 }
 /*# sourceMappingURL=main.css.map */
