@@ -9,7 +9,7 @@
   --secondary-colour-dark: #5eddd0d6;
   --incomplete-page-button: #91ded6;
   --font-white: #fff1f1;
-  --error-red: #ff0000;
+  --error-red: #d40d0d;
   --success-colour: #3efce970;
 }
 
@@ -1558,7 +1558,7 @@ section {
   text-align: center;
   color: var(--font-white);
   margin: 0 auto 1em auto;
-  padding: 0 2em;
+  padding: 0;
 }
 
 .page-4-container .page4-container-inner h2 {

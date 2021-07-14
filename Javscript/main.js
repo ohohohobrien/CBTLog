@@ -323,7 +323,15 @@ function applyPageListeners() {
     // page 6
 
     page6FinishButton.addEventListener("click", (e) => {
-        window.open("https://ohohohobrien.github.io/CBTLog/");
+
+        page6Container.classList.add('slideOutLeft');
+
+        page6Container.addEventListener('animationend', () => {
+            page6Container.style.display = "none";
+            page6Container.classList.add('hidden');
+            window.open("https://ohohohobrien.github.io/CBTLog/", "_self");
+        })
+        
     });
 
     checkAccessibility();
@@ -2379,7 +2387,7 @@ function createPDF() {
 
     // add listener to save the document
     document.getElementById('page6PrintButton').addEventListener('click', () => {
-        doc.save(`CBT-Log-${date.getDate()}-${date.getMonth()}-${date.getYear().toString().slice(1)}.pdf`);
+        doc.save(`CBT-Log-${date.getDate()}-${date.getMonth() + 1}-${date.getYear().toString().slice(1)}.pdf`);
     })
 }
 

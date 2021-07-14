@@ -11,27 +11,30 @@ function init() {
     // calm mode
     document.getElementById('calmButton').addEventListener('click', () => {
         const allElements = document.body.querySelectorAll('*').forEach(function(node) {
-            if (node.nodeName !== "A") {
+            if (node.nodeName !== "A" || node.nodeName !== "H1") {
                 node.style.color = '#fff1f1';
             }
         });
         document.getElementById('accessibilityText').style.color = '#0D0D0D';
+        document.getElementById('heroHeader').style.color = '#144400';
         sessionStorage.setItem("accessibilityMode", false);
     })
 
     // accessibility mode
     document.getElementById('accessibilityButton').addEventListener('click', () => {
         const allElements = document.body.querySelectorAll('*').forEach(function(node) {
-            if (node.nodeName !== "A") {
+            if (node.nodeName !== "A" || node.nodeName !== "H1") {
                 node.style.color = '#0D0D0D';
             }
         });
         document.getElementById('calmText').style.color = '#fff1f1';
+        document.getElementById('heroHeader').style.color = '#144400';
         sessionStorage.setItem("accessibilityMode", true);
     })
 
     document.getElementById('accessibilityText').style.color = '#0D0D0D';
     document.getElementById('calmText').style.color = '#fff1f1';
+    document.getElementById('heroHeader').style.color = '#144400';
 
 }
 
@@ -43,7 +46,7 @@ function checkAccessibility() {
     if (accessibilityMode === "true") {
         // accessibility mode
         document.body.querySelectorAll('*').forEach(function(node) {
-            if (node.nodeName !== "A") {
+            if (node.nodeName !== "A" || node.nodeName !== "H1") {
                 node.style.color = '#0D0D0D';
             }
         });
