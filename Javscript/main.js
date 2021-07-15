@@ -47,6 +47,29 @@ let pageContent = {
     },
 };
 
+// advice character images
+
+// happy / down / ask / think / anxious
+const happyImage = document.createElement('img');
+happyImage.src = `./resources/graphics/happy.png`;
+happyImage.alt = "friend character";
+
+const downImage = document.createElement('img');
+downImage.src = `./resources/graphics/down.png`;
+downImage.alt = "friend character";
+
+const askImage = document.createElement('img');
+askImage.src = `./resources/graphics/ask.png`;
+askImage.alt = "friend character";
+
+const thinkImage = document.createElement('img');
+thinkImage.src = `./resources/graphics/think.png`;
+thinkImage.alt = "friend character";
+
+const anxiousImage = document.createElement('img');
+anxiousImage.src = `./resources/graphics/anxious.png`;
+anxiousImage.alt = "friend character";
+
 function init() {
     
     applyPageListeners();
@@ -1646,12 +1669,12 @@ function page45StateManager() {
     if (page45State === 0) {
         // do something
         // see "Page 4 - Talk to a friend part 0" on Figma
-        const text = `Here is your friend Penguin.`;
+        const text = `Here is your friend Quokka.`;
         const text2 = `Could you give them some advice?`;
         const content = document.createElement('p');
         content.innerHTML = text + "<br />" + "<br />" + text2;
         content.classList.add("justify-center");
-        page45CreateElements(content, "none", "sad");
+        page45CreateElements(content, "none", "anxious");
     } else if (page45State === 1) {
         // Page 4 - Talk to a friend part 1 on Figma
         const text = `I'm feeling <b><u>${primaryFeeling}</b></u>.`;
@@ -1659,7 +1682,7 @@ function page45StateManager() {
         const text3 = `So, I started to fill out my CBT log.`;
         const content = document.createElement('p');
         content.innerHTML = text + "<br />" + text2 + "<br />" + text3;
-        page45CreateElements(content, "under", "sad");
+        page45CreateElements(content, "under", "down");
     } else if (page45State === 2) {
         // Page 4 - Talk to a friend part 2 on Figma
         let text = ""; // can change based on inputs
@@ -1672,18 +1695,18 @@ function page45StateManager() {
         }
         const content = document.createElement('p');
         content.innerHTML = text;
-        page45CreateElements(content, "under", "sad");
+        page45CreateElements(content, "under", "think");
     } else if (page45State === 3) {
         // Page 4 - Talk to a friend part 3 on Figma
         const text = `Can you help me? I’m not sure what I should do...`;
         const text2 = `What would you do if you were me?`;
         const content = document.createElement('p');
         content.innerHTML = text + "<br />" + "<br />" + text2;
-        page45CreateElements(content, "under", "sad");
+        page45CreateElements(content, "under", "ask");
     } else if (page45State === 4) {
         // Page 4 - Talk to a friend part 4 on Figma
         const textbox = document.createElement('textarea');
-        textbox.placeholder = "Give penguin some friendly advice...";
+        textbox.placeholder = "Give Quokka some friendly advice...";
         textbox.id = "page45-advice-textbox";
         textbox.value = pageContent["page4"]["friendlyAdvice"];
         textbox.addEventListener('input', (e) => {
@@ -1702,7 +1725,7 @@ function page45StateManager() {
                 nextPageNotReady(nextPageButton);
             }
         })
-        page45CreateElements(textbox, "left", "sad");
+        page45CreateElements(textbox, "left", "down");
     } else if (page45State === 5) {
         // Page 5 - Talk to a friend part 4 on Figma
         const text = `Thanks! That's some good advice!`;
@@ -1845,6 +1868,15 @@ function page45CreateElements(content, speechbox, image) {
     bottomRowContainer.id = `page45-bottomRow-${page45State}`;
     parentElement.append(bottomRowContainer);
 
+    let adviceCharacter = null; 
+
+    if (image === "happy") adviceCharacter = happyImage;
+    if (image === "down") adviceCharacter = downImage;
+    if (image === "ask") adviceCharacter = askImage;
+    if (image === "think") adviceCharacter = thinkImage;
+    if (image === "anxious") adviceCharacter = anxiousImage;
+
+    /*
     const penguinPicture = document.createElement('img');
     if (image === "sad") {
         penguinPicture.src = "./resources/graphics/sadPenguin.png"; 
@@ -1854,7 +1886,9 @@ function page45CreateElements(content, speechbox, image) {
         console.log("You have typed in the wrong type of Penguin character to generate.")
     }
     penguinPicture.alt = "Penguin Character";
-    bottomRowContainer.append(penguinPicture);
+    */
+
+    bottomRowContainer.append(adviceCharacter);
 
     // set the styling of the completed or not completed
 
