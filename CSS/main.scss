@@ -428,6 +428,72 @@
   animation-direction: normal;
 }
 
+@keyframes maximize-outwards-page4-thoughts {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+  }
+
+  30% {
+    opacity: 0.1;
+  }
+
+  80% {
+    transform: scaleY(0.9);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+    max-height: 590px;
+    margin-top: 13px;
+    margin-bottom: 13px;
+    display: block;
+  }
+}
+
+.maximizeOutPage3Help-thought {
+  animation-name: maximize-outwards-page4-thoughts;
+  animation-duration: 1s;
+  animation-direction: normal;
+}
+
+@keyframes maximize-outwards-page4-behaviours {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+  }
+
+  30% {
+    opacity: 0.1;
+  }
+
+  80% {
+    transform: scaleY(0.9);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+    max-height: 502px;
+    margin-top: 13px;
+    margin-bottom: 13px;
+    display: block;
+  }
+}
+
+.maximizeOutPage3Help-behaviour {
+  animation-name: maximize-outwards-page4-behaviours;
+  animation-duration: 1s;
+  animation-direction: normal;
+}
+
 @keyframes maximize-outwards-page1 {
   0% {
     transform: scaleY(0);
@@ -614,6 +680,15 @@ body {
       justify-self: center;
       align-self: center;
     }
+  }
+
+  p {
+    font-size: 0.8em;
+    color: var(--font-white);
+  }
+  a {
+    font-size: 0.8em;
+    text-decoration: underline;
   }
 }
 

@@ -1522,6 +1522,86 @@ function page4CreateAlternativeHTMLElement() {
     bottomContainer.classList.add("page4-container")
     bottomSection.append(bottomContainer);
 
+    // guide section
+    // ZZZZ
+
+    const guideContainer = document.createElement("div");
+    guideContainer.classList.add("float");
+    bottomContainer.append(guideContainer);
+    const guideText = document.createElement("p");
+    guideText.innerHTML = "how to challenge?";
+    guideText.style.textAlign = "right";
+    guideText.style.fontWeight = "600";
+    const guideButton = document.createElement("button");
+    guideButton.innerHTML = "i";
+    guideButton.style.color = "#be80db";
+    guideButton.style.fontStyle = "italic";
+    guideButton.classList.add("help-button");
+    guideContainer.append(guideText);
+    guideContainer.append(guideButton);
+    const guideContentContainer = document.createElement("div"); 
+    guideContentContainer.style.display = "none";
+    guideContentContainer.classList.add(`maximizeOutPage3Help-${pageContent["page4"]["alternativeObjects"][page4Index].type}`);
+
+    guideButton.addEventListener("click", () => {
+        if (guideContentContainer.style.display === "none") {
+            guideContentContainer.style.display = "block";
+            guideContentContainer.classList.remove("minimizeInwards");
+            guideContentContainer.classList.add(`maximizeOutPage3Help-${pageContent["page4"]["alternativeObjects"][page4Index].type}`);
+            //guideButton.scrollIntoView({ behavior: 'smooth'});
+        } else {
+            guideContentContainer.classList.remove(`maximizeOutPage3Help-${pageContent["page4"]["alternativeObjects"][page4Index].type}`);
+            guideContentContainer.classList.add("minimizeInwards");
+        }
+    });
+
+    guideContentContainer.addEventListener("animationend", () => {
+        if (guideContentContainer.classList.contains("minimizeInwards")) {
+            guideContentContainer.style.display = "none";
+        } else {
+            guideButton.scrollIntoView({ behavior: 'smooth'});
+        }
+    });
+    
+
+    const guideContent = document.createElement("p");
+    const guideLink = document.createElement("a");
+    guideLink.innerHTML = "more information"
+    if (pageContent["page4"]["alternativeObjects"][page4Index].type === "thought") {
+        guideContent.innerHTML = "⚔️⚔️ It's important to <b><u>challenge</b></u> unhelpful thoughts once you notice them."
+        + "<br /> <br />" + 
+        "✔️🎯 What <b><u>proof</b></u> do you have that this thought is <b><u>true</b></u>?"
+        + "<br /> <br />" + 
+        "❌🎯 How about against it? Your initial thought <b><u>may not be 100% accurate</b></u>."
+        + "<br /> <br />" + 
+        "🧑‍⚖️ What <b><u>proof</b></u> do you have that this thought is <b><u>not true</b></u>? There are a few ways to try this - why not treat it like a court-trial? What evidence would you present to the judge?"
+        + "<br /> <br />" + 
+        "🙂🥰 Or, if that's not your cup of tea, why not something more empathetic? What would you tell a friend in the same situation?"
+        + "<br /> <br />" + 
+        "💪🦶 This is an important step for your mental health journey, why not read more on this:";
+        guideLink.src = "https://www.innermelbpsychology.com.au/thought-challenging/";
+    } else {
+        guideContent.innerHTML = "⚔️⚔️ It's important to <b><u>challenge</b></u> unhelpful behaviours once you notice them."
+        + "<br /> <br />" + 
+        "✔️👍 Is your behaviour <b><u>positive</b></u> and <b><u>helpful</b></u>?"
+        + "<br /> <br />" + 
+        "❌🙅 Is your behaviour <b><u>negative</b></u> and <b><u>harmful</b></u>? Are you putting something off? Would tackling the situation be more beneficial?"
+        + "<br /> <br />" + 
+        "🔎🌐 Does your behaviour match the <b><u>scale of the situation</b></u>?"
+        + "<br /> <br />" + 
+        "🙂🥰 What would you tell a friend to do in the same situation?"
+        + "<br /> <br />" + 
+        "💪🦶 This is an important step for your mental health journey, why not read more on this:";
+        guideLink.src = "https://www.thoughtsonlifeandlove.com/anxiety-and-unhelpful-behaviours/";
+    }
+    guideLink.addEventListener('click', () => {
+        window.open(guideLink.src,'_blank');
+    });
+    
+    guideContentContainer.append(guideContent);
+    guideContentContainer.append(guideLink);
+    guideContainer.append(guideContentContainer);
+
     // thought phrases
     if (pageContent["page4"]["alternativeObjects"][page4Index].type === "thought") {
         const bottomHeader = document.createElement('h3');
@@ -1597,6 +1677,14 @@ function page4CreateAlternativeHTMLElement() {
 
     page4ControlIndex0AlternativeButton();
 }
+
+function animationEnd(HTMLElement, removeAnimationClass, classOnAnimationEnd) {
+    HTMLElement.addEventListener("animationend", () => {
+        HTMLElement.classList.remove(openClass);
+        HTMLElement.classList.add(classOnAnimationEnd);
+    });
+}
+
 
 // in progress - to add animation
 function page4RemoveAlternativeHTMLElement() {
