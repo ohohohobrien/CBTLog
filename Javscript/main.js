@@ -15,6 +15,8 @@ let page3UnhelpfulBehaviourIncrement = 1;
 let page4Index = 0;
 let page45State = 0;
 let page5TopContainerComplete = false;
+let page5LowerContainerComplete = false;
+let page5NewFeelingsSliderMoved = false;
 
 let pageContent = {
     "page1": {
@@ -122,6 +124,8 @@ function applyPageListeners() {
     const page3UnhelpfulBehaviourAddButton = document.getElementById('page3-unhelpful-behaviour-button');
     const page3UnhelpfulThoughtHelpButton = document.getElementById('page3-unhelpful-thoughts');
     const page3UnhelpfulBehaviourHelpButton = document.getElementById('page3-unhelpful-behaviour');
+    const page3UnhelpfulThoughtHelpContainer = document.getElementById('page3-unhelpful-thoughts-container');
+    const page3UnhelpfulBehaviourHelpContainer = document.getElementById('page3-unhelpful-behaviours-container');
     let page3Complete = false;
     const page3BackButton = document.getElementById('page3BackButton');
     const page3NextButton = document.getElementById('page3NextButton');
@@ -224,12 +228,44 @@ function applyPageListeners() {
         changePage(page3Container, page2Container, "back");
     })
 
+
+    // create maximizeOutPage3HelpThought class
     page3UnhelpfulThoughtHelpButton.addEventListener("click", () => {
-        window.open("https://www.getselfhelp.co.uk/docs/UnhelpfulThinkingHabitsWithAlternatives.pdf",'_blank');
+        if (page3UnhelpfulThoughtHelpContainer.style.display === "none") {
+            page3UnhelpfulThoughtHelpContainer.style.display = "block";
+            page3UnhelpfulThoughtHelpContainer.classList.remove("minimizeInwards");
+            page3UnhelpfulThoughtHelpContainer.classList.add(`maximizeOutPage3HelpThought`);
+        } else {
+            page3UnhelpfulThoughtHelpContainer.classList.remove(`maximizeOutPage3HelpThought`);
+            page3UnhelpfulThoughtHelpContainer.classList.add("minimizeInwards");
+        }
     })
     
+    page3UnhelpfulThoughtHelpContainer.addEventListener("animationend", () => {
+        if (page3UnhelpfulThoughtHelpContainer.classList.contains("minimizeInwards")) {
+            page3UnhelpfulThoughtHelpContainer.style.display = "none";
+        } else {
+            page3UnhelpfulThoughtHelpButton.scrollIntoView({ behavior: 'smooth'});
+        }
+    })
+
     page3UnhelpfulBehaviourHelpButton.addEventListener("click", () => {
-        window.open("https://www.austinanxiety.com/safety-behaviors/",'_blank');
+        if (page3UnhelpfulBehaviourHelpContainer.style.display === "none") {
+            page3UnhelpfulBehaviourHelpContainer.style.display = "block";
+            page3UnhelpfulBehaviourHelpContainer.classList.remove("minimizeInwards");
+            page3UnhelpfulBehaviourHelpContainer.classList.add(`maximizeOutPage3HelpBehaviour`);
+        } else {
+            page3UnhelpfulBehaviourHelpContainer.classList.remove(`maximizeOutPage3HelpBehaviour`);
+            page3UnhelpfulBehaviourHelpContainer.classList.add("minimizeInwards");
+        }
+    })
+    
+    page3UnhelpfulBehaviourHelpContainer.addEventListener("animationend", () => {
+        if (page3UnhelpfulBehaviourHelpContainer.classList.contains("minimizeInwards")) {
+            page3UnhelpfulBehaviourHelpContainer.style.display = "none";
+        } else {
+            page3UnhelpfulBehaviourHelpButton.scrollIntoView({ behavior: 'smooth'});
+        }
     })
 
     page3NextButton.addEventListener("click", () => {
@@ -1523,7 +1559,6 @@ function page4CreateAlternativeHTMLElement() {
     bottomSection.append(bottomContainer);
 
     // guide section
-    // ZZZZ
 
     const guideContainer = document.createElement("div");
     guideContainer.classList.add("float");
@@ -2139,8 +2174,17 @@ function page5CreateFeelingElements() {
     const hiddenContainerPage5 = document.getElementById('page5-hidden-textbox-container');
     const hiddenTextboxPage5 = document.getElementById('page5-hidden-textbox');
 
-    hiddenTextboxPage5.addEventListener('change', (e) => {
+    hiddenTextboxPage5.addEventListener('input', (e) => {
         pageContent["page5"]["new-feeling"] = hiddenTextboxPage5.value;
+
+        console.log(hiddenTextboxPage5.value);
+
+        if (hiddenTextboxPage5.value.length > 0) {
+            showPage5Slider();
+        } else {
+            removePage5Slider();
+        }
+
     })
 
     // allow other to show a textbox, if change to different value, then delete the textbox
@@ -2155,6 +2199,15 @@ function page5CreateFeelingElements() {
         if (e.target.value !== "Other") {
             hiddenContainerPage5.style.display = "none";
             pageContent["page5"]["new-feeling"] = e.target.value;
+        }
+        
+        page5LowerContainerVerification();
+        const errorContainerLower = document.getElementById('page5-error-container-lower');
+        const lowerContainer = document.getElementById('page5-new-feelings-section');
+        removeErrorSuccess(errorContainerLower, lowerContainer);
+
+        if (e.target.value === "notBetter") {
+            page5Verification();
         }
     })
     
@@ -2172,6 +2225,8 @@ function page5CreateFeelingElements() {
         } else {
             newPositiveFeelingSuccessMessage.style.display = "none";
         }
+        page5NewFeelingsSliderMoved = true;
+        page5Verification();
     })
 
     setNewFeelingSliders();
@@ -2180,23 +2235,125 @@ function page5CreateFeelingElements() {
 function page5Verification() {
     let pageVerified = true;
 
+    // TOP CONTAINER
+
     // check all relevant page5 items that require changes
-    if (pageContent["page5"]["new-feeling-value"].length === 0) pageVerified = false;
+    if (pageContent["page5"]["new-feeling-value"].length === 0 && pageContent["page5"]["new-feeling"] !== "notBetter") pageVerified = false;
     if (pageContent["page5"]["new-feeling"].length === 0) pageVerified = false;
     if (pageContent["page5"]["new-feeling"] === "Unselected") pageVerified = false;
     for (const [key, value] of Object.entries(pageContent["page5"]["feelings-slider-moved"])) {if (value === false) pageVerified = value};
 
     page5TopContainerVerification();
 
+    const errorContainerTop = document.getElementById('page5-error-container');
+    const topContainer = document.getElementById('page5-feelings-section');
+    
     if (!page5TopContainerComplete) {
-        const errorContainerTop = document.getElementById('page5-error-container');
-        const topContainer = document.getElementById('page5-feelings-section');
-
         addError(errorContainerTop, topContainer);
+        return page5TopContainerComplete;
+    } else {
+        addSuccess(errorContainerTop, topContainer);
+    }
+
+    // BOTTOM CONTAINER
+
+    page5LowerContainerVerification();
+
+    const errorContainerLower = document.getElementById('page5-error-container-lower');
+    const lowerContainer = document.getElementById('page5-new-feelings-section');
+    
+    if (!page5LowerContainerComplete) {
+        addError(errorContainerLower, lowerContainer);
+        return page5LowerContainerComplete;
+    } else {
+        addSuccess(errorContainerLower, lowerContainer);
+    }
+
+    const nextButton = document.getElementById('page5NextButton');
+    if (pageVerified) {
+        nextButton.classList.remove('incomplete-page');
+    } else {
+        nextButton.classList.add('incomplete-page');
     }
 
     return pageVerified;
 }
+
+function page5LowerContainerVerification() {
+    const value = document.getElementById('page5-new-positive-feelings-dropdown').value;
+    if (value === "Unselected") {
+        page5LowerContainerComplete = false;
+        removePage5Slider();
+    } else if (value === "notBetter") {
+        page5LowerContainerComplete = true;
+        page5NewFeelingsSliderMoved = true;
+        document.getElementById('page5-no-change').style.display = "block";
+        removePage5Slider();
+    } else if (value === "otherFeeling"){
+        page5LowerContainerComplete = false;
+        showHiddenTextBoxPage5();
+    } else {
+        page5LowerContainerComplete = false;
+        showPage5Slider();
+    }
+
+    if (value !== "notBetter") {
+        document.getElementById('page5-no-change').style.display = "none";
+    }
+
+    if (value !== "otherFeeling") {
+        removeHiddenTextBoxPage5();
+    }
+
+    if (pageContent["page5"]["new-feeling-value"].length !== 0 && pageContent["page5"]["new-feeling"] !== "Unselected" && pageContent["page5"]["new-feeling"].length !== 0) {
+        page5LowerContainerComplete = true;
+    }
+
+    if (page5LowerContainerComplete && page5NewFeelingsSliderMoved) {
+        page5LowerContainerComplete = true;
+    } else {
+        page5LowerContainerComplete = false;
+    }
+}
+
+function showHiddenTextBoxPage5() {
+    // hidden text box elements
+    const hiddenContainerPage5 = document.getElementById('page5-hidden-textbox-container');
+    hiddenContainerPage5.style.display = "flex";
+}
+
+function removeHiddenTextBoxPage5() {
+    // hidden text box elements
+    const hiddenContainerPage5 = document.getElementById('page5-hidden-textbox-container');
+    hiddenContainerPage5.style.display = "none";
+}
+
+function showPage5Slider() {
+    const sliderContainer = document.getElementById('page5SliderContainer'); 
+    sliderContainer.style.display = "block";
+}
+
+function removePage5Slider() {
+	const sliderContainer = document.getElementById('page5SliderContainer'); 
+	sliderContainer.style.display = "none";
+	pageContent["page5"]["new-feeling-value"] = "";
+
+    const sliderMessage = document.getElementById('page5-new-positive-feeling-success');
+	sliderMessage.innerHTML = "";
+	sliderMessage.style.display = "none";
+}
+
+function showPage5LowerContainerMessage(message) {
+    const sliderMessage = document.getElementById('page5-new-positive-feeling-success');
+	sliderMessage.innerHTML = message;
+	sliderMessage.style.display = "block";
+}
+
+// listener for page5 lower section
+
+document.getElementById('page5-new-positive-feelings-dropdown').addEventListener("change", (e) => {
+	page5LowerContainerVerification();
+})
 
 function page5TopContainerVerification() {
     page5TopContainerComplete = true;

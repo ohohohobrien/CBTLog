@@ -397,6 +397,70 @@
   animation-direction: normal;
 }
 
+@keyframes maximize-outwards-page3-thoughts-help {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+  }
+
+  30% {
+    opacity: 0.1;
+  }
+
+  80% {
+    transform: scaleY(0.9);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+    max-height: 555px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+}
+
+.maximizeOutPage3HelpThought {
+  animation-name: maximize-outwards-page3-thoughts-help;
+  animation-duration: 1s;
+  animation-direction: normal;
+}
+
+@keyframes maximize-outwards-page3-behaviours-help {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+    max-height: 0;
+    margin-bottom: 0;
+  }
+
+  30% {
+    opacity: 0.1;
+  }
+
+  80% {
+    transform: scaleY(0.9);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+    max-height: 520px;
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+}
+
+.maximizeOutPage3HelpBehaviour {
+  animation-name: maximize-outwards-page3-behaviours-help;
+  animation-duration: 1s;
+  animation-direction: normal;
+}
+
 @keyframes maximize-outwards-page3 {
   0% {
     transform: scaleY(0);
@@ -683,11 +747,11 @@ body {
   }
 
   p {
-    font-size: 0.8em;
+    font-size: 1em;
     color: var(--font-white);
   }
   a {
-    font-size: 0.8em;
+    font-size: 1em;
     text-decoration: underline;
   }
 }
@@ -887,6 +951,11 @@ body {
       filter: invert(86%) sepia(1%) saturate(2176%) hue-rotate(314deg)
         brightness(108%) contrast(109%)
         drop-shadow(-2px -3px 2px rgba(0, 0, 0, 0.5));
+    }
+
+    .no-rotate {
+      transform: rotate(0deg);
+      bottom: 5%;
     }
   }
 
@@ -1404,7 +1473,7 @@ section {
       text-align: center;
       font-size: 0.8em;
       font-weight: 800;
-      color: var(--secondary-colour);
+      color: #444;
       padding: 0 2em;
     }
   }
